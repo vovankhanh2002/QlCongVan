@@ -1,0 +1,52 @@
+﻿@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+<div class="col-sm-12">
+    <div class="widget-box">
+        <div class="widget-header">
+            <h4>TÍNH MẬT</h4>
+             <span class="widget-toolbar">
+                <a href="#" data-action="collapse">
+                    <i class="icon-chevron-up"></i>
+                </a>
+            </span>
+        </div>
+
+        <div class="widget-body">
+            <div class="widget-main no-padding">
+                <div class="col-sm-4" style="margin:15px 0">
+                    <a onclick="showInPopup('@Url.ActionLink("AddOfEdit","TinhMat",null,Context.Request.Scheme)',0)" class="btn btn-sm btn-success">Thêm</a>
+                    <div hidden data-request-url="@Url.ActionLink("AddOfEdit","TinhMat")" id="request"></div>
+                    <button id="delete" disabled data-request-url="@Url.ActionLink("DeleteRangeConfirmed","TinhMat")" class="btn btn-sm btn-danger">
+                        Xóa
+                    </button>
+                    <a asp-controller="TinhMat" asp-action="indexRestore" class="btn btn-sm btn-info">Thùng rác</a>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="table-responsive">
+                            <table id="tinhmat" class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="center">
+                                            <input type="checkbox" id="selectAllCheckbox"></input>
+                                        </th>
+                                        <th>TÊN MẬT ĐỘ MẬT</th>
+                                        <th>GHI CHÚ</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                
+                            </table>
+                        </div><!-- /.table-responsive -->
+                    </div><!-- /span -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/assets/js/jsMain/DanhMucCV/custom.js"></script>
+    
+}

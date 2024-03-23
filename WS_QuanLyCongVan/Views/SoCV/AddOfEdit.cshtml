@@ -1,0 +1,70 @@
+﻿@model DataLayer.Model.Tb_SoCV
+@{
+    Layout = null;
+}
+<div class="row">
+    <div class="widget-box">
+        <div class="widget-header">
+            <h4 id="title">SỔ CÔNG VĂN</h4>
+
+            <span class="widget-toolbar">
+                <a href="#" data-action="collapse">
+                    <i class="icon-chevron-up"></i>
+                </a>
+            </span>
+        </div>
+
+        <div class="widget-body">
+            <div class="widget-main">
+                <form method="post" asp-action="AddOfEdit" asp-route-id="@Model.ID" onsubmit="return JqueryAjaxPost(this);" autocomplete="off">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="ID"></>
+                    <div class="form-group">
+                        <label asp-for="Ten_SoCV">Tên sổ công văn</label>
+                        <input asp-for="Ten_SoCV" class="form-control" autocomplete="Ten_SoCV" aria-required="true" />
+                        <span asp-validation-for="Ten_SoCV" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Ngay_SoCV">Ngày</label>
+                        <input asp-for="Ngay_SoCV" class="form-control" autocomplete="Ngay_SoCV" aria-required="true" />
+                        <span asp-validation-for="Ngay_SoCV" class="text-danger"></span>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6">
+                            <div class="form-group">
+                                <label asp-for="ID_LSCV">Loại sổ</label>
+                                <select asp-for="ID_LSCV" asp-items="@ViewBag.getListItem" class="form-select">
+                                    <option disabled>-Loại sổ-</option>
+                                </select>
+                                <span asp-validation-for="ID_LSCV" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6">
+                            <div class="form-group">
+                                <label asp-for="TrangThai">Trạng thái</label>
+                                <input type="checkbox" style="margin:0 0; width:auto " asp-for="TrangThai" class="form-control" autocomplete="TrangThai" aria-required="true" />
+                                <span asp-validation-for="TrangThai" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label asp-for="Ghichu">Ghi chú</label>
+                        <textarea asp-for="Ghichu" class="form-control" rows="5" autocomplete="Ten_LSCV" aria-required="true"></textarea>
+                        <span asp-validation-for="Ghichu" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-success">Lưu</button>
+                    <button type="button" onclick="closePopup()" class="btn btn-sm btn-danger">Đóng</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/assets/js/jsMain/DanhMucCV/custom.js"></script>
+    
+}
+
+

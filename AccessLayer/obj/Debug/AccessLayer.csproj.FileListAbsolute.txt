@@ -1,0 +1,6 @@
+D:\WebSite Quan Ly Cong Van\WS_QuanLyCongVan\AccessLayer\bin\Debug\AccessLayer.dll
+D:\WebSite Quan Ly Cong Van\WS_QuanLyCongVan\AccessLayer\bin\Debug\AccessLayer.pdb
+D:\WebSite Quan Ly Cong Van\WS_QuanLyCongVan\AccessLayer\obj\Debug\AccessLayer.csproj.AssemblyReference.cache
+D:\WebSite Quan Ly Cong Van\WS_QuanLyCongVan\AccessLayer\obj\Debug\AccessLayer.csproj.CoreCompileInputs.cache
+D:\WebSite Quan Ly Cong Van\WS_QuanLyCongVan\AccessLayer\obj\Debug\AccessLayer.dll
+D:\WebSite Quan Ly Cong Van\WS_QuanLyCongVan\AccessLayer\obj\Debug\AccessLayer.pdb
