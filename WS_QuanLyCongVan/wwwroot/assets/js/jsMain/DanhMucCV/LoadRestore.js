@@ -22,7 +22,7 @@
                     if (res.isValue) {
                         $.notify(res.notify, { globalPosition: 'top right', className: "success" });
                         $('#selectAllCheckboxRes').prop('checked', false);
-                        Load()
+                        location.reload();
                         toggleDeleteButtonRes()
                     }
                 },

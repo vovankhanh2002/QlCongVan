@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "nrl5rSkRK/5fCXPZFY8BCpiH7ZX2JjNgYjMZaISfsjRS/zSk1+DMXL+pj65BiYjuErL+ZmEKDdYOIZyJAFQ6Nw==",
+  "dgSpecHash": "ZkH7MldFr6UueoAKx5wytdIST8aQziaEYBLLQpX4NFtQnlcWJDlnU5VKk2HbRAMk8jcXNVqQe/vtXGaxjrZssQ==",
   "success": true,
-  "projectFilePath": "D:\\WebSite Quan Ly Cong Van\\WS_QuanLyCongVan\\WS_QuanLyCongVan\\WS_QuanLyCongVan.csproj",
+  "projectFilePath": "D:\\CongVan\\QlCongVan\\WS_QuanLyCongVan\\WS_QuanLyCongVan.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\PC\\.nuget\\packages\\humanizer\\2.14.1\\humanizer.2.14.1.nupkg.sha512",
     "C:\\Users\\PC\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",

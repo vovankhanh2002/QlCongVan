@@ -1,0 +1,43 @@
+﻿@model DataLayer.Model.Tb_PhongBan
+@{
+    Layout = null;
+}
+<div class="row">
+    <div class="widget-box">
+        <div class="widget-header">
+            <h4 id="title">PHÒNG BAN</h4>
+
+            <span class="widget-toolbar">
+                <a href="#" data-action="collapse">
+                    <i class="icon-chevron-up"></i>
+                </a>
+            </span>
+        </div>
+
+        <div class="widget-body">
+            <div class="widget-main">
+                <form method="post" asp-action="AddOfEdit" asp-route-id="@Model.ID" onsubmit="return JqueryAjaxPost(this);" autocomplete="off">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="ID"></>
+                    <div class="form-group">
+                        <label asp-for="Ten_PB">Phòng ban</label>
+                        <input asp-for="Ten_PB" class="form-control" autocomplete="Ten_PB" aria-required="true" />
+                        <span asp-validation-for="Ten_PB" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="GhiChu">Ghi chú</label>
+                        <textarea asp-for="GhiChu" class="form-control" rows="5" autocomplete="Ghichu" aria-required="true"></textarea>
+                        <span asp-validation-for="GhiChu" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-success">Lưu</button>
+                    <button type="button" onclick="closePopup()" class="btn btn-sm btn-danger">Đóng</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/assets/js/jsMain/DanhMucPB/custom.js"></script>
+    
+}
+

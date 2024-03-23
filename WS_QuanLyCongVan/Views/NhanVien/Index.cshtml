@@ -1,0 +1,47 @@
+﻿<div class="col-sm-12">
+    <div class="widget-box">
+        <div class="widget-header">
+            <h4>NHÂN VIÊN</h4>
+        </div>
+        <div class="col-sm-4" style="margin:15px 0">
+            <a onclick="showInPopup('@Url.ActionLink("AddOfEdit","NhanVien",null,Context.Request.Scheme)',0)" class="btn btn-sm btn-success">Thêm</a>
+            <div hidden data-request-url="@Url.ActionLink("AddOfEdit","NhanVien")" id="request"></div>
+            <button id="delete" disabled data-request-url="@Url.ActionLink("DeleteRangeConfirmed","NhanVien")" class="btn btn-sm btn-danger">
+                Xóa
+            </button>
+            <a asp-controller="NhanVien" asp-action="indexRestore" class="btn btn-sm btn-info">Thùng rác</a>
+
+        </div>
+        <div class="widget-body">
+            <div class="widget-main no-padding">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="table-responsive">
+                            <table id="nhanvien" class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="center">
+                                             <input type="checkbox" id="selectAllCheckbox">
+                                        </th>
+                                        <th>TÊN NHÂN VIÊN</th>
+                                        <th>ĐỊA CHỈ</th>
+                                        <th>SỐ ĐIỆN THOẠI</th>
+                                        <th>NGÀY SINH</th>
+                                        <th>PHÒNG BAN</th>
+                                        <th>CHỨC VỤ</th>
+                                        <th>GHI CHÚ</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div><!-- /.table-responsive -->
+                    </div><!-- /span -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/assets/js/jsMain/DanhMucPB/custom.js"></script>
+}

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\WebSite Quan Ly Cong Van\\WS_QuanLyCongVan\\DataLayer\\DataLayer.csproj": {}
+    "D:\\CongVan\\QlCongVan\\DataLayer\\DataLayer.csproj": {}
   },
   "projects": {
-    "D:\\WebSite Quan Ly Cong Van\\WS_QuanLyCongVan\\DataLayer\\DataLayer.csproj": {
+    "D:\\CongVan\\QlCongVan\\DataLayer\\DataLayer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\WebSite Quan Ly Cong Van\\WS_QuanLyCongVan\\DataLayer\\DataLayer.csproj",
+        "projectUniqueName": "D:\\CongVan\\QlCongVan\\DataLayer\\DataLayer.csproj",
         "projectName": "DataLayer",
-        "projectPath": "D:\\WebSite Quan Ly Cong Van\\WS_QuanLyCongVan\\DataLayer\\DataLayer.csproj",
+        "projectPath": "D:\\CongVan\\QlCongVan\\DataLayer\\DataLayer.csproj",
         "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-        "outputPath": "D:\\WebSite Quan Ly Cong Van\\WS_QuanLyCongVan\\DataLayer\\obj\\",
+        "outputPath": "D:\\CongVan\\QlCongVan\\DataLayer\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\DevExpress 23.2\\Components\\Offline Packages",

@@ -43,5 +43,23 @@ namespace BusinessLayer.Handle
             });
             return listItem;
         }
+        public IEnumerable<SelectListItem> getPhongban()
+        {
+            var listItem = UnitOfWork.phongBan.GetAll().Select(i => new SelectListItem
+            {
+                Value = i.ID.ToString(),
+                Text = i.Ten_PB
+            });
+            return listItem;
+        }
+        public IEnumerable<SelectListItem> getChucvu()
+        {
+            var listItem = UnitOfWork.chucVu.GetAll().Select(i => new SelectListItem
+            {
+                Value = i.ID.ToString(),
+                Text = i.Ten_CV
+            });
+            return listItem;
+        }
     }
 }

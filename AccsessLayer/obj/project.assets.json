@@ -10908,11 +10908,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\WebSite Quan Ly Cong Van\\WS_QuanLyCongVan\\AccsessLayer\\AccsessLayer.csproj",
+      "projectUniqueName": "D:\\CongVan\\QlCongVan\\AccsessLayer\\AccsessLayer.csproj",
       "projectName": "AccsessLayer",
-      "projectPath": "D:\\WebSite Quan Ly Cong Van\\WS_QuanLyCongVan\\AccsessLayer\\AccsessLayer.csproj",
+      "projectPath": "D:\\CongVan\\QlCongVan\\AccsessLayer\\AccsessLayer.csproj",
       "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-      "outputPath": "D:\\WebSite Quan Ly Cong Van\\WS_QuanLyCongVan\\AccsessLayer\\obj\\",
+      "outputPath": "D:\\CongVan\\QlCongVan\\AccsessLayer\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\DevExpress 23.2\\Components\\Offline Packages",
@@ -10936,8 +10936,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\WebSite Quan Ly Cong Van\\WS_QuanLyCongVan\\DataLayer\\DataLayer.csproj": {
-              "projectPath": "D:\\WebSite Quan Ly Cong Van\\WS_QuanLyCongVan\\DataLayer\\DataLayer.csproj"
+            "D:\\CongVan\\QlCongVan\\DataLayer\\DataLayer.csproj": {
+              "projectPath": "D:\\CongVan\\QlCongVan\\DataLayer\\DataLayer.csproj"
             }
           }
         }
