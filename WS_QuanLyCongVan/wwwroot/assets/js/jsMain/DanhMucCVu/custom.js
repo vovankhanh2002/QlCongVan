@@ -37,9 +37,9 @@
 
 //Start Load datatable
 function Load() {
-    loadKho()
+    loadChucvu()
 }
-function loadKho() {
+function loadChucvu() {
     $('#chucvu').dataTable({
         "serverSide": true,
         "filter": true,

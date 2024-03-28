@@ -29,7 +29,7 @@ namespace WS_QuanLyCongVan.Controllers
             var data = UnitOfWork.nhanVien.GetFlowRestore(i => i.TrangThai_Xoa == false, start, length, sortColumn, sortDirection, include: "Tb_PhongBan,Tb_ChucVu");
             if (!string.IsNullOrEmpty(searchVal))
                 data = data.Where(i => i.Hoten_NV.ToLower().Contains(searchVal) || i.DiaChi_NV.ToLower().Contains(searchVal) || i.SDT_NV.ToString().ToLower().Contains(searchVal) || i.NgaySinh_NV.ToString().ToLower().Contains(searchVal) || i.Tb_ChucVu.Ten_CV.ToString().ToLower().Contains(searchVal) || i.Tb_PhongBan.Ten_PB.ToString().ToLower().Contains(searchVal) || i.GhiChu.ToString().ToLower().Contains(searchVal));
-            var totalRecords = UnitOfWork.nhanVien.GetAll().Count();
+            var totalRecords = UnitOfWork.nhanVien.GetAllWhere(i => i.TrangThai_Xoa == false).Count();
             var totalFiltered = totalRecords;
             var jsonData = new
             {
@@ -80,6 +80,9 @@ namespace WS_QuanLyCongVan.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOfEdit(int id, Tb_NhanVien Tb_NhanVien)
         {
+            AllGetListItem getList = new AllGetListItem(UnitOfWork);
+            ViewBag.getListPBan = getList.getPhongban();
+            ViewBag.getListCVu = getList.getChucvu();
             if (ModelState.IsValid)
             {
                 if (Tb_NhanVien.ID == 0)
@@ -139,8 +142,8 @@ namespace WS_QuanLyCongVan.Controllers
             var searchVal = Request.Form["search[value]"];
             var sortColumn = Request.Form[string.Concat("columns[", Request.Form["order[0][column]"], "][name]")];
             var sortDirection = Request.Form["order[0][dir]"];
-            var totalRecords = UnitOfWork.nhanVien.GetAllWhere(i => i.TrangThai_Xoa == false).Count();
-            var data = UnitOfWork.nhanVien.GetFlowRestore(i => i.TrangThai_Xoa == true, start, length, sortColumn, sortDirection, include: "Tb_LoainhanVien");
+            var totalRecords = UnitOfWork.nhanVien.GetAllWhere(i => i.TrangThai_Xoa == true).Count();
+            var data = UnitOfWork.nhanVien.GetFlowRestore(i => i.TrangThai_Xoa == true, start, length, sortColumn, sortDirection, include: "Tb_PhongBan,Tb_ChucVu");
             if (!string.IsNullOrEmpty(searchVal))
                 data = data.Where(i => i.Hoten_NV.ToLower().Contains(searchVal) || i.DiaChi_NV.ToLower().Contains(searchVal) || i.SDT_NV.ToString().ToLower().Contains(searchVal) || i.NgaySinh_NV.ToString().ToLower().Contains(searchVal) || i.Tb_ChucVu.Ten_CV.ToString().ToLower().Contains(searchVal) || i.Tb_PhongBan.Ten_PB.ToString().ToLower().Contains(searchVal) || i.GhiChu.ToString().ToLower().Contains(searchVal));
             var totalFiltered = totalRecords;

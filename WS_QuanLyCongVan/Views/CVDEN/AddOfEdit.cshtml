@@ -1,0 +1,53 @@
+﻿@model DataLayer.Model.Tb_CVDEN
+@{
+    Layout = null;
+}
+<div class="row">
+    <div class="widget-box">
+        <div class="widget-header">
+            <h4 id="title">CÔNG VĂN ĐẾN</h4>
+
+            <span class="widget-toolbar">
+                <a href="#" data-action="collapse">
+                    <i class="icon-chevron-up"></i>
+                </a>
+            </span>
+        </div>
+
+        <div class="widget-body">
+            <div class="widget-main">
+                <form method="post" asp-action="AddOfEdit" asp-route-id="@Model.ID" onsubmit="return JqueryAjaxPost(this);" autocomplete="off">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="ID"></>
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6">
+                            <div class="form-group">
+                                <label asp-for="ID_SoCV">Sổ công văn</label>
+                                <select asp-for="ID_SoCV" asp-items="@ViewBag.getListKho" class="form-select">
+                                    <option disabled>-Loại sổ-</option>
+                                </select>
+                                <span asp-validation-for="ID_SoCV" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6">
+                            <div class="form-group">
+                                <label asp-for="ID_NV">Kệ lưu trữ</label>
+                                <select asp-for="ID_NV" asp-items="@ViewBag.getListKe" class="form-select">
+                                    <option disabled>-Loại sổ-</option>
+                                </select>
+                                <span asp-validation-for="ID_NV" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-success">Lưu</button>
+                    <button type="button" onclick="closePopup()" class="btn btn-sm btn-danger">Đóng</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/assets/js/jsMain/DanhMucHS/custom.js"></script>
+}
+
+

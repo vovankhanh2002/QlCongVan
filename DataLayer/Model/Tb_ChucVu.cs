@@ -13,7 +13,7 @@ namespace DataLayer.Model
         public int ID { get; set; }
         [Required(ErrorMessage = "Bạn cần nhập đầy đủ thông tin.")]
         public string Ten_CV { get; set; }
-        public string Ghichu { get; set; }
+        public string? Ghichu { get; set; }
         public bool TrangThai_Xoa { get; set; } = false;
 
     }

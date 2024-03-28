@@ -43,6 +43,16 @@ namespace BusinessLayer.Handle
             });
             return listItem;
         }
+        public IEnumerable<SelectListItem> getHop()
+        {
+            var listItem = UnitOfWork.hop.GetAll().Select(i => new SelectListItem
+            {
+                Value = i.Id.ToString(),
+                Text = i.Ten_Hop
+            });
+            return listItem;
+        }
+
         public IEnumerable<SelectListItem> getPhongban()
         {
             var listItem = UnitOfWork.phongBan.GetAll().Select(i => new SelectListItem
@@ -58,6 +68,15 @@ namespace BusinessLayer.Handle
             {
                 Value = i.ID.ToString(),
                 Text = i.Ten_CV
+            });
+            return listItem;
+        }
+        public IEnumerable<SelectListItem> getNhanVien()
+        {
+            var listItem = UnitOfWork.nhanVien.GetAll(include:"Tb_ChucVu").Select(i => new SelectListItem
+            {
+                Value = i.ID.ToString(),
+                Text = i.Hoten_NV + "-" + i.Tb_ChucVu.Ten_CV
             });
             return listItem;
         }

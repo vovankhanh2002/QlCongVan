@@ -58,7 +58,6 @@ namespace AccsessLayer.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
                     b.Property<string>("Ghichu")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Ten_CV")
@@ -207,6 +206,9 @@ namespace AccsessLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("GhiChu_CVDI")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("ID_LV")
                         .HasColumnType("int");
 
@@ -285,6 +287,9 @@ namespace AccsessLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
+                    b.Property<string>("GhiChu")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("ID_Hop")
                         .HasColumnType("int");
 
@@ -322,6 +327,9 @@ namespace AccsessLayer.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
+
+                    b.Property<string>("GhiChu")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("ID_CVDEN")
                         .HasColumnType("int");
@@ -553,7 +561,6 @@ namespace AccsessLayer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GhiChu")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Hoten_NV")

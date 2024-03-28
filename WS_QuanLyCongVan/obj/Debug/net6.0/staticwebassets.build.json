@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "WI4eLaTJlPZ5yMVPx7E1Tvd7QpQyeabmLAtIkgmODso=",
+  "Hash": "Lz6+fgU9zSUKjd86tcEqG8Dem+/NQRsrZ4zMI9hdWk8=",
   "Source": "WS_QuanLyCongVan",
   "BasePath": "_content/WS_QuanLyCongVan",
   "Mode": "Default",
@@ -6815,6 +6815,40 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\assets\\js\\jsMain\\DanhMucCVu\\LoadRestore.js"
+    },
+    {
+      "Identity": "D:\\CongVan\\QlCongVan\\WS_QuanLyCongVan\\wwwroot\\assets\\js\\jsMain\\DanhMucHS\\custom.js",
+      "SourceId": "WS_QuanLyCongVan",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\CongVan\\QlCongVan\\WS_QuanLyCongVan\\wwwroot\\",
+      "BasePath": "_content/WS_QuanLyCongVan",
+      "RelativePath": "assets/js/jsMain/DanhMucHS/custom.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\js\\jsMain\\DanhMucHS\\custom.js"
+    },
+    {
+      "Identity": "D:\\CongVan\\QlCongVan\\WS_QuanLyCongVan\\wwwroot\\assets\\js\\jsMain\\DanhMucHS\\LoadRestore.js",
+      "SourceId": "WS_QuanLyCongVan",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\CongVan\\QlCongVan\\WS_QuanLyCongVan\\wwwroot\\",
+      "BasePath": "_content/WS_QuanLyCongVan",
+      "RelativePath": "assets/js/jsMain/DanhMucHS/LoadRestore.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\js\\jsMain\\DanhMucHS\\LoadRestore.js"
     },
     {
       "Identity": "D:\\CongVan\\QlCongVan\\WS_QuanLyCongVan\\wwwroot\\assets\\js\\jsMain\\DanhMucLT\\custom.js",

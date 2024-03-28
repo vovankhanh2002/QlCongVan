@@ -23,7 +23,7 @@ namespace DataLayer.Model
         [Required(ErrorMessage = "Bạn cần nhập đầy đủ thông tin.")]
         public DateTime NgaySinh_NV { get; set; }
         public bool TrangThai_Xoa { get; set; } = false;
-        public string GhiChu { get; set; }
+        public string? GhiChu { get; set; }
         //
         [Required(ErrorMessage = "Bạn cần nhập đầy đủ thông tin.")]
         public int ID_ChucVu { get; set; }

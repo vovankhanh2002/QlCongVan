@@ -59,5 +59,9 @@ namespace BusinessLayer.Repository
         {
             dBContextCV.SaveChanges();
         }
+        public async Task BackupDatabase(string backupPath)
+        {
+            var databaseName = dBContextCV.Database;
+        }
     }
 }

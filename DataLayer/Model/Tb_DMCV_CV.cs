@@ -13,7 +13,7 @@ namespace DataLayer.Model
         public int ID { get; set; }
         public int? ID_DanhMucCV { get; set; }
         public bool TrangThai_Xoa { get; set; } = false;
-
+        public string? GhiChu { get; set; }
         [ForeignKey("ID_DanhMucCV")]
         [ValidateNever]
         public Tb_DanhMucCV Tb_DanhMucCV { get; set; }

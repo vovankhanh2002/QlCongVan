@@ -31,6 +31,7 @@ namespace DataLayer.Model
         public string File_CVDI { get; set; }
         public bool TrangThai_CVDI { get; set; }
         public bool TrangThai_Xoa { get; set; } = false;
+        public string? GhiChu_CVDI { get; set; }
 
         //
         [Required(ErrorMessage = "Bạn cần nhập đầy đủ thông tin.")]

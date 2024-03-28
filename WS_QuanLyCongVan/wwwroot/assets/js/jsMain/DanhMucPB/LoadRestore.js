@@ -68,6 +68,7 @@
 
 function Load() {
     phongban_res()
+    nhanvien_res()
 }
 function phongban_res() {
     $('#phongbanrestore').dataTable({
@@ -106,6 +107,57 @@ function phongban_res() {
     })
 
     $('#phongbanrestore tbody').on('click', '.rowCheckboxRes', function () {
+        if ($('.rowCheckboxRes:checked').length === $('.rowCheckboxRes').length) {
+            $('#selectAllCheckboxRes').prop('checked', true);
+        } else {
+            $('#selectAllCheckboxRes').prop('checked', false);
+        }
+        toggleDeleteButtonRes()
+    })
+
+}
+function nhanvien_res() {
+    $('#nhanvienrestore').dataTable({
+        "serverSide": true,
+        "filter": true,
+        "processing": true,
+        "ajax": {
+            "url": "/nhanvien/getRestore",
+            "type": "Post",
+            "datatype": "json"
+        },
+        "columnDefs": [
+            {
+                "searchable": false,
+                "orderable": false,
+                "targets": [0],
+                "defaultContent": "-"
+                /*"visible": false,*/
+            }
+        ],
+        "columns": [
+            {
+                "data": "id",
+                "render": function (data, row) {
+                    return `
+                            <input type="checkbox" class="rowCheckboxRes" value="${data}" ></input>
+                           `
+                },
+            },
+            { "data": "hoten_NV", "name": "hoten_NV", "autowidth": true },
+            { "data": "diaChi_NV", "name": "diaChi_NV", "autowidth": true },
+            { "data": "sdT_NV", "name": "SDT_NV", "autowidth": true },
+            { "data": "ngaySinh_NV", "name": "ngaySinh_NV", "type": "date", "autowidth": true },
+            { "data": "tb_PhongBan.ten_PB", "name": "tb_PhongBan.ten_PB", "autowidth": true },
+            { "data": "tb_ChucVu.ten_CV", "name": "tb_ChucVu.ten_CV", "autowidth": true },
+            { "data": "ghiChu", "name": "ghiChu", "autowidth": true }
+        ],
+
+        stateSave: true,
+        "bDestroy": true
+    })
+
+    $('#nhanvienrestore tbody').on('click', '.rowCheckboxRes', function () {
         if ($('.rowCheckboxRes:checked').length === $('.rowCheckboxRes').length) {
             $('#selectAllCheckboxRes').prop('checked', true);
         } else {
