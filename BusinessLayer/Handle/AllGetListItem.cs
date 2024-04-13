@@ -25,6 +25,24 @@ namespace BusinessLayer.Handle
             });
             return listItem;
         }
+        public IEnumerable<SelectListItem> getSoCV()
+        {
+            var listItem = UnitOfWork.soCV.GetAll().Select(i => new SelectListItem
+            {
+                Value = i.ID.ToString(),
+                Text = i.Ten_SoCV
+            });
+            return listItem;
+        }
+        public IEnumerable<SelectListItem> getLoaiCV()
+        {
+            var listItem = UnitOfWork.loaiVB.GetAll().Select(i => new SelectListItem
+            {
+                Value = i.ID.ToString(),
+                Text = i.Ten_LVB
+            });
+            return listItem;
+        }
         public IEnumerable<SelectListItem> getKho()
         {
             var listItem = UnitOfWork.kho.GetAll().Select(i => new SelectListItem
@@ -73,10 +91,66 @@ namespace BusinessLayer.Handle
         }
         public IEnumerable<SelectListItem> getNhanVien()
         {
-            var listItem = UnitOfWork.nhanVien.GetAll(include:"Tb_ChucVu").Select(i => new SelectListItem
+            var listItem = UnitOfWork.nhanVien.GetAll().Select(i => new SelectListItem
+            {
+                Value = i.Email_NV.ToString(),
+                Text = i.Hoten_NV
+            });
+            return listItem;
+        }
+        public IEnumerable<SelectListItem> getNguoiDung()
+        {
+            var listItem = UnitOfWork.nguoidung.GetAll().Select(i => new SelectListItem
+            {
+                Value = i.Id.ToString(),
+                Text = i.Hoten_NV
+            });
+            return listItem;
+        }
+
+        public IEnumerable<SelectListItem> getBoPhan()
+        {
+            var listItem = UnitOfWork.boPhan.GetAll().Select(i => new SelectListItem
             {
                 Value = i.ID.ToString(),
-                Text = i.Hoten_NV + "-" + i.Tb_ChucVu.Ten_CV
+                Text = i.Ten_BP
+            });
+            return listItem;
+        }
+        public IEnumerable<SelectListItem> getBoPhanGui()
+        {
+            var listItem = UnitOfWork.boPhan.GetAll().Select(i => new SelectListItem
+            {
+                Value = i.Ten_BP.ToString(),
+                Text = i.Ten_BP
+            });
+            return listItem;
+        }
+
+        public IEnumerable<SelectListItem> getDoMat()
+        {
+            var listItem = UnitOfWork.mDMat.GetAll().Select(i => new SelectListItem
+            {
+                Value = i.ID.ToString(),
+                Text = i.Ten_MDMat
+            });
+            return listItem;
+        }
+        public IEnumerable<SelectListItem> getDoKhan()
+        {
+            var listItem = UnitOfWork.mDKhan.GetAll().Select(i => new SelectListItem
+            {
+                Value = i.ID.ToString(),
+                Text = i.Ten_MDKhan
+            });
+            return listItem;
+        }
+        public IEnumerable<SelectListItem> getLinhVuc()
+        {
+            var listItem = UnitOfWork.linhVuc.GetAll().Select(i => new SelectListItem
+            {
+                Value = i.ID.ToString(),
+                Text = i.Ten_LV
             });
             return listItem;
         }

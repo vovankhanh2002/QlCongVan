@@ -20,14 +20,14 @@ namespace BanDoWeb.Model.Models
             var smtpClient = new SmtpClient("smtp.gmail.com", 587)
             {
                 Port = 587,
-                Credentials = new NetworkCredential("testappthoima123@gmail.com", "grqjdosuttwjpumg"),
+                Credentials = new NetworkCredential("khanhvo06062002@gmail.com", "ibppgegiozcymhsq"),
                 EnableSsl = true,
                 UseDefaultCredentials = false
-        };
+            };
 
             var mailMessage = new MailMessage
             {
-                From = new MailAddress("testappthoima123@gmail.com"),
+                From = new MailAddress("khanhvo06062002@gmail.com"),
                 Subject = subject,
                 Body = message,
                 IsBodyHtml = true,

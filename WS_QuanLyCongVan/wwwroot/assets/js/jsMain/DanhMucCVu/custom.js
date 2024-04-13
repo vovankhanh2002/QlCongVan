@@ -1,5 +1,11 @@
 ﻿$(document).ready(function () {
     Load()
+    var connection = new signalR.HubConnectionBuilder().withUrl("/NotihubServer").build();
+    connection.on("ReceiveMessage", function (message) {
+        $.notify(message, { globalPosition: 'top right', className: "success" });
+    });
+    connection.start();
+
     $('#selectAllCheckbox').on('click', function () {
         if (this.checked) {
             $('.rowCheckbox').prop('checked', true);

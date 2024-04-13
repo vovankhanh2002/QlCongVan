@@ -1,0 +1,62 @@
+﻿<div class="col-sm-12">
+    <div class="widget-box">
+        <div class="widget-header">
+            <h4>THÙNG RÁC CÔNG VĂN ĐẾN</h4>
+            <span class="widget-toolbar">
+                <a href="#" data-action="collapse">
+                    <i class="icon-chevron-up"></i>
+                </a>
+            </span>
+        </div>
+
+        <div class="widget-body">
+            <div class="widget-main no-padding">
+                <div class="col-sm-4" style="margin:15px 0">
+                    <div hidden data-request-url="@Url.ActionLink("AddOfEdit","CVDEN")" id="request"></div>
+                    <button id="restore" disabled data-request-url="@Url.ActionLink("RestoreRangeConfirmed","CVDEN")" class="btn btn-sm btn-success">
+                        <i class="icon-undo bigger-120"></i>
+                        Phục hồi
+                    </button>
+                    <button id="deleteres" disabled data-request-url="@Url.ActionLink("DeleteRange","CVDEN")" class="btn btn-sm btn-danger">
+                        <i class="icon-trash bigger-120"></i>
+                        Xóa
+                    </button>
+                    <a asp-controller="CVDEN" asp-action="index" class="btn btn-sm btn-info">
+                        <i class="icon-arrow-right icon-on-right bigger-120"></i>
+                        Quay trở lại
+                    </a>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="table-responsive">
+                            <table id="cvdenrestore" class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="center">
+                                            <input type="checkbox" id="selectAllCheckboxRes">
+                                        </th>
+                                        <th>SKH</th>
+                                        <th>NGÀY BAN HÀNH</th>
+                                        <th>NGÀY HẾT HIỆU LỰC</th>
+                                        <th>TRÍCH YẾU</th>
+                                        <th>LOẠI CÔNG VĂN</th>
+                                        <th>NGƯỜI KÝ</th>
+                                        <th>ĐỘ MẬT</th>
+                                        <th>ĐỘ KHẨN</th>
+                                        <th>LĨNH VỰC</th>
+                                        <th>TỆP</th>
+
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div><!-- /.table-responsive -->
+                    </div><!-- /span -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/assets/js/jsMain/DanhMucHS/LoadRestore.js"></script>
+}

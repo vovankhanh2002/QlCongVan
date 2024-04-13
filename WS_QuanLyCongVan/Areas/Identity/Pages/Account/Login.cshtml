@@ -5,12 +5,129 @@
     ViewData["Title"] = "Log in";
 }
 
-<h1>@ViewData["Title"]</h1>
-<div class="row">
+<div class="main-container">
+			<div class="main-content">
+				<div class="row">
+					<div class="col-sm-10 col-sm-offset-1" style="width:auto">
+						<div class="login-container" style="width:500px">
+							<div class="center">
+								<h1>
+									<i class="icon-leaf green"></i>
+									<span class="red">Ace</span>
+									<span class="white">Application</span>
+								</h1>
+								<h4 class="blue">© Company Name</h4>
+							</div>
+
+							<div class="space-6"></div>
+
+							<div class="position-relative">
+								<div id="login-box" class="login-box visible widget-box no-border">
+									<div class="widget-body">
+										<div class="widget-main">
+											<h4 class="header blue lighter bigger">
+												<i class="icon-coffee green"></i>
+												Please Enter Your Information
+											</h4>
+
+											<div class="space-6"></div>
+
+											<form id="account" method="post">
+												<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+												<fieldset>
+													<label class="block clearfix">
+														<span class="block input-icon input-icon-right">
+															<input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
+															<label asp-for="Input.Email" class="form-label"></label>
+															<i class="icon-user"></i>
+															<span asp-validation-for="Input.Email" class="text-danger"></span>
+														</span>
+													</label>
+
+													<label class="block clearfix">
+														<span class="block input-icon input-icon-right">
+															<input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" />
+															<label asp-for="Input.Password" class="form-label"></label>
+															<i class="icon-lock"></i>
+															<span asp-validation-for="Input.Password" class="text-danger"></span>
+														</span>
+													</label>
+
+													<div class="space"></div>
+
+													<div class="clearfix">
+														<label asp-for="Input.RememberMe" class="form-label">
+															<input class="form-check-input" asp-for="Input.RememberMe" />
+															@Html.DisplayNameFor(m => m.Input.RememberMe)
+														</label>
+
+														<button type="submit" class="width-35 pull-right btn btn-sm btn-primary">
+															<i class="icon-key"></i>
+															Login
+														</button>
+													</div>
+
+													<div class="space-4"></div>
+												</fieldset>
+											</form>
+
+											<div class="social-or-login center">
+												<span class="bigger-110">Or Login Using</span>
+											</div>
+
+											<div class="social-login center">
+												<a class="btn btn-primary">
+													<i class="icon-facebook"></i>
+												</a>
+
+												<a class="btn btn-info">
+													<i class="icon-twitter"></i>
+												</a>
+
+												<a class="btn btn-danger">
+													<i class="icon-google-plus"></i>
+												</a>
+											</div>
+										</div><!-- /widget-main -->
+
+										<div class="toolbar clearfix">
+											<div>
+												<a asp-page="./ForgotPassword" class="forgot-password-link">
+													<i class="icon-arrow-left"></i>
+													I forgot my password
+												</a>
+											</div>
+
+											<div>
+												<a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="user-signup-link">
+													I want to register
+													<i class="icon-arrow-right"></i>
+												</a>
+											</div>
+										</div>
+									</div><!-- /widget-body -->
+								</div><!-- /login-box -->
+							</div><!-- /position-relative -->
+						</div>
+					</div><!-- /.col -->
+				</div><!-- /.row -->
+			</div>
+		</div>
+
+
+
+
+
+
+
+
+
+
+
+@*<div class="row">
     <div class="col-md-4">
         <section>
             <form id="account" method="post">
-                <h2>Use a local account to log in.</h2>
                 <hr />
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-floating">
@@ -78,7 +195,7 @@
             }
         </section>
     </div>
-</div>
+</div>*@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

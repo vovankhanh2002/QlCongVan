@@ -1,16 +1,19 @@
-﻿using BusinessLayer.Repository.IRepository;
+﻿using BusinessLayer.Hubs;
+using BusinessLayer.Repository.IRepository;
 using DataLayer.Model;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace WS_QuanLyCongVan.Controllers
 {
     public class ChucVuController : Controller
     {
         public IUnitOfWork UnitOfWork;
-
-        public ChucVuController(IUnitOfWork UnitOfWork)
+        private readonly IHubContext<Notihub> _hubContext;
+        public ChucVuController(IUnitOfWork UnitOfWork, IHubContext<Notihub> hubContext)
         {
             this.UnitOfWork = UnitOfWork;
+            _hubContext = hubContext;
         }
         public async Task<IActionResult> Index()
         {
@@ -82,6 +85,7 @@ namespace WS_QuanLyCongVan.Controllers
 
                     UnitOfWork.chucVu.Add(Tb_ChucVu);
                     UnitOfWork.Save();
+                    await _hubContext.Clients.All.SendAsync("ReceiveMessage", "Your message here");
                 }
                 else
                 {

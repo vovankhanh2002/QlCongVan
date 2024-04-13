@@ -1,7 +1,9 @@
 using AccsessLayer;
 using BanDoWeb.Model.Models;
+using BusinessLayer.Hubs;
 using BusinessLayer.Repository;
 using BusinessLayer.Repository.IRepository;
+using DataLayer.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+builder.Services.AddSignalR();
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = $"/Identity/Account/Login";
@@ -26,6 +29,8 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.Sign
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
+builder.Services.AddTransient<Ikhanh, EmailSenderCV>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -43,7 +48,7 @@ app.UseRouting();
 app.UseAuthentication();;
 
 app.UseAuthorization();
-
+app.MapHub<Notihub>("/NotihubServer");
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

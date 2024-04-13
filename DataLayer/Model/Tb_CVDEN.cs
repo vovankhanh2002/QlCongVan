@@ -21,6 +21,10 @@ namespace DataLayer.Model
         [Required(ErrorMessage = "Bạn cần nhập đầy đủ thông tin.")]
         public DateTime NgayNhan_CVDEN { get; set; }
         [Required(ErrorMessage = "Bạn cần nhập đầy đủ thông tin.")]
+        public string Nguoigui_CVDEN { get; set; }
+        [Required(ErrorMessage = "Bạn cần nhập đầy đủ thông tin.")]
+        public string Noigui_CVDEN { get; set; }
+        [Required(ErrorMessage = "Bạn cần nhập đầy đủ thông tin.")]
         public int SLTrang_CVDEN { get; set; }
         [Required(ErrorMessage = "Bạn cần nhập đầy đủ thông tin.")]
         public int SL_BPH { get; set; }
@@ -31,11 +35,10 @@ namespace DataLayer.Model
         public string? GhiChu_CVDEN { get; set; }
         [Required(ErrorMessage = "Bạn cần nhập đầy đủ thông tin.")]
         public string? PhanCongXLVB_CVDEN { get; set; }
-        [Required(ErrorMessage = "Bạn cần nhập đầy đủ thông tin.")]
-        public string File_CVDEN { get; set; }
+        public string? File_CVDEN { get; set; }
         public bool TrangThai_CVDI { get; set; }
         public bool TrangThai_Xoa { get; set; } = false;
-
+        public DateTime ngay { get; set; }
         //
         [Required(ErrorMessage = "Bạn cần nhập đầy đủ thông tin.")]
         public int ID_LVB { get; set; }
@@ -44,10 +47,10 @@ namespace DataLayer.Model
         public Tb_LoaiVB Tb_LoaiVB { get; set; }
         //
         [Required(ErrorMessage = "Bạn cần nhập đầy đủ thông tin.")]
-        public int ID_NV { get; set; }
-        [ForeignKey("ID_NV")]
+        public string ID_ND { get; set; }
+        [ForeignKey("ID_ND")]
         [ValidateNever]
-        public Tb_NhanVien Tb_NhanVien { get; set; }
+        public Tb_Nguoidung Tb_Nguoidung { get; set; }
         //
         [Required(ErrorMessage = "Bạn cần nhập đầy đủ thông tin.")]
         public int ID_MDMat { get; set; }
@@ -62,7 +65,7 @@ namespace DataLayer.Model
         public Tb_MDKhan Tb_MDKhan { get; set; }
         //
         [Required(ErrorMessage = "Bạn cần nhập đầy đủ thông tin.")]
-        public int ID_PTNhan { get; set; }
+        public int ID_PTNhan { get; set; } = 1;
         [ForeignKey("ID_PTNhan")]
         [ValidateNever]
         public Tb_PTNhan Tb_PTNhan { get; set; }
@@ -80,16 +83,10 @@ namespace DataLayer.Model
         public Tb_LinhVuc Tb_LinhVuc { get; set; }
         //
         [Required(ErrorMessage = "Bạn cần nhập đầy đủ thông tin.")]
-        public int ID_CoQuanBH { get; set; }
-        [ForeignKey("ID_CoQuanBH")]
+        public int ID_BP { get; set; }
+        [ForeignKey("ID_BP")]
         [ValidateNever]
-        public Tb_CoQuanBH Tb_CoQuanBH { get; set; }
-        //
-        [Required(ErrorMessage = "Bạn cần nhập đầy đủ thông tin.")]
-        public int? ID_PhongBan { get; set; }
-        [ForeignKey("ID_PhongBan")]
-        [ValidateNever]
-        public Tb_PhongBan Tb_PhongBan { get; set; }
+        public Tb_BoPhan Tb_BoPhan { get; set; }
         //
     }
 }

@@ -40,27 +40,25 @@ namespace WS_QuanLyCongVan.Controllers
             };
             return Json(jsonData);
         }
-        public async Task<IActionResult> getById(int id = 0)
+        public async Task<IActionResult> getById(string id)
         {
-            if (id == 0)
+            if (id == null)
             {
                 return View(new Tb_NhanVien());
             }
             else
             {
-                var loaiVB = UnitOfWork.nhanVien.GetById(i => i.ID == id);
-                if (loaiVB == null)
-                {
-                    return NotFound();
-                }
-                return View(loaiVB);
+                //var loaiVB = UnitOfWork.nhanVien.GetById(i => i.Id == id);
+                //if (loaiVB == null)
+                //{
+                //    return NotFound();
+                //}
+                return View(/*loaiVB*/);
             }
         }
-        //[NoDirectAccess]
         public async Task<IActionResult> AddOfEdit(int id = 0)
         {
             AllGetListItem getList = new AllGetListItem(UnitOfWork);
-            ViewBag.getListPBan = getList.getPhongban();
             ViewBag.getListCVu = getList.getChucvu();
 
             if (id == 0)
@@ -69,7 +67,7 @@ namespace WS_QuanLyCongVan.Controllers
             }
             else
             {
-                var nhanVien = UnitOfWork.nhanVien.GetById(i => i.ID == id);
+                var nhanVien = UnitOfWork.nhanVien.GetById(i => i.Id == id);
                 if (nhanVien == null)
                 {
                     return NotFound();
@@ -81,13 +79,11 @@ namespace WS_QuanLyCongVan.Controllers
         public async Task<IActionResult> AddOfEdit(int id, Tb_NhanVien Tb_NhanVien)
         {
             AllGetListItem getList = new AllGetListItem(UnitOfWork);
-            ViewBag.getListPBan = getList.getPhongban();
             ViewBag.getListCVu = getList.getChucvu();
             if (ModelState.IsValid)
             {
-                if (Tb_NhanVien.ID == 0)
+                if (Tb_NhanVien.Id == 0)
                 {
-
                     UnitOfWork.nhanVien.Add(Tb_NhanVien);
                     UnitOfWork.Save();
                 }
@@ -114,7 +110,7 @@ namespace WS_QuanLyCongVan.Controllers
         {
             try
             {
-                var lstnhanVien = UnitOfWork.nhanVien.GetAllWhere(i => lst.Contains(i.ID));
+                var lstnhanVien = UnitOfWork.nhanVien.GetAllWhere(i => lst.Contains(i.Id));
                 foreach (var item in lstnhanVien)
                 {
                     item.TrangThai_Xoa = true;
@@ -157,26 +153,26 @@ namespace WS_QuanLyCongVan.Controllers
             return Json(jsonData);
         }
         [HttpPost]
-        public async Task<IActionResult> RestoreRangeConfirmed(List<int> lst)
+        public async Task<IActionResult> RestoreRangeConfirmed(List<string> lst)
         {
             try
             {
                 if (lst.Count() > 1)
                 {
-                    var lstnhanVien = UnitOfWork.nhanVien.GetAllWhere(i => lst.Contains(i.ID));
-                    foreach (var item in lstnhanVien)
-                    {
-                        item.TrangThai_Xoa = false;
-                    }
-                    UnitOfWork.nhanVien.UpdateRange(lstnhanVien);
-                    UnitOfWork.Save();
+                    //var lstnhanVien = UnitOfWork.nhanVien.GetAllWhere(i => lst.Contains(i.Id));
+                    //foreach (var item in lstnhanVien)
+                    //{
+                    //    item.TrangThai_Xoa = false;
+                    //}
+                    //UnitOfWork.nhanVien.UpdateRange(lstnhanVien);
+                    //UnitOfWork.Save();
                 }
                 else
                 {
-                    var lstnhanVien = UnitOfWork.nhanVien.GetById(i => i.ID == lst[0]);
-                    lstnhanVien.TrangThai_Xoa = false;
-                    UnitOfWork.nhanVien.Update(lstnhanVien);
-                    UnitOfWork.Save();
+                    //var lstnhanVien = UnitOfWork.nhanVien.GetById(i => i.Id == lst[0]);
+                    //lstnhanVien.TrangThai_Xoa = false;
+                    //UnitOfWork.nhanVien.Update(lstnhanVien);
+                    //UnitOfWork.Save();
 
                 }
 
@@ -189,13 +185,13 @@ namespace WS_QuanLyCongVan.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> DeleteRange(List<int> lst)
+        public async Task<IActionResult> DeleteRange(List<string> lst)
         {
             try
             {
-                var lstnhanVien = UnitOfWork.nhanVien.GetAllWhere(i => lst.Contains(i.ID));
-                UnitOfWork.nhanVien.DeleteRange(lstnhanVien);
-                UnitOfWork.Save();
+                //var lstnhanVien = UnitOfWork.nhanVien.GetAllWhere(i => lst.Contains(i.Id));
+                //UnitOfWork.nhanVien.DeleteRange(lstnhanVien);
+                //UnitOfWork.Save();
             }
             catch (Exception ex)
             {

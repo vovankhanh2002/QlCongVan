@@ -175,6 +175,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/CongVan/QlCongVan/WS_QuanLyCongVan/Views/BoPhan/AddOfEdit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9QaGFuXEFkZE9mRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CongVan/QlCongVan/WS_QuanLyCongVan/Views/BoPhan/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9QaGFuXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/CongVan/QlCongVan/WS_QuanLyCongVan/Views/ChucVu/AddOfEdit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2h1Y1Z1XEFkZE9mRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -191,8 +199,32 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ1ZERU5cQWRkT2ZFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/CongVan/QlCongVan/WS_QuanLyCongVan/Views/CVDEN/getById.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ1ZERU5cZ2V0QnlJZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CongVan/QlCongVan/WS_QuanLyCongVan/Views/CVDEN/ImportExcel.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ1ZERU5cSW1wb3J0RXhjZWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/CongVan/QlCongVan/WS_QuanLyCongVan/Views/CVDEN/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ1ZERU5cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CongVan/QlCongVan/WS_QuanLyCongVan/Views/CVDEN/indexRestore.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ1ZERU5caW5kZXhSZXN0b3JlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CongVan/QlCongVan/WS_QuanLyCongVan/Views/CVDI/AddOfEdit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ1ZESVxBZGRPZkVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CongVan/QlCongVan/WS_QuanLyCongVan/Views/CVDI/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ1ZESVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CongVan/QlCongVan/WS_QuanLyCongVan/Views/CVDI/indexRestore.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ1ZESVxpbmRleFJlc3RvcmUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/CongVan/QlCongVan/WS_QuanLyCongVan/Views/DangXuat/Index.cshtml]

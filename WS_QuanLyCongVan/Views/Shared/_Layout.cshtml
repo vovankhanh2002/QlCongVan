@@ -13,9 +13,15 @@
     <link rel="stylesheet" href="~/assets/css/ace-rtl.min.css" />
     <link rel="stylesheet" href="~/assets/css/ace-skins.min.css" />
     <link rel="stylesheet" href="~/assets/css/buildcss/hover.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="~/assets/dataTables/datatables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/4.0.1/css/fixedHeader.dataTables.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.1/css/responsive.dataTables.css" />
+    <!-- Include DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.dataTables.css">
+    <!-- Include DataTables Buttons CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.0.1/css/buttons.dataTables.css">
     <script src="~/assets/js/ace-extra.min.js"></script>
-
 </head>
 
 <body>
@@ -203,40 +209,6 @@
                             </li>
 
                             <li>
-                                <a href="#">
-                                    <img src="~/assets/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar" />
-                                    <span class="msg-body">
-                                        <span class="msg-title">
-                                            <span class="blue">Susan:</span>
-                                            Vestibulum id ligula porta felis euismod ...
-                                        </span>
-
-                                        <span class="msg-time">
-                                            <i class="icon-time"></i>
-                                            <span>20 minutes ago</span>
-                                        </span>
-                                    </span>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#">
-                                    <img src="~/assets/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar" />
-                                    <span class="msg-body">
-                                        <span class="msg-title">
-                                            <span class="blue">Bob:</span>
-                                            Nullam quis risus eget urna mollis ornare ...
-                                        </span>
-
-                                        <span class="msg-time">
-                                            <i class="icon-time"></i>
-                                            <span>3:15 pm</span>
-                                        </span>
-                                    </span>
-                                </a>
-                            </li>
-
-                            <li>
                                 <a href="inbox.html">
                                     See all messages
                                     <i class="icon-arrow-right"></i>
@@ -246,7 +218,7 @@
                     </li>
 
                     <li class="light-blue">
-                        <partial name="_LoginPartial"/>
+                        <partial name="_LoginPartial" />
                     </li>
                 </ul><!-- /.ace-nav -->
             </div><!-- /.navbar-header -->
@@ -323,7 +295,7 @@
                             </li>
 
                             <li>
-                                 <a asp-area="" asp-controller="DangXuat" asp-action="Index">
+                                <a asp-area="" asp-controller="DangXuat" asp-action="Index">
                                     <i class="icon-double-angle-right"></i>
                                     Đăng xuất
                                 </a>
@@ -504,9 +476,9 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a asp-area="" asp-controller="PhongBan" asp-action="Index">
+                                        <a asp-area="" asp-controller="BoPhan" asp-action="Index">
                                             <i class="icon-leaf"></i>
-                                            Phòng ban
+                                            Bộ phận
                                         </a>
                                     </li>
                                 </ul>
@@ -545,7 +517,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="jqgrid.html">
+                                <a asp-area="" asp-controller="CVDI" asp-action="Index">
                                     <i class="icon-double-angle-right"></i>
                                     Danh mục công văn đi
                                 </a>
@@ -604,12 +576,14 @@
                                 <h5 class="modal-title"></h5>
                             </div>
                             <div class="modal-body">
-
                             </div>
                         </div>
                     </div>
                 </div>
-                
+                <div class="easy-pie-chart percentage easyPieChart" id="loading" style="display: none;" data-percent="90" data-color="#87B87F" style="width: 75px; height: 75px; line-height: 75px; color: rgb(135, 184, 127);">
+                    <span class="loading-text">0</span>%
+                    <canvas width="75" height="75"></canvas>
+                </div>
             </div><!-- /.main-content -->
         </div><!-- /.main-container-inner -->
     </div><!-- /.main-container -->
@@ -631,9 +605,30 @@
     <script src="~/assets/js/flot/jquery.flot.min.js"></script>
     <script src="~/assets/js/flot/jquery.flot.pie.min.js"></script>
     <script src="~/assets/js/flot/jquery.flot.resize.min.js"></script>
+
     <script src="~/assets/dataTables/datatables.min.js"></script>
+
     <script src="~/assets/js/jsMain/notify.min.js"></script>
+    <script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
+    <!-- Include DataTables Buttons script -->
+    <script src="https://cdn.datatables.net/buttons/3.0.1/js/dataTables.buttons.js"></script>
+    <!-- Include Buttons extension script for DataTables -->
+    <script src="https://cdn.datatables.net/buttons/3.0.1/js/buttons.dataTables.js"></script>
+    <!-- Include JSZip library (required for Excel export) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <!-- Include pdfmake library (required for PDF export) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <!-- Include HTML5 export button script -->
+    <script src="https://cdn.datatables.net/buttons/3.0.1/js/buttons.html5.min.js"></script>
+    <!-- Include Print button script -->
+    <script src="https://cdn.datatables.net/buttons/3.0.1/js/buttons.print.min.js"></script>
+    <!-- DataTables Buttons Extension -->
+    <script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.colVis.min.js"></script>
     <!-- ace scripts -->
+    <script src="~/microsoft/signalr/dist/browser/signalr.js"></script>
+    <script src="~/microsoft/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/assets/js/jquery.gritter.min.js"></script>
     <script src="~/assets/js/ace-elements.min.js"></script>
     <script src="~/assets/js/ace.min.js"></script>
     <script src="~/assets/js/jsMain/Active.js"></script>

@@ -18,6 +18,6 @@ namespace DataLayer.Model
         [Required(ErrorMessage = "Bạn cần nhập đầy đủ thông tin.")]
         public int SoNguoi_BP { get; set; }
         public bool TrangThai_Xoa { get; set; } = false;
-
+        public string? Ghichu { get; set; }
     }
 }

@@ -24,7 +24,10 @@ namespace BusinessLayer.Repository
         {
             _dbSet.Add(entity);
         }
-
+        public void AddRange(IEnumerable<T> entities)
+        {
+            _dbSet.AddRange(entities);
+        }
         public void Delete(T entity)
         {
             _dbSet.Remove(entity);
@@ -111,7 +114,6 @@ namespace BusinessLayer.Repository
         {
             IQueryable<T> query = _dbSet;
             query = query.Where(exception);
-            query = query.Skip(skip).Take(pageSize);
             if (!(string.IsNullOrEmpty(sortColumn)) && !(string.IsNullOrEmpty(sortDirection)))
             {
                 query = query.OrderBy(string.Concat(sortColumn, " ", sortDirection));
@@ -123,7 +125,10 @@ namespace BusinessLayer.Repository
                     query = query.Include(item);
                 }
             }
+            query = query.Skip(skip).Take(pageSize);
             return query.ToList();
         }
+
+        
     }
 }

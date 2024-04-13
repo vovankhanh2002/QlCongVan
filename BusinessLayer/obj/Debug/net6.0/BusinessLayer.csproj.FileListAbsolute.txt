@@ -462,7 +462,6 @@ D:\CongVan\QlCongVan\BusinessLayer\bin\Debug\net6.0\refs\System.dll
 D:\CongVan\QlCongVan\BusinessLayer\bin\Debug\net6.0\refs\System.Drawing.dll
 D:\CongVan\QlCongVan\BusinessLayer\bin\Debug\net6.0\refs\System.Drawing.Primitives.dll
 D:\CongVan\QlCongVan\BusinessLayer\bin\Debug\net6.0\refs\System.Dynamic.Runtime.dll
-D:\CongVan\QlCongVan\BusinessLayer\bin\Debug\net6.0\refs\System.Formats.Asn1.dll
 D:\CongVan\QlCongVan\BusinessLayer\bin\Debug\net6.0\refs\System.Globalization.Calendars.dll
 D:\CongVan\QlCongVan\BusinessLayer\bin\Debug\net6.0\refs\System.Globalization.dll
 D:\CongVan\QlCongVan\BusinessLayer\bin\Debug\net6.0\refs\System.Globalization.Extensions.dll
@@ -551,7 +550,6 @@ D:\CongVan\QlCongVan\BusinessLayer\bin\Debug\net6.0\refs\System.Security.Princip
 D:\CongVan\QlCongVan\BusinessLayer\bin\Debug\net6.0\refs\System.Security.SecureString.dll
 D:\CongVan\QlCongVan\BusinessLayer\bin\Debug\net6.0\refs\System.ServiceModel.Web.dll
 D:\CongVan\QlCongVan\BusinessLayer\bin\Debug\net6.0\refs\System.ServiceProcess.dll
-D:\CongVan\QlCongVan\BusinessLayer\bin\Debug\net6.0\refs\System.Text.Encoding.CodePages.dll
 D:\CongVan\QlCongVan\BusinessLayer\bin\Debug\net6.0\refs\System.Text.Encoding.dll
 D:\CongVan\QlCongVan\BusinessLayer\bin\Debug\net6.0\refs\System.Text.Encoding.Extensions.dll
 D:\CongVan\QlCongVan\BusinessLayer\bin\Debug\net6.0\refs\System.Text.Encodings.Web.dll

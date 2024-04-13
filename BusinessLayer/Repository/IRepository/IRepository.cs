@@ -16,6 +16,8 @@ namespace BusinessLayer.Repository.IRepository
 
         //Add ? kiểu T
         void Add(T entity);
+        void AddRange(IEnumerable<T> entities);
+
         //Tìm id 
         T GetById(Expression<Func<T, bool>> exception, string? include = null);
         void Update(T entity);

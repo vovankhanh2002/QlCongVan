@@ -1,0 +1,58 @@
+﻿<div class="col-sm-12">
+    <div class="widget-box">
+        <div class="widget-header">
+            <h4>CÔNG VĂN ĐI</h4>
+        </div>
+        <div class="col-sm-4" style="margin:15px 0"> 
+            <a onclick="showInPopup('@Url.ActionLink("AddOfEdit","CVDI",null,Context.Request.Scheme)',0)" class="btn btn-sm btn-success">
+                <i class="icon-plus-sign bigger-120"></i>
+                Thêm
+            </a>
+            <a onclick="showInPopup('@Url.ActionLink("ImportExcel","CVDI",null,Context.Request.Scheme)',0)" class="btn btn-sm btn-success">
+                 <i class="fas fa-file-import bigger-120"></i>
+
+                Import
+             </a>
+            <div hidden data-request-url="@Url.ActionLink("AddOfEdit","CVDI")" id="request"></div>
+            <div hidden data-request-url="@Url.ActionLink("getById","CVDI")" id="requestid"></div>
+            <button id="delete" disabled data-request-url="@Url.ActionLink("DeleteRangeConfirmed","CVDI")" class="btn btn-sm btn-danger">
+                <i class="icon-trash bigger-120"></i>
+                Xóa
+            </button>
+            <a asp-controller="CVDI" asp-action="indexRestore" class="btn btn-sm btn-info">Thùng rác</a>
+
+        </div>
+        <div class="widget-body">
+            <div class="widget-main no-padding" >
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="table-responsive" style="margin:0px 10px">
+                            <table id="cvdi" class="table table-striped table-bordered table-hover" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th class="center">
+                                            <input type="checkbox" id="selectAllCheckbox">
+                                        </th>
+                                        <th>SKH</th>
+                                        <th>NGÀY BAN HÀNH</th>
+                                        <th>TRÍCH YẾU</th>
+                                        <th>LOẠI CÔNG VĂN</th>
+                                        <th>NGƯỜI KÝ</th>
+                                        <th>ĐỘ MẬT</th>
+                                        <th>ĐỘ KHẨN</th>
+                                        <th>LĨNH VỰC</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div><!-- /.table-responsive -->
+                    </div><!-- /span -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/assets/js/jsMain/DanhMucHS/custom.js"></script>
+}

@@ -29,8 +29,11 @@ namespace WS_QuanLyCongVan.Controllers
             var sortDirection = Request.Form["order[0][dir]"];
             var data = UnitOfWork.soCV.GetFlowRestore(i => i.TrangThai_Xoa == false, start, length, sortColumn, sortDirection, include: "Tb_LoaiSoCV");
             if (!string.IsNullOrEmpty(searchVal))
-                data = data.Where(i => i.Ten_SoCV.ToLower().Contains(searchVal) || i.Ghichu.ToLower().Contains(searchVal));
-            var totalRecords = UnitOfWork.loaiVB.GetAllWhere(i => i.TrangThai_Xoa == false).Count();
+                data = data.Where(i => i.Ten_SoCV.ToLower().Contains(searchVal)
+                || i.TrangThai.ToString().ToLower().Contains(searchVal)
+                || i.Ngay_SoCV.ToString().ToLower().Contains(searchVal)
+                );
+            var totalRecords = UnitOfWork.soCV.GetAllWhere(i => i.TrangThai_Xoa == false).Count();
             var totalFiltered = totalRecords;
             var jsonData = new
             {

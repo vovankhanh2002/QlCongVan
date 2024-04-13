@@ -16,24 +16,29 @@
 
         <div class="widget-body">
             <div class="widget-main">
-                <form method="post" asp-action="AddOfEdit" asp-route-id="@Model.ID" onsubmit="return JqueryAjaxPost(this);" autocomplete="off">
+                <form method="post" asp-action="AddOfEdit" asp-route-id="@Model.Id" onsubmit="return JqueryAjaxPost(this);" autocomplete="off">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" asp-for="ID"></>
+                    <input type="hidden" asp-for="Id"></>
                     <div class="form-group">
                         <label asp-for="Hoten_NV">Họ tên</label>
-                        <input asp-for="Hoten_NV" class="form-control" autocomplete="Hoten_NV" aria-required="true" />
+                        <input asp-for="Hoten_NV" class="form-control" autocomplete="Hoten_NV" aria-required="true" placeholder="Nhập họ tên"/>
                         <span asp-validation-for="Hoten_NV" class="text-danger"></span>
+                    </div>
+                     <div class="form-group">
+                        <label asp-for="Email_NV">Email</label>
+                        <input asp-for="Email_NV" class="form-control" autocomplete="Email_NV" aria-required="true" placeholder="Nhập email"/>
+                        <span asp-validation-for="Email_NV" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="DiaChi_NV">Địa chỉ</label>
-                        <input asp-for="DiaChi_NV" class="form-control" autocomplete="DiaChi_NV" aria-required="true" />
+                        <input asp-for="DiaChi_NV" class="form-control" autocomplete="DiaChi_NV" aria-required="true" placeholder="Nhập địa chỉ"/>
                         <span asp-validation-for="DiaChi_NV" class="text-danger"></span>
                     </div>
                     <div class="row">
                         <div class="col-xs-6 col-sm-6">
                             <div class="form-group">
                                 <label asp-for="SDT_NV">Số điện thoại</label>
-                                <input asp-for="SDT_NV" class="form-control" autocomplete="SDT_NV" aria-required="true" />
+                                <input asp-for="SDT_NV" class="form-control" autocomplete="SDT_NV" aria-required="true" placeholder="Nhập số điện thoại"/>
                                 <span asp-validation-for="SDT_NV" class="text-danger"></span>
                             </div>
                         </div>
@@ -48,15 +53,6 @@
                     <div class="row">
                         <div class="col-xs-6 col-sm-6">
                             <div class="form-group">
-                                <label asp-for="ID_PhongBan">Phòng ban</label>
-                                <select asp-for="ID_PhongBan" asp-items="@ViewBag.getListPBan" class="form-select">
-                                    <option disabled>-Phòng ban-</option>
-                                </select>
-                                <span asp-validation-for="ID_PhongBan" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="col-xs-6 col-sm-6">
-                            <div class="form-group">
                                 <label asp-for="ID_ChucVu">Chức vụ</label>
                                 <select asp-for="ID_ChucVu" asp-items="@ViewBag.getListCVu" class="form-select">
                                     <option disabled>-Chức vụ-</option>
@@ -67,7 +63,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="GhiChu">Ghi chú</label>
-                        <textarea asp-for="GhiChu" class="form-control" rows="5" autocomplete="GhiChu" aria-required="true"></textarea>
+                        <textarea asp-for="GhiChu" class="form-control" rows="5" autocomplete="GhiChu" aria-required="true" placeholder="Nhập ghi chú"></textarea>
                         <span asp-validation-for="GhiChu" class="text-danger"></span>
                     </div>
                     <button type="submit" class="btn btn-sm btn-success">Lưu</button>

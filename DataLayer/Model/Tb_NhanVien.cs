@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,10 +13,11 @@ namespace DataLayer.Model
 {
     public class Tb_NhanVien
     {
-        [Key]
-        public int ID { get; set; }
+        public int Id { get; set; }
         [Required(ErrorMessage = "Bạn cần nhập đầy đủ thông tin.")]
         public string Hoten_NV { get; set; }
+        [Required(ErrorMessage = "Bạn cần nhập đầy đủ thông tin.")]
+        public string? Email_NV { get; set; }
         [Required(ErrorMessage = "Bạn cần nhập đầy đủ thông tin.")]
         public string? DiaChi_NV { get; set; }
         [Required(ErrorMessage = "Bạn cần nhập đầy đủ thông tin.")]
@@ -32,7 +34,7 @@ namespace DataLayer.Model
         public Tb_ChucVu Tb_ChucVu { get; set; }
         //
         [Required(ErrorMessage = "Bạn cần nhập đầy đủ thông tin.")]
-        public int ID_PhongBan { get; set; }
+        public int ID_PhongBan { get; set; } = 1;
         [ForeignKey("ID_PhongBan")]
         [ValidateNever]
         public Tb_PhongBan Tb_PhongBan { get; set; }

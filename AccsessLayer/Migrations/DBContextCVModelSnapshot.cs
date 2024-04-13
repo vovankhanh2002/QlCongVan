@@ -30,6 +30,9 @@ namespace AccsessLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
+                    b.Property<string>("Ghichu")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("SoNguoi_BP")
                         .HasColumnType("int");
 
@@ -72,29 +75,6 @@ namespace AccsessLayer.Migrations
                     b.ToTable("tb_ChucVus");
                 });
 
-            modelBuilder.Entity("DataLayer.Model.Tb_CoQuanBH", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
-
-                    b.Property<string>("Ghichu")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TenCoQuan")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TrangThai_Xoa")
-                        .HasColumnType("bit");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("tb_CoQuanBHs");
-                });
-
             modelBuilder.Entity("DataLayer.Model.Tb_CVDEN", b =>
                 {
                     b.Property<int>("ID")
@@ -104,7 +84,6 @@ namespace AccsessLayer.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
                     b.Property<string>("File_CVDEN")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GhiChu_CVDEN")
@@ -113,7 +92,7 @@ namespace AccsessLayer.Migrations
                     b.Property<DateTime>("HanTL_CVDEN")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ID_CoQuanBH")
+                    b.Property<int>("ID_BP")
                         .HasColumnType("int");
 
                     b.Property<int>("ID_LV")
@@ -128,14 +107,11 @@ namespace AccsessLayer.Migrations
                     b.Property<int>("ID_MDMat")
                         .HasColumnType("int");
 
-                    b.Property<int>("ID_NV")
-                        .HasColumnType("int");
+                    b.Property<string>("ID_ND")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("ID_PTNhan")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ID_PhongBan")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int>("ID_SoCV")
@@ -146,6 +122,14 @@ namespace AccsessLayer.Migrations
 
                     b.Property<DateTime>("NgayNhan_CVDEN")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Nguoigui_CVDEN")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Noigui_CVDEN")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhanCongXLVB_CVDEN")
                         .IsRequired()
@@ -171,9 +155,12 @@ namespace AccsessLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("ngay")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("ID");
 
-                    b.HasIndex("ID_CoQuanBH");
+                    b.HasIndex("ID_BP");
 
                     b.HasIndex("ID_LV");
 
@@ -183,11 +170,9 @@ namespace AccsessLayer.Migrations
 
                     b.HasIndex("ID_MDMat");
 
-                    b.HasIndex("ID_NV");
+                    b.HasIndex("ID_ND");
 
                     b.HasIndex("ID_PTNhan");
-
-                    b.HasIndex("ID_PhongBan");
 
                     b.HasIndex("ID_SoCV");
 
@@ -203,11 +188,13 @@ namespace AccsessLayer.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
                     b.Property<string>("File_CVDI")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GhiChu_CVDI")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ID_BP")
+                        .HasColumnType("int");
 
                     b.Property<int>("ID_LV")
                         .HasColumnType("int");
@@ -221,12 +208,9 @@ namespace AccsessLayer.Migrations
                     b.Property<int>("ID_MDMat")
                         .HasColumnType("int");
 
-                    b.Property<int>("ID_NV")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ID_PhongBan")
+                    b.Property<string>("ID_ND")
                         .IsRequired()
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("ID_SoCV")
                         .HasColumnType("int");
@@ -234,12 +218,13 @@ namespace AccsessLayer.Migrations
                     b.Property<DateTime>("NgayBH_CVDI")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("NoiNhan_BL")
+                    b.Property<string>("Nguoinhan_CVDI")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SLBanluu_CVDI")
-                        .HasColumnType("int");
+                    b.Property<string>("Noigui_CVDI")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("SLTrang_CVDI")
                         .HasColumnType("int");
@@ -247,8 +232,9 @@ namespace AccsessLayer.Migrations
                     b.Property<int>("SL_BPH")
                         .HasColumnType("int");
 
-                    b.Property<int>("Skh_CVDI")
-                        .HasColumnType("int");
+                    b.Property<string>("Skh_CVDI")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TrangThai_CVDI")
                         .HasColumnType("bit");
@@ -260,7 +246,12 @@ namespace AccsessLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("ngay")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("ID");
+
+                    b.HasIndex("ID_BP");
 
                     b.HasIndex("ID_LV");
 
@@ -270,9 +261,7 @@ namespace AccsessLayer.Migrations
 
                     b.HasIndex("ID_MDMat");
 
-                    b.HasIndex("ID_NV");
-
-                    b.HasIndex("ID_PhongBan");
+                    b.HasIndex("ID_ND");
 
                     b.HasIndex("ID_SoCV");
 
@@ -550,13 +539,17 @@ namespace AccsessLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Model.Tb_NhanVien", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("DiaChi_NV")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email_NV")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -583,7 +576,7 @@ namespace AccsessLayer.Migrations
                     b.Property<bool>("TrangThai_Xoa")
                         .HasColumnType("bit");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
                     b.HasIndex("ID_ChucVu");
 
@@ -612,7 +605,7 @@ namespace AccsessLayer.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("tb_PhongBans");
+                    b.ToTable("Tb_PhongBan");
                 });
 
             modelBuilder.Entity("DataLayer.Model.Tb_PTNhan", b =>
@@ -736,6 +729,10 @@ namespace AccsessLayer.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -787,6 +784,8 @@ namespace AccsessLayer.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -870,11 +869,33 @@ namespace AccsessLayer.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("DataLayer.Model.Tb_Nguoidung", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.Property<string>("DiaChi_NV")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Hoten_NV")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("NgaySinh_NV")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("SDT_NV")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.HasDiscriminator().HasValue("Tb_Nguoidung");
+                });
+
             modelBuilder.Entity("DataLayer.Model.Tb_CVDEN", b =>
                 {
-                    b.HasOne("DataLayer.Model.Tb_CoQuanBH", "Tb_CoQuanBH")
+                    b.HasOne("DataLayer.Model.Tb_BoPhan", "Tb_BoPhan")
                         .WithMany()
-                        .HasForeignKey("ID_CoQuanBH")
+                        .HasForeignKey("ID_BP")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -902,9 +923,9 @@ namespace AccsessLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DataLayer.Model.Tb_NhanVien", "Tb_NhanVien")
+                    b.HasOne("DataLayer.Model.Tb_Nguoidung", "Tb_Nguoidung")
                         .WithMany()
-                        .HasForeignKey("ID_NV")
+                        .HasForeignKey("ID_ND")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -914,19 +935,13 @@ namespace AccsessLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DataLayer.Model.Tb_PhongBan", "Tb_PhongBan")
-                        .WithMany()
-                        .HasForeignKey("ID_PhongBan")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("DataLayer.Model.Tb_SoCV", "tb_SoCV")
                         .WithMany()
                         .HasForeignKey("ID_SoCV")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Tb_CoQuanBH");
+                    b.Navigation("Tb_BoPhan");
 
                     b.Navigation("Tb_LinhVuc");
 
@@ -936,17 +951,21 @@ namespace AccsessLayer.Migrations
 
                     b.Navigation("Tb_MDMat");
 
-                    b.Navigation("Tb_NhanVien");
+                    b.Navigation("Tb_Nguoidung");
 
                     b.Navigation("Tb_PTNhan");
-
-                    b.Navigation("Tb_PhongBan");
 
                     b.Navigation("tb_SoCV");
                 });
 
             modelBuilder.Entity("DataLayer.Model.Tb_CVDI", b =>
                 {
+                    b.HasOne("DataLayer.Model.Tb_BoPhan", "Tb_BoPhan")
+                        .WithMany()
+                        .HasForeignKey("ID_BP")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("DataLayer.Model.Tb_LinhVuc", "Tb_LinhVuc")
                         .WithMany()
                         .HasForeignKey("ID_LV")
@@ -971,15 +990,9 @@ namespace AccsessLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DataLayer.Model.Tb_NhanVien", "Tb_NhanVien")
+                    b.HasOne("DataLayer.Model.Tb_Nguoidung", "Tb_Nguoidung")
                         .WithMany()
-                        .HasForeignKey("ID_NV")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DataLayer.Model.Tb_PhongBan", "Tb_PhongBan")
-                        .WithMany()
-                        .HasForeignKey("ID_PhongBan")
+                        .HasForeignKey("ID_ND")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -989,6 +1002,8 @@ namespace AccsessLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Tb_BoPhan");
+
                     b.Navigation("Tb_LinhVuc");
 
                     b.Navigation("Tb_LoaiVB");
@@ -997,9 +1012,7 @@ namespace AccsessLayer.Migrations
 
                     b.Navigation("Tb_MDMat");
 
-                    b.Navigation("Tb_NhanVien");
-
-                    b.Navigation("Tb_PhongBan");
+                    b.Navigation("Tb_Nguoidung");
 
                     b.Navigation("tb_SoCV");
                 });

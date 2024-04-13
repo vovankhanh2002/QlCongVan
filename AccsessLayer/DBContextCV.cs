@@ -17,7 +17,6 @@ namespace AccsessLayer
         }
         public DbSet<Tb_BoPhan> tb_BoPhans { get; set; }
         public DbSet<Tb_ChucVu> tb_ChucVus { get; set; }
-        public DbSet<Tb_CoQuanBH> tb_CoQuanBHs { get; set; }
         public DbSet<Tb_CVDEN> tb_CVDENs { get; set; }
         public DbSet<Tb_CVDI> tb_CVDIs { get; set; }
         public DbSet<Tb_DanhMucCV> tb_DanhMucCVs { get; set; }
@@ -27,13 +26,13 @@ namespace AccsessLayer
         public DbSet<Tb_Kho> tb_Khos { get; set; }
         public DbSet<Tb_LinhVuc> tb_LinhVuc { get; set; }
         public DbSet<Tb_LoaiSoCV> tb_LoaiSoCVs { get; set; }
-        public DbSet<Tb_LoaiVB>tb_LoaiVBs { get; set; }
-        public DbSet<Tb_MDKhan>tb_MDKhans { get; set; }
+        public DbSet<Tb_LoaiVB> tb_LoaiVBs { get; set; }
+        public DbSet<Tb_MDKhan> tb_MDKhans { get; set; }
         public DbSet<Tb_MDMat> tb_MDMats { get; set; }
         public DbSet<Tb_NhanVien> tb_NhanViens { get; set; }
-        public DbSet<Tb_PhongBan> tb_PhongBans { get; set; }
-        public DbSet<Tb_PTNhan>tb_PTNhans { get; set; }
-        public DbSet<Tb_SoCV>tb_SoCVs { get; set; }
+        public DbSet<Tb_PTNhan> tb_PTNhans { get; set; }
+        public DbSet<Tb_SoCV> tb_SoCVs { get; set; }
+        public DbSet<Tb_Nguoidung> tb_Nguoidungs { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

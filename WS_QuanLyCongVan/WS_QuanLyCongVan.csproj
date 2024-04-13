@@ -2,11 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
+    <Nullable>Disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\CVDEN\ViewTab.cshtml" />
     <Content Remove="Views\NhanVien\indexRestore.cshtml" />
   </ItemGroup>
 
@@ -17,9 +18,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="EPPlus" Version="7.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.28" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.28" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.28" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.28" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.28" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.28" />
@@ -36,11 +39,21 @@
   </ItemGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\CVDEN\ViewTab.cshtml" />
     <_ContentIncludedByDefault Remove="Views\NhanVien\indexRestore.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\CVDEN\ViewTab.cshtml" />
     <None Include="Views\NhanVien\indexRestore.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\CVDEN\ViewTab.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\assets\dataTables\" />
   </ItemGroup>
 
 </Project>
