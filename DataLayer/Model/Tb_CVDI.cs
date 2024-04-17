@@ -41,10 +41,10 @@ namespace DataLayer.Model
         public Tb_LoaiVB Tb_LoaiVB { get; set; }
         //
         [Required(ErrorMessage = "Bạn cần nhập đầy đủ thông tin.")]
-        public string ID_ND { get; set; }
-        [ForeignKey("ID_ND")]
+        public int ID_NV { get; set; }
+        [ForeignKey("ID_NV")]
         [ValidateNever]
-        public Tb_Nguoidung Tb_Nguoidung { get; set; }
+        public Tb_NhanVien Tb_NhanVien { get; set; }
         //
         [Required(ErrorMessage = "Bạn cần nhập đầy đủ thông tin.")]
         public int ID_MDMat { get; set; }

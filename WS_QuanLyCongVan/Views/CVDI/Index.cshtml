@@ -10,11 +10,12 @@
             </a>
             <a onclick="showInPopup('@Url.ActionLink("ImportExcel","CVDI",null,Context.Request.Scheme)',0)" class="btn btn-sm btn-success">
                  <i class="fas fa-file-import bigger-120"></i>
-
                 Import
              </a>
             <div hidden data-request-url="@Url.ActionLink("AddOfEdit","CVDI")" id="request"></div>
             <div hidden data-request-url="@Url.ActionLink("getById","CVDI")" id="requestid"></div>
+            <div hidden data-request-url="@Url.ActionLink("AddInEditCategory","CVDI")" id="requestCategory"></div>
+
             <button id="delete" disabled data-request-url="@Url.ActionLink("DeleteRangeConfirmed","CVDI")" class="btn btn-sm btn-danger">
                 <i class="icon-trash bigger-120"></i>
                 Xóa
@@ -41,6 +42,7 @@
                                         <th>ĐỘ MẬT</th>
                                         <th>ĐỘ KHẨN</th>
                                         <th>LĨNH VỰC</th>
+                                        <th>Duyệt</th>
                                         <th></th>
                                     </tr>
                                 </thead>

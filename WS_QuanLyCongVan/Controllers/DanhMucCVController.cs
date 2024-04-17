@@ -29,8 +29,9 @@ namespace WS_QuanLyCongVan.Controllers
             var data = UnitOfWork.danhMucCV.GetFlowRestore(i => i.TrangThai_Xoa == false, start, length, sortColumn, sortDirection, include: "Tb_Kho,Tb_Ke,Tb_Hop");
             if (!string.IsNullOrEmpty(searchVal))
                 data = data.Where(i => i.Ma_HS.ToLower().Contains(searchVal) || i.Ten_HS.ToLower().Contains(searchVal) || i.Tb_Kho.Ten_Kho.ToString().ToLower().Contains(searchVal) || i.Tb_Ke.Ten_Ke.ToString().ToLower().Contains(searchVal) || i.Tb_Hop.Ten_Hop.ToString().ToLower().Contains(searchVal) || i.GhiChu.ToString().ToLower().Contains(searchVal));
-            var totalRecords = UnitOfWork.danhMucCV.GetAllWhere(i => i.TrangThai_Xoa == false).Count();
+            var totalRecords = data.Count();
             var totalFiltered = totalRecords;
+            data = data.Skip(start).Take(length).ToList();
             var jsonData = new
             {
                 draw = draw,
@@ -141,11 +142,12 @@ namespace WS_QuanLyCongVan.Controllers
             var searchVal = Request.Form["search[value]"];
             var sortColumn = Request.Form[string.Concat("columns[", Request.Form["order[0][column]"], "][name]")];
             var sortDirection = Request.Form["order[0][dir]"];
-            var totalRecords = UnitOfWork.danhMucCV.GetAllWhere(i => i.TrangThai_Xoa == true).Count();
             var data = UnitOfWork.danhMucCV.GetFlowRestore(i => i.TrangThai_Xoa == true, start, length, sortColumn, sortDirection, include: "Tb_Kho,Tb_Ke,Tb_Hop");
             if (!string.IsNullOrEmpty(searchVal))
                 data = data.Where(i => i.Ma_HS.ToLower().Contains(searchVal) || i.Ten_HS.ToLower().Contains(searchVal) || i.Tb_Kho.Ten_Kho.ToString().ToLower().Contains(searchVal) || i.Tb_Ke.Ten_Ke.ToString().ToLower().Contains(searchVal) || i.Tb_Hop.Ten_Hop.ToString().ToLower().Contains(searchVal) || i.GhiChu.ToString().ToLower().Contains(searchVal));
+            var totalRecords = data.Count();
             var totalFiltered = totalRecords;
+            data = data.Skip(start).Take(length).ToList();
             var jsonData = new
             {
                 draw = draw,

@@ -33,6 +33,7 @@ namespace AccsessLayer
         public DbSet<Tb_PTNhan> tb_PTNhans { get; set; }
         public DbSet<Tb_SoCV> tb_SoCVs { get; set; }
         public DbSet<Tb_Nguoidung> tb_Nguoidungs { get; set; }
+        public DbSet<Tb_Thongke> tb_Thongkes { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -89,25 +89,33 @@ namespace BusinessLayer.Handle
             });
             return listItem;
         }
-        public IEnumerable<SelectListItem> getNhanVien()
+        public IEnumerable<SelectListItem> getNhanvien(int id)
         {
-            var listItem = UnitOfWork.nhanVien.GetAll().Select(i => new SelectListItem
+            var listItem = UnitOfWork.nhanVien.GetAllWhere(i => i.ID_BP == id).Select(i => new SelectListItem
             {
                 Value = i.Email_NV.ToString(),
-                Text = i.Hoten_NV
+                Text = i.Hoten_NV.ToString()
             });
             return listItem;
         }
-        public IEnumerable<SelectListItem> getNguoiDung()
+        public IEnumerable<SelectListItem> getNguoiKyCV()
         {
-            var listItem = UnitOfWork.nguoidung.GetAll().Select(i => new SelectListItem
+            var listItem = UnitOfWork.nhanVien.GetAll().Select(i => new SelectListItem
             {
                 Value = i.Id.ToString(),
                 Text = i.Hoten_NV
             });
             return listItem;
         }
-
+        public IEnumerable<SelectListItem> getNguoiDungMail()
+        {
+            var listItem = UnitOfWork.nguoidung.GetAll().Select(i => new SelectListItem
+            {
+                Value = i.UserName.ToString(),
+                Text = i.Hoten_NV
+            });
+            return listItem;
+        }
         public IEnumerable<SelectListItem> getBoPhan()
         {
             var listItem = UnitOfWork.boPhan.GetAll().Select(i => new SelectListItem
@@ -151,6 +159,15 @@ namespace BusinessLayer.Handle
             {
                 Value = i.ID.ToString(),
                 Text = i.Ten_LV
+            });
+            return listItem;
+        }
+        public IEnumerable<SelectListItem> getDanhMucCV()
+        {
+            var listItem = UnitOfWork.danhMucCV.GetAll().Select(i => new SelectListItem
+            {
+                Value = i.ID.ToString(),
+                Text = i.Ten_HS
             });
             return listItem;
         }

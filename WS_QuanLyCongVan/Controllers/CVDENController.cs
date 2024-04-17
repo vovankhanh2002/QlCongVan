@@ -34,7 +34,7 @@ namespace WS_QuanLyCongVan.Controllers
             var searchVal = Request.Form["search[value]"];
             var sortColumn = Request.Form[string.Concat("columns[", Request.Form["order[0][column]"], "][name]")];
             var sortDirection = Request.Form["order[0][dir]"];
-            var data = UnitOfWork.cVDEN.GetFlowRestore(i => i.TrangThai_Xoa == false, start, length, sortColumn, sortDirection, include: "Tb_LoaiVB,Tb_MDMat,Tb_MDKhan,tb_SoCV,Tb_LinhVuc,Tb_PTNhan,Tb_Nguoidung");
+            var data = UnitOfWork.cVDEN.GetFlowRestore(i => i.TrangThai_Xoa == false, start, length, sortColumn, sortDirection, include: "Tb_LoaiVB,Tb_MDMat,Tb_MDKhan,tb_SoCV,Tb_LinhVuc,Tb_NhanVien");
             if (!string.IsNullOrEmpty(searchVal))
                 data = data.Where(i => i.Skh_CVDEN.ToLower().Contains(searchVal) 
                 || i.NgayBH_CVDEN.ToString().ToLower().Contains(searchVal) 
@@ -44,14 +44,15 @@ namespace WS_QuanLyCongVan.Controllers
                 || i.TrichYeu_CVDEN.ToString().ToLower().Contains(searchVal)
                 || i.HanTL_CVDEN.ToString().ToLower().Contains(searchVal)
                 || i.Tb_LoaiVB.Ten_LVB.ToLower().Contains(searchVal)
-                || i.Tb_Nguoidung.Hoten_NV.ToLower().Contains(searchVal)
+                || i.Tb_NhanVien.Hoten_NV.ToLower().Contains(searchVal)
                 || i.Tb_MDMat.Ten_MDMat.ToLower().Contains(searchVal)
                 || i.Tb_MDKhan.Ten_MDKhan.ToLower().Contains(searchVal)
                 || i.tb_SoCV.Ten_SoCV.ToLower().Contains(searchVal)
                 || i.Tb_LinhVuc.Ten_LV.ToLower().Contains(searchVal)
             );
-            var totalRecords = UnitOfWork.cVDEN.GetAllWhere(i => i.TrangThai_Xoa == false).Count();
+            var totalRecords = data.Count();
             var totalFiltered = totalRecords;
+            data = data.Skip(start).Take(length).ToList();
             var jsonData = new
             {
                 draw = draw,
@@ -66,14 +67,14 @@ namespace WS_QuanLyCongVan.Controllers
 
             AllGetListItem getList = new AllGetListItem(UnitOfWork);
             ViewBag.getListSCV = getList.getSoCV();
-            ViewBag.getListND = getList.getNguoiDung();
             ViewBag.getListDM = getList.getDoMat();
             ViewBag.getListDK = getList.getDoKhan();
             ViewBag.getListLCV = getList.getLoaiCV();
             ViewBag.getListLV = getList.getLinhVuc();
             ViewBag.getListBP = getList.getBoPhan();
             ViewBag.getListBPG = getList.getBoPhanGui();
-            ViewBag.getListNV = getList.getNhanVien();
+            ViewBag.getListNgK = getList.getNguoiKyCV();
+
             if (id == 0)
             {
                 return View(new Tb_CVDEN());
@@ -81,6 +82,7 @@ namespace WS_QuanLyCongVan.Controllers
             else
             {
                 var cVDEN = UnitOfWork.cVDEN.GetById(i => i.ID == id);
+                ViewBag.getListNV = getList.getNhanvien(cVDEN.ID_BP);
                 if (cVDEN == null)
                 {
                     return NotFound();
@@ -101,10 +103,24 @@ namespace WS_QuanLyCongVan.Controllers
                 {
                     var pathRoot = _webHostEnvironment.WebRootPath;
                     var cVDEN = UnitOfWork.cVDEN.GetById(i => i.ID == id);
-                    var upload = Path.Combine(pathRoot, @"assets\CongVan\" + cVDEN.File_CVDEN);
+                    var upload = Path.Combine(pathRoot, @"assets\Cong_Van_Den\");
+
+                    DateTime desiredDate = cVDEN.ngay;
+
+                    string yearFolder = desiredDate.ToString("yyyy");
+                    string yearFolderPath = Path.Combine(upload, yearFolder);
+
+                    string monthFolder = desiredDate.ToString("MM");
+                    string monthFolderPath = Path.Combine(yearFolderPath, monthFolder);
+
+                    string dayFolder = desiredDate.ToString("dd");
+                    string dayFolderPath = Path.Combine(monthFolderPath, dayFolder);
+
+                    var file = Path.Combine(dayFolderPath, cVDEN.File_CVDEN);
                     string message = "";
+
                     message += cVDEN.Skh_CVDEN.ToString();
-                    await _emailSender.SendEmailCV(lstMail, tieude, message, upload);
+                    await _emailSender.SendEmailCV(lstMail, tieude, message, file);
                     var jsonData = new
                     {
                         sussess = true,
@@ -115,18 +131,23 @@ namespace WS_QuanLyCongVan.Controllers
                 return Json(new { sussess = false, notify = "Đã gửi mail không thành công." });
             }
         }
+        [HttpGet]
+        public async Task<IActionResult> GetEmployeesByDepartment(string emloy)
+        {
+            var employees = UnitOfWork.nhanVien.GetAllWhere(i => i.Tb_BoPhan.Ten_BP.ToLower().Contains(emloy));
+            return Json(new {sussess = true ,data = employees});
+        }
         public async Task<IActionResult> AddOfEdit(int id = 0)
         {
             AllGetListItem getList = new AllGetListItem(UnitOfWork);
             ViewBag.getListSCV = getList.getSoCV();
-            ViewBag.getListND = getList.getNguoiDung();
             ViewBag.getListDM = getList.getDoMat();
             ViewBag.getListDK = getList.getDoKhan();
             ViewBag.getListLCV = getList.getLoaiCV();
             ViewBag.getListLV = getList.getLinhVuc();
             ViewBag.getListBP = getList.getBoPhan();
             ViewBag.getListBPG = getList.getBoPhanGui();
-
+            ViewBag.getListNgK = getList.getNguoiKyCV();
             if (id == 0)
             {
                 return View(new Tb_CVDEN());
@@ -150,14 +171,14 @@ namespace WS_QuanLyCongVan.Controllers
             var isCvDen = UnitOfWork.cVDEN.GetById(i => i.ID == Tb_CVDEN.ID);
             AllGetListItem getList = new AllGetListItem(UnitOfWork);
             ViewBag.getListSCV = getList.getSoCV();
-            ViewBag.getListND = getList.getNguoiDung();
             ViewBag.getListDM = getList.getDoMat();
             ViewBag.getListDK = getList.getDoKhan();
             ViewBag.getListLCV = getList.getLoaiCV();
             ViewBag.getListLV = getList.getLinhVuc();
             ViewBag.getListBP = getList.getBoPhan();
             ViewBag.getListBPG = getList.getBoPhanGui();
-            
+            ViewBag.getListNgK = getList.getNguoiKyCV();
+
             if (ModelState.IsValid)
             {
                 if (Tb_CVDEN.ID == 0)
@@ -179,7 +200,7 @@ namespace WS_QuanLyCongVan.Controllers
                             TrangThai_CVDI = Tb_CVDEN.TrangThai_CVDI,
                             File_CVDEN = extention,
                             ID_LVB = Tb_CVDEN.ID_LVB,
-                            ID_ND = Tb_CVDEN.ID_ND,
+                            ID_NV = Tb_CVDEN.ID_NV,
                             ID_MDMat = Tb_CVDEN.ID_MDMat,
                             ID_MDKhan = Tb_CVDEN.ID_MDKhan,
                             ID_PTNhan = Tb_CVDEN.ID_PTNhan,
@@ -251,7 +272,7 @@ namespace WS_QuanLyCongVan.Controllers
                         isCvDen.PhanCongXLVB_CVDEN = Tb_CVDEN.PhanCongXLVB_CVDEN;
                         isCvDen.TrangThai_CVDI = Tb_CVDEN.TrangThai_CVDI;
                         isCvDen.ID_LVB = Tb_CVDEN.ID_LVB;
-                        isCvDen.ID_ND = Tb_CVDEN.ID_ND;
+                        isCvDen.ID_NV = Tb_CVDEN.ID_NV;
                         isCvDen.ID_MDMat = Tb_CVDEN.ID_MDMat;
                         isCvDen.ID_MDKhan = Tb_CVDEN.ID_MDKhan;
                         isCvDen.ID_PTNhan = Tb_CVDEN.ID_PTNhan;
@@ -298,7 +319,7 @@ namespace WS_QuanLyCongVan.Controllers
                 return Json(new { success = true, data = Tb_CVDEN, notify = "Bạn đã thêm thành công." });
 
             }
-            return Json(new { success = false, html = Helper.RenderRazorViewToString(this, "AddOfEdit", Tb_CVDEN) });
+            return Json(new { success = false, notify = "Đã thêm không thành công.", html = Helper.RenderRazorViewToString(this, "AddOfEdit", Tb_CVDEN) });
         }
 
 
@@ -317,93 +338,135 @@ namespace WS_QuanLyCongVan.Controllers
             {
                 return Json(new { success = false, notify = "Bạn chưa thêm excel hoặc đường dẫn cũ." });
             }
-            using (var stream = new MemoryStream())
+            string extension = System.IO.Path.GetExtension(excelFile.FileName);
+            if (extension == ".xlsx")
             {
-                excelFile.CopyTo(stream);
-                using (var package = new ExcelPackage(stream))
+                using (var stream = new MemoryStream())
                 {
-                    ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
-
-                    for (int row = worksheet.Dimension.Start.Row + 1; row <= worksheet.Dimension.End.Row; row++)
+                    excelFile.CopyTo(stream);
+                    using (var package = new ExcelPackage(stream))
                     {
-                        listExcel.Add(new Tb_CVDEN
+                        ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+
+                        for (int row = worksheet.Dimension.Start.Row + 1; row <= worksheet.Dimension.End.Row; row++)
                         {
-                            Skh_CVDEN = worksheet.Cells[row, 1].Value.ToString().Trim(),
-                            NgayBH_CVDEN = Convert.ToDateTime(worksheet.Cells[row, 2].Value),
-                            NgayNhan_CVDEN = Convert.ToDateTime(worksheet.Cells[row, 3].Value),
-                            SLTrang_CVDEN = Convert.ToInt32(worksheet.Cells[row, 4].Value),
-                            SL_BPH = Convert.ToInt32(worksheet.Cells[row, 5].Value),
-                            TrichYeu_CVDEN = worksheet.Cells[row, 6].Value.ToString().Trim(),
-                            HanTL_CVDEN = Convert.ToDateTime(worksheet.Cells[row, 7].Value),
-                            GhiChu_CVDEN = worksheet.Cells[row, 8].Value.ToString().Trim(),
-                            PhanCongXLVB_CVDEN = worksheet.Cells[row, 9].Value.ToString().Trim(),
-                            File_CVDEN =  worksheet.Cells[row, 10].Value.ToString().Trim(),
-                            TrangThai_CVDI = Convert.ToBoolean(worksheet.Cells[row, 11].Value),
-                            TrangThai_Xoa = Convert.ToBoolean(worksheet.Cells[row, 12].Value),
-                            ngay = Convert.ToDateTime(worksheet.Cells[row, 13].Value),
-                            ID_LVB = Convert.ToInt32(worksheet.Cells[row, 14].Value),
-                            ID_MDMat = Convert.ToInt32(worksheet.Cells[row, 15].Value),
-                            ID_MDKhan = Convert.ToInt32(worksheet.Cells[row, 16].Value),
-                            ID_PTNhan = Convert.ToInt32(worksheet.Cells[row, 17].Value),
-                            ID_SoCV = Convert.ToInt32(worksheet.Cells[row, 18].Value),
-                            ID_LV = Convert.ToInt32(worksheet.Cells[row, 19].Value),
-                            ID_BP = Convert.ToInt32(worksheet.Cells[row, 20].Value),
-                            ID_ND = worksheet.Cells[row, 21].Value.ToString().Trim(),
-                            Nguoigui_CVDEN = worksheet.Cells[row, 22].Value.ToString().Trim(),
-                            Noigui_CVDEN = worksheet.Cells[row, 23].Value.ToString().Trim(),
-                        });
+                            listExcel.Add(new Tb_CVDEN
+                            {
+                                Skh_CVDEN = worksheet.Cells[row, 1].Value.ToString().Trim(),
+                                NgayBH_CVDEN = Convert.ToDateTime(worksheet.Cells[row, 2].Value),
+                                NgayNhan_CVDEN = Convert.ToDateTime(worksheet.Cells[row, 3].Value),
+                                SLTrang_CVDEN = Convert.ToInt32(worksheet.Cells[row, 4].Value),
+                                SL_BPH = Convert.ToInt32(worksheet.Cells[row, 5].Value),
+                                TrichYeu_CVDEN = worksheet.Cells[row, 6].Value.ToString().Trim(),
+                                HanTL_CVDEN = Convert.ToDateTime(worksheet.Cells[row, 7].Value),
+                                GhiChu_CVDEN = worksheet.Cells[row, 8].Value.ToString().Trim(),
+                                PhanCongXLVB_CVDEN = worksheet.Cells[row, 9].Value.ToString().Trim(),
+                                File_CVDEN = worksheet.Cells[row, 10].Value.ToString().Trim(),
+                                TrangThai_CVDI = Convert.ToBoolean(worksheet.Cells[row, 11].Value),
+                                TrangThai_Xoa = Convert.ToBoolean(worksheet.Cells[row, 12].Value),
+                                ngay = Convert.ToDateTime(worksheet.Cells[row, 13].Value),
+                                ID_LVB = Convert.ToInt32(worksheet.Cells[row, 14].Value),
+                                ID_MDMat = Convert.ToInt32(worksheet.Cells[row, 15].Value),
+                                ID_MDKhan = Convert.ToInt32(worksheet.Cells[row, 16].Value),
+                                ID_PTNhan = Convert.ToInt32(worksheet.Cells[row, 17].Value),
+                                ID_SoCV = Convert.ToInt32(worksheet.Cells[row, 18].Value),
+                                ID_LV = Convert.ToInt32(worksheet.Cells[row, 19].Value),
+                                ID_BP = Convert.ToInt32(worksheet.Cells[row, 20].Value),
+                                ID_NV = Convert.ToInt32(worksheet.Cells[row, 21].Value),
+                                Nguoigui_CVDEN = worksheet.Cells[row, 22].Value.ToString().Trim(),
+                                Noigui_CVDEN = worksheet.Cells[row, 23].Value.ToString().Trim(),
+                            });
 
-                    }
-                    if (excelFile != null)
-                    {
-                        foreach (var item in listExcel)
+                        }
+                        if (excelFile != null)
                         {
-                            var currentDate = item.ngay;
-                            string yearFolder = currentDate.ToString("yyyy");
-                            string yearFolderPath = Path.Combine(upload, yearFolder);
-                            var extention = Path.Combine(item.File_CVDEN);
-                            // Tạo thư mục tháng
-                            string monthFolder = currentDate.ToString("MM");
-                            string monthFolderPath = Path.Combine(yearFolderPath, monthFolder);
+                            foreach (var item in listExcel)
+                            {
+                                var currentDate = item.ngay;
+                                string yearFolder = currentDate.ToString("yyyy");
+                                string yearFolderPath = Path.Combine(upload, yearFolder);
+                                var extention = Path.Combine(item.File_CVDEN);
+                                // Tạo thư mục tháng
+                                string monthFolder = currentDate.ToString("MM");
+                                string monthFolderPath = Path.Combine(yearFolderPath, monthFolder);
 
-                            // Tạo thư mục ngày
-                            string dayFolder = currentDate.ToString("dd");
-                            string dayFolderPath = Path.Combine(monthFolderPath, dayFolder);
+                                // Tạo thư mục ngày
+                                string dayFolder = currentDate.ToString("dd");
+                                string dayFolderPath = Path.Combine(monthFolderPath, dayFolder);
 
-                            // Kiểm tra và tạo thư mục năm
-                            if (!Directory.Exists(yearFolderPath))
-                            {
-                                Directory.CreateDirectory(yearFolderPath);
-                                Console.WriteLine("Thư mục năm đã được tạo: " + yearFolderPath);
-                            }
+                                // Kiểm tra và tạo thư mục năm
+                                if (!Directory.Exists(yearFolderPath))
+                                {
+                                    Directory.CreateDirectory(yearFolderPath);
+                                    Console.WriteLine("Thư mục năm đã được tạo: " + yearFolderPath);
+                                }
 
-                            // Kiểm tra và tạo thư mục tháng
-                            if (!Directory.Exists(monthFolderPath))
-                            {
-                                Directory.CreateDirectory(monthFolderPath);
-                                Console.WriteLine("Thư mục tháng đã được tạo: " + monthFolderPath);
-                            }
-                            // Kiểm tra và tạo thư mục ngày
-                            if (!Directory.Exists(dayFolderPath))
-                            {
-                                Directory.CreateDirectory(dayFolderPath);
-                                Console.WriteLine("Thư mục ngày đã được tạo: " + dayFolderPath);
-                            }
-                            if (System.IO.File.Exists(item.File_CVDEN))
-                            {
-                                string fileName = Path.GetFileName(item.File_CVDEN);
-                                string destinationPath = Path.Combine(dayFolderPath, fileName);
-                                System.IO.File.Copy(item.File_CVDEN, destinationPath, true);
-                                item.File_CVDEN = fileName;
+                                // Kiểm tra và tạo thư mục tháng
+                                if (!Directory.Exists(monthFolderPath))
+                                {
+                                    Directory.CreateDirectory(monthFolderPath);
+                                    Console.WriteLine("Thư mục tháng đã được tạo: " + monthFolderPath);
+                                }
+                                // Kiểm tra và tạo thư mục ngày
+                                if (!Directory.Exists(dayFolderPath))
+                                {
+                                    Directory.CreateDirectory(dayFolderPath);
+                                    Console.WriteLine("Thư mục ngày đã được tạo: " + dayFolderPath);
+                                }
+                                if (System.IO.File.Exists(item.File_CVDEN))
+                                {
+                                    string fileName = Path.GetFileName(item.File_CVDEN);
+                                    string destinationPath = Path.Combine(dayFolderPath, fileName);
+                                    System.IO.File.Copy(item.File_CVDEN, destinationPath, true);
+                                    item.File_CVDEN = fileName;
+                                }
                             }
                         }
+                        UnitOfWork.cVDEN.AddRange(listExcel);
+                        UnitOfWork.Save();
+
                     }
-                    UnitOfWork.cVDEN.AddRange(listExcel);
-                    UnitOfWork.Save();
-                    
+                    return Json(new { success = true, notify = "Bạn đã thêm thành công." });
                 }
-                return Json(new { success = true, notify = "Bạn đã thêm thành công." });
             }
+            return Json(new { success = false, notify = "Bạn file không phải excel." });
+        }
+
+        public async Task<IActionResult> AddInEditCategory(int id = 0)
+        {
+            AllGetListItem allGetListItem = new AllGetListItem(UnitOfWork);
+            ViewBag.getListDMCV = allGetListItem.getDanhMucCV();
+            var Category = UnitOfWork.dMCV_CV.GetById(i => i.Tb_CVDEN.ID == id, include: "Tb_CVDEN");
+            if (Category == null)
+            {
+                return View(new Tb_DMCV_CV
+                {
+                    ID = 0,
+                    ID_CVDEN = id
+                });
+            }
+            return View(Category);
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddInEditCategory(Tb_DMCV_CV tb_DMCV_CV)
+        {
+            if (ModelState.IsValid)
+            {
+                if (tb_DMCV_CV.ID == 0)
+                {
+                    UnitOfWork.dMCV_CV.Add(tb_DMCV_CV);
+                    UnitOfWork.Save();
+                    return Json(new { success = true, notify = "Bạn đã thêm thành công." });
+                }
+                else
+                {
+                    UnitOfWork.dMCV_CV.Update(tb_DMCV_CV);
+                    UnitOfWork.Save();
+                    return Json(new { success = true, notify = "Bạn đã cập nhật thành công." });
+                }
+            }
+                return Json(new { success = false, notify = "Đã thêm không thành công.", html = Helper.RenderRazorViewToString(this, "AddOfEdit", tb_DMCV_CV) });
+            
         }
 
         [HttpPost]
@@ -439,8 +502,7 @@ namespace WS_QuanLyCongVan.Controllers
             var searchVal = Request.Form["search[value]"];
             var sortColumn = Request.Form[string.Concat("columns[", Request.Form["order[0][column]"], "][name]")];
             var sortDirection = Request.Form["order[0][dir]"];
-            var totalRecords = UnitOfWork.cVDEN.GetAllWhere(i => i.TrangThai_Xoa == true).Count();
-            var data = UnitOfWork.cVDEN.GetFlowRestore(i => i.TrangThai_Xoa == true, start, length, sortColumn, sortDirection, include: "Tb_LoaiVB,Tb_MDMat,Tb_MDKhan,tb_SoCV,Tb_LinhVuc,Tb_PTNhan,Tb_Nguoidung");
+            var data = UnitOfWork.cVDEN.GetFlowRestore(i => i.TrangThai_Xoa == true, start, length, sortColumn, sortDirection, include: "Tb_LoaiVB,Tb_MDMat,Tb_MDKhan,tb_SoCV,Tb_LinhVuc,Tb_PTNhan,Tb_NhanVien");
             if (!string.IsNullOrEmpty(searchVal))
                 data = data.Where(i => i.Skh_CVDEN.ToLower().Contains(searchVal)
                 || i.NgayBH_CVDEN.ToString().ToLower().Contains(searchVal)
@@ -450,13 +512,15 @@ namespace WS_QuanLyCongVan.Controllers
                 || i.TrichYeu_CVDEN.ToString().ToLower().Contains(searchVal)
                 || i.HanTL_CVDEN.ToString().ToLower().Contains(searchVal)
                 || i.Tb_LoaiVB.Ten_LVB.ToString().ToLower().Contains(searchVal)
-                || i.Tb_Nguoidung.Hoten_NV.ToString().ToLower().Contains(searchVal)
+                || i.Tb_NhanVien.Hoten_NV.ToString().ToLower().Contains(searchVal)
                 || i.Tb_MDMat.Ten_MDMat.ToString().ToLower().Contains(searchVal)
                 || i.Tb_MDKhan.Ten_MDKhan.ToString().ToLower().Contains(searchVal)
                 || i.tb_SoCV.Ten_SoCV.ToString().ToLower().Contains(searchVal)
                 || i.Tb_LinhVuc.Ten_LV.ToString().ToLower().Contains(searchVal)
             );
+            var totalRecords = data.Count();
             var totalFiltered = totalRecords;
+            data = data.Skip(start).Take(length).ToList();
             var jsonData = new
             {
                 draw = draw,
@@ -570,6 +634,5 @@ namespace WS_QuanLyCongVan.Controllers
                 return View();
             }
         }
-        
     }
 }

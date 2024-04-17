@@ -37,76 +37,8 @@
 
 //Start Load datatable
 function Load() {
-    loadPhongban()
     loadNhanvien()
     loadBophan()
-}
-function loadPhongban() {
-    $('#phongban').dataTable({
-        "serverSide": true,
-        "filter": true,
-        "processing": true,
-        "ajax": {
-            "url": "/phongban/getAll",
-            "type": "Post",
-            "datatype": "json"
-        },
-        "columnDefs": [
-            {
-                "searchable": false,
-                "orderable": false,
-                "targets": [0],
-                "defaultContent": "-"
-                /*"visible": false,*/
-            }
-        ],
-        "columns": [
-            {
-                "data": "id",
-                "render": function (data, row) {
-                    return `
-                            <div class="center">
-                                <input type="checkbox" class="rowCheckbox" value="${data}" ></input>
-                            </div>
-                           `
-                },
-
-            },
-            { "data": "ten_PB", "name": "ten_PB", "autowidth": true },
-            { "data": "ghiChu", "name": "ghiChu", "autowidth": true },
-            {
-                "data": "id",
-                "render": function (data, row) {
-                    return `
-                             <div class="btn-group">
-								<button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">
-									Tùy chọn
-									<i class="icon-angle-down icon-on-right"></i>
-								</button>
-
-								<ul class="dropdown-menu">
-									<li>
-										 <a href="#" onclick="showInPopup('','${data}')" title="Sửa"><i class="icon-pencil bigger-130"></i>Sửa</a>
-									</li>
-								</ul>
-							</div>
-                           `
-                }
-            }
-        ],
-
-        stateSave: true,
-        "bDestroy": true
-    })
-    $('#phongban tbody').on('click', '.rowCheckbox', function () {
-        if ($('.rowCheckbox:checked').length === $('.rowCheckbox').length) {
-            $('#selectAllCheckbox').prop('checked', true);
-        } else {
-            $('#selectAllCheckbox').prop('checked', false);
-        }
-        toggleDeleteButton()
-    });
-
 }
 function loadNhanvien() {
     $('#nhanvien').dataTable({

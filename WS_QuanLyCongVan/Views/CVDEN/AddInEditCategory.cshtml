@@ -1,0 +1,58 @@
+﻿@model DataLayer.Model.Tb_DMCV_CV
+@{
+    Layout = null;
+}
+<div class="row">
+    <div class="widget-box">
+        <div class="widget-header">
+            <h4 id="title">CÔNG VĂN ĐẾN</h4>
+
+            <span class="widget-toolbar">
+                <a href="#" data-action="collapse">
+                    <i class="icon-chevron-up"></i>
+                </a>
+            </span>
+        </div>
+
+        <div class="widget-body">
+            <div class="widget-main">
+                <form method="post" asp-action="AddInEditCategory" onsubmit="return JqueryAjaxPost(this);">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input value="@Model.ID" name="ID" hidden></input>
+                    <input asp-for="ID_CVDEN" hidden></input>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Danh mục công văn</label>
+                                <select asp-for="ID_DanhMucCV" asp-items="@ViewBag.getListDMCV" class="form-select" style="width:150px">
+                                    <option disabled>-Sổ công văn-</option>
+                                </select>
+                                <span asp-validation-for="ID_DanhMucCV" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label asp-for="GhiChu">Ghi chú</label>
+                                <textarea asp-for="GhiChu" class="form-control" rows="5" autocomplete="GhiChu" aria-required="true"></textarea>
+                                <span asp-validation-for="GhiChu" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-sm btn-success">Lưu</button>
+                            <button type="button" onclick="closePopup()" class="btn btn-sm btn-danger">Đóng</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/assets/js/jsMain/DanhMucHS/custom.js"></script>
+}
+

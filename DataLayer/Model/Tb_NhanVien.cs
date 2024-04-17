@@ -34,9 +34,9 @@ namespace DataLayer.Model
         public Tb_ChucVu Tb_ChucVu { get; set; }
         //
         [Required(ErrorMessage = "Bạn cần nhập đầy đủ thông tin.")]
-        public int ID_PhongBan { get; set; } = 1;
-        [ForeignKey("ID_PhongBan")]
+        public int ID_BP { get; set; } = 1;
+        [ForeignKey("ID_BP")]
         [ValidateNever]
-        public Tb_PhongBan Tb_PhongBan { get; set; }
+        public Tb_BoPhan Tb_BoPhan { get; set; }
     }
 }

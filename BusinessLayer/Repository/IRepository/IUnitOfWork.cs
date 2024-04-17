@@ -28,6 +28,8 @@ namespace BusinessLayer.Repository.IRepository
         public IPTNhan pTNhan { get; set; }
         public ISoCV soCV { get; set; }
         public INguoidung nguoidung { get; set; }
+        public IThongke thongke { get; set; }
+
         void Save();
         Task BackupDatabase(string backupPath);
     }

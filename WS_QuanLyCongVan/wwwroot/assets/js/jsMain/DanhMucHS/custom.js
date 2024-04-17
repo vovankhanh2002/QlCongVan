@@ -2,7 +2,8 @@
     Load()
     var connection = new signalR.HubConnectionBuilder().withUrl("/NotihubServer").build();
     connection.on("ReceiveMessage", function (message) {
-        alert(message);
+        $.notify(message, { globalPosition: 'top right', className: "success" });
+
     });
     connection.start();
 
@@ -38,6 +39,9 @@
             });
         }
     });
+
+
+
     var currentUrl = window.location.pathname.split("/")[1];
     if (currentUrl != "") {
         $("#loaderbody").addClass('hide')
@@ -171,11 +175,22 @@ function loadCvden() {
             { "data": "hanTL_CVDEN", "name": "hanTL_CVDEN", "autowidth": true },
             { "data": "trichYeu_CVDEN", "name": "trichYeu_CVDEN", "autowidth": true },
             { "data": "tb_LoaiVB.ten_LVB", "name": "tb_LoaiCV.ten_LVB", "autowidth": true },
-            { "data": "tb_Nguoidung.hoten_NV", "name": "tb_Nguoidung.hoten_NV", "autowidth": true },
+            { "data": "tb_NhanVien.hoten_NV", "name": "tb_NhanVien.hoten_NV", "autowidth": true },
             { "data": "tb_MDMat.ten_MDMat", "name": "tb_MDMat.ten_MDMat", "autowidth": true },
             { "data": "tb_MDKhan.ten_MDKhan", "name": "tb_MDKhan.ten_MDKhan", "autowidth": true },
-            //{ "data": "tb_SoCV.ten_SoCV", "name": "tb_SoCV.ten_SoCV", "autowidth": true },
             { "data": "tb_LinhVuc.ten_LV", "name": "tb_LinhVuc.ten_LV", "autowidth": true },
+            {
+                "data": "trangThai_CVDI",
+                "render": function (data) {
+                    if (data) {
+                        return `<span class="label label-success arrowed">True</span>`
+                    }
+                    return `<span class="label label-danger arrowed-in">False</span>`
+                },
+                "name": "trangThai_CVDI",
+                "autowidth": true
+            },
+
             {
                 "data": "id",
                 "render": function (data, row) {
@@ -188,6 +203,9 @@ function loadCvden() {
 									<a class="green" onclick="showInPopup('2','${data}')" href="#">
 										<i class="icon-pencil bigger-130"></i>
 									</a>
+                                    <a class="dark " onclick="showInPopup('3','${data}')" href="#">
+										<i class="icon-book bigger-130"></i>
+									</a>
 								</div>
                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
 									<div class="inline position-relative">
@@ -196,16 +214,23 @@ function loadCvden() {
 										</button>
 										<ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close">
 											<li>
-												<a onclick="showInPopup('1','${data}')" href="#" data-rel="tooltip" title="" data-original-title="View">
+												<a onclick="showInPopup('1','${data}')" href="#" data-rel="tooltip" title="" data-original-title="Xem">
 													<span class="blue">
 														<i class="icon-zoom-in bigger-120"></i>
 													</span>
 												</a>
 											</li>
                                             <li>
-												<a onclick="showInPopup('2','${data}')" href="#" class="tooltip-success" data-rel="tooltip" title="" data-original-title="Edit">
+												<a onclick="showInPopup('2','${data}')" href="#" class="tooltip-success" data-rel="tooltip" title="" data-original-title="Cập nhật">
 													<span class="green">
 														<i class="icon-edit bigger-120"></i>
+													</span>
+												</a>
+											</li>
+                                            <li>
+												<a onclick="showInPopup('3','${data}')" href="#" class="tooltip-dark" data-rel="tooltip" title="" data-original-title="Danh mục">
+													<span class="dark ">
+														<i class="icon-book bigger-120"></i>
 													</span>
 												</a>
 											</li>
@@ -294,10 +319,21 @@ function loadCvdi() {
             { "data": "ngayBH_CVDI", "name": "ngayBH_CVDEN", "autowidth": true },
             { "data": "trichYeu_CVDI", "name": "trichYeu_CVDEN", "autowidth": true },
             { "data": "tb_LoaiVB.ten_LVB", "name": "tb_LoaiCV.ten_LVB", "autowidth": true },
-            { "data": "tb_Nguoidung.hoten_NV", "name": "tb_Nguoidung.hoten_NV", "autowidth": true },
+            { "data": "tb_NhanVien.hoten_NV", "name": "tb_NhanVien.hoten_NV", "autowidth": true },
             { "data": "tb_MDMat.ten_MDMat", "name": "tb_MDMat.ten_MDMat", "autowidth": true },
             { "data": "tb_MDKhan.ten_MDKhan", "name": "tb_MDKhan.ten_MDKhan", "autowidth": true },
             { "data": "tb_LinhVuc.ten_LV", "name": "tb_LinhVuc.ten_LV", "autowidth": true },
+            {
+                "data": "trangThai_CVDI",
+                "render": function (data) {
+                    if (data) {
+                        return `<span class="label label-success arrowed">True</span>`
+                    }
+                    return `<span class="label label-danger arrowed-in">False</span>`
+                },
+                "name": "trangThai_CVDI",
+                "autowidth": true
+            },
             {
                 "data": "id",
                 "render": function (data, row) {
@@ -309,6 +345,9 @@ function loadCvdi() {
 
 									<a class="green" onclick="showInPopup('2','${data}')" href="#">
 										<i class="icon-pencil bigger-130"></i>
+									</a>
+                                    <a class="dark " onclick="showInPopup('3','${data}')" href="#">
+										<i class="icon-book bigger-130"></i>
 									</a>
 								</div>
                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
@@ -420,6 +459,9 @@ function showInPopup(url, id) {
     else if (url == 2) {
         url = $('#request').data('request-url') + "/" + id;
     }
+    else if (url == 3) {
+        url = $('#requestCategory').data('request-url') + "/" + id;
+    }
     $.ajax({
         type: "GET",
         url: url,
@@ -485,4 +527,68 @@ function getSelectedValues() {
     })
 }
 
+function loadNhanVienCVDEN() {
+    var boPhanId = $("#boPhanSelect").val();
+    $.ajax({
+        type: "GET",
+        data: { emloy: boPhanId},
+        url: "/CVDEN/GetEmployeesByDepartment",
+        success: function (res) {
+            if (res.sussess) {
+                var nhanVienSelect = $("#nhanVienSelect");
+                // Xóa tất cả các option hiện tại
+                nhanVienSelect.empty();
+                // Thêm các option mới
+                var disabledOption = $("<option>");
+                disabledOption.attr("disabled", true);
+                disabledOption.text("-Nhân viên-");
+                nhanVienSelect.append(disabledOption);
+
+                $.each(res.data, function (index, employee) {
+                    var option = $("<option>");
+                    option.text(employee.hoten_NV);
+                    option.val(employee.id);
+                    nhanVienSelect.append(option);
+                });
+            } else {
+                $.notify(res.notify, { globalPosition: 'top right', className: "error" });
+            }
+        },
+        complete: function () {
+            hideLoading();
+        }
+    })
+}
+function loadNhanVienCVDI() {
+    var boPhanId = $("#boPhanSelect").val();
+    $.ajax({
+        type: "GET",
+        data: { emloy: boPhanId },
+        url: "/CVDI/GetEmployeesByDepartment",
+        success: function (res) {
+            if (res.sussess) {
+                var nhanVienSelect = $("#nhanVienSelect");
+                // Xóa tất cả các option hiện tại
+                nhanVienSelect.empty();
+                // Thêm các option mới
+                var disabledOption = $("<option>");
+                disabledOption.attr("disabled", true);
+                disabledOption.text("-Nhân viên-");
+                nhanVienSelect.append(disabledOption);
+
+                $.each(res.data, function (index, employee) {
+                    var option = $("<option>");
+                    option.text(employee.hoten_NV);
+                    option.val(employee.id);
+                    nhanVienSelect.append(option);
+                });
+            } else {
+                $.notify(res.notify, { globalPosition: 'top right', className: "error" });
+            }
+        },
+        complete: function () {
+            hideLoading();
+        }
+    })
+}
 

@@ -195,6 +195,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2h1Y1Z1XGluZGV4UmVzdG9yZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/CongVan/QlCongVan/WS_QuanLyCongVan/Views/CVDEN/AddInEditCategory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ1ZERU5cQWRkSW5FZGl0Q2F0ZWdvcnkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/CongVan/QlCongVan/WS_QuanLyCongVan/Views/CVDEN/AddOfEdit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ1ZERU5cQWRkT2ZFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -215,8 +219,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ1ZERU5caW5kZXhSZXN0b3JlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/CongVan/QlCongVan/WS_QuanLyCongVan/Views/CVDI/AddInEditCategory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ1ZESVxBZGRJbkVkaXRDYXRlZ29yeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/CongVan/QlCongVan/WS_QuanLyCongVan/Views/CVDI/AddOfEdit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ1ZESVxBZGRPZkVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CongVan/QlCongVan/WS_QuanLyCongVan/Views/CVDI/getById.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ1ZESVxnZXRCeUlkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CongVan/QlCongVan/WS_QuanLyCongVan/Views/CVDI/ImportExcel.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ1ZESVxJbXBvcnRFeGNlbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/CongVan/QlCongVan/WS_QuanLyCongVan/Views/CVDI/Index.cshtml]
@@ -225,6 +241,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/CongVan/QlCongVan/WS_QuanLyCongVan/Views/CVDI/indexRestore.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ1ZESVxpbmRleFJlc3RvcmUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CongVan/QlCongVan/WS_QuanLyCongVan/Views/CVDI/ViewTab.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ1ZESVxWaWV3VGFiLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/CongVan/QlCongVan/WS_QuanLyCongVan/Views/DangXuat/Index.cshtml]

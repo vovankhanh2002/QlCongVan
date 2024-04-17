@@ -33,13 +33,13 @@
                         </div>
                         <div class="col-md-6">
                             <div class="col-md-2">
-                                <label asp-for="ID_ND">Người ký</label>
+                                <label asp-for="ID_NV">Người ký</label>
                             </div>
                             <div class="col-md-4">
-                                <select asp-for="ID_ND" asp-items="@ViewBag.getListND" class="form-select" style="width:150px">
+                                <select asp-for="ID_NV" id="nhanVienSelect" asp-items="@ViewBag.getListNgK" class="form-select" style="width:150px">
                                     <option disabled>-Nhân viên-</option>
                                 </select>
-                                <span asp-validation-for="ID_ND" class="text-danger"></span>
+                                <span asp-validation-for="ID_NV" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
@@ -66,7 +66,7 @@
                                 <label asp-for="ID_BP">Nơi nhận</label>
                             </div>
                             <div class="col-md-4">
-                                <select asp-for="ID_BP" asp-items="@ViewBag.getListBP" class="form-select" style="width:150px">
+                                <select asp-for="ID_BP" asp-items="@ViewBag.getListBP" id="boPhanSelect" onchange="loadNhanVienCVDI()" class="form-select" style="width:150px">
                                     <option disabled>-Bộ phận-</option>
                                 </select>
                                 <span asp-validation-for="ID_BP" class="text-danger"></span>

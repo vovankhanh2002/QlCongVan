@@ -125,7 +125,7 @@ namespace BusinessLayer.Repository
                     query = query.Include(item);
                 }
             }
-            query = query.Skip(skip).Take(pageSize);
+            //query = query.Skip(skip).Take(pageSize);
             return query.ToList();
         }
 

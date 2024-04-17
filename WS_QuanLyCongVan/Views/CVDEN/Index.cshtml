@@ -3,18 +3,19 @@
         <div class="widget-header">
             <h4>CÔNG VĂN ĐẾN</h4>
         </div>
-        <div class="col-sm-4" style="margin:15px 0"> 
+        <div class="col-sm-12" style="margin:15px 0px"> 
             <a onclick="showInPopup('@Url.ActionLink("AddOfEdit","CVDEN",null,Context.Request.Scheme)',0)" class="btn btn-sm btn-success">
                 <i class="icon-plus-sign bigger-120"></i>
                 Thêm
             </a>
             <a onclick="showInPopup('@Url.ActionLink("ImportExcel","CVDEN",null,Context.Request.Scheme)',0)" class="btn btn-sm btn-success">
                  <i class="fas fa-file-import bigger-120"></i>
-
                 Import
              </a>
             <div hidden data-request-url="@Url.ActionLink("AddOfEdit","CVDEN")" id="request"></div>
             <div hidden data-request-url="@Url.ActionLink("getById","CVDEN")" id="requestid"></div>
+            <div hidden data-request-url="@Url.ActionLink("AddInEditCategory","CVDEN")" id="requestCategory"></div>
+
             <button id="delete" disabled data-request-url="@Url.ActionLink("DeleteRangeConfirmed","CVDEN")" class="btn btn-sm btn-danger">
                 <i class="icon-trash bigger-120"></i>
                 Xóa
@@ -42,6 +43,7 @@
                                         <th>ĐỘ MẬT</th>
                                         <th>ĐỘ KHẨN</th>
                                         <th>LĨNH VỰC</th>
+                                        <th>Duyệt</th>
                                         <th></th>
 
                                     </tr>

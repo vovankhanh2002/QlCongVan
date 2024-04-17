@@ -21,10 +21,19 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.dataTables.css">
     <!-- Include DataTables Buttons CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.0.1/css/buttons.dataTables.css">
+    <!-- Include select2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <!-- Include jqueryui -->
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <script src="~/assets/js/ace-extra.min.js"></script>
 </head>
 
 <body>
+    <style>
+        .ui-widget-overlay{
+            background:none;
+        }
+    </style>
     <div class="navbar navbar-default" id="navbar">
         <script type="text/javascript">
             try { ace.settings.check('navbar', 'fixed') } catch (e) { }
@@ -272,7 +281,7 @@
 
                 <ul class="nav nav-list">
                     <li class="active">
-                        <a href="index.html">
+                        <a asp-area="" asp-controller="Home" asp-action="Index">
                             <i class="icon-dashboard"></i>
                             <span class="menu-text"> Trang chủ </span>
                         </a>
@@ -568,6 +577,16 @@
                 <div class="page-content">
                     <!-- Nội dung của web -->
                     @RenderBody()
+                    <div id="dialog-message" style="background:none" class="hide">
+                    <p>
+                    </p>
+                    <div class=""></div>
+                    <p>
+                        Currently using
+                        <b>36% of your storage space</b>
+                        .
+                    </p>
+                </div><!-- #dialog-message -->
                 </div><!-- /.page-content -->
                 <div class="modal" tabindex="-1" role="dialog" id="form-modal">
                     <div class="modal-dialog" style="width:70%">
@@ -580,10 +599,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="easy-pie-chart percentage easyPieChart" id="loading" style="display: none;" data-percent="90" data-color="#87B87F" style="width: 75px; height: 75px; line-height: 75px; color: rgb(135, 184, 127);">
-                    <span class="loading-text">0</span>%
-                    <canvas width="75" height="75"></canvas>
-                </div>
+                
             </div><!-- /.main-content -->
         </div><!-- /.main-container-inner -->
     </div><!-- /.main-container -->
@@ -625,6 +641,12 @@
     <script src="https://cdn.datatables.net/buttons/3.0.1/js/buttons.print.min.js"></script>
     <!-- DataTables Buttons Extension -->
     <script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.colVis.min.js"></script>
+    <!-- Include select2 -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <!-- Include jqueryui -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <!-- Include chart -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- ace scripts -->
     <script src="~/microsoft/signalr/dist/browser/signalr.js"></script>
     <script src="~/microsoft/signalr/dist/browser/signalr.min.js"></script>

@@ -1,0 +1,43 @@
+﻿@{
+    Layout = null;
+}
+<div class="row">
+    <div class="widget-box">
+        <div class="widget-header">
+            <h4 id="title">CÔNG VĂN ĐI</h4>
+
+            <span class="widget-toolbar">
+                <a href="#" data-action="collapse">
+                    <i class="icon-chevron-up"></i>
+                </a>
+            </span>
+        </div>
+
+        <div class="widget-body">
+            <div class="widget-main">
+                <form method="post" asp-action="ImportExcel" onsubmit="return JqueryAjaxPost(this);">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Tải lên excel</label>
+                                <input class="form-control" type="file" name="excelFile" autocomplete="sourcePart" aria-required="true"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-sm btn-success">Lưu</button>
+                            <button type="button" onclick="closePopup()" class="btn btn-sm btn-danger">Đóng</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/assets/js/jsMain/DanhMucHS/custom.js"></script>
+}
+

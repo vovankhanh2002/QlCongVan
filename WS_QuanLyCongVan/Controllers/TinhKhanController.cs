@@ -25,11 +25,12 @@ namespace WS_QuanLyCongVan.Controllers
             var searchVal = Request.Form["search[value]"];
             var sortColumn = Request.Form[string.Concat("columns[", Request.Form["order[0][column]"], "][name]")];
             var sortDirection = Request.Form["order[0][dir]"];
-            var totalRecords = UnitOfWork.mDKhan.GetAllWhere(i => i.TrangThai_Xoa == false).Count();
             var data = UnitOfWork.mDKhan.GetFlowRestore(i => i.TrangThai_Xoa == false, start, length, sortColumn, sortDirection);
             if (!string.IsNullOrEmpty(searchVal))
                 data = data.Where(i => i.Ten_MDKhan.ToLower().Contains(searchVal) || i.GhiChu.ToLower().Contains(searchVal));
+            var totalRecords = UnitOfWork.mDKhan.GetAllWhere(i => i.TrangThai_Xoa == false).Count();
             var totalFiltered = totalRecords;
+            data = data.Skip(start).Take(length).ToList();
             var jsonData = new
             {
                 draw = draw,
@@ -135,11 +136,12 @@ namespace WS_QuanLyCongVan.Controllers
             var searchVal = Request.Form["search[value]"];
             var sortColumn = Request.Form[string.Concat("columns[", Request.Form["order[0][column]"], "][name]")];
             var sortDirection = Request.Form["order[0][dir]"];
-            var totalRecords = UnitOfWork.mDKhan.GetAllWhere(i => i.TrangThai_Xoa == true).Count();
             var data = UnitOfWork.mDKhan.GetFlowRestore(i => i.TrangThai_Xoa == true, start, length, sortColumn, sortDirection);
             if (!string.IsNullOrEmpty(searchVal))
                 data = data.Where(i => i.Ten_MDKhan.ToLower().Contains(searchVal) || i.GhiChu.ToLower().Contains(searchVal));
+            var totalRecords = data.Count();
             var totalFiltered = totalRecords;
+            data = data.Skip(start).Take(length).ToList();
             var jsonData = new
             {
                 draw = draw,

@@ -34,13 +34,13 @@
                         </div>
                         <div class="col-md-6">
                             <div class="col-md-2">
-                                <label asp-for="ID_ND">Người ký</label>
+                                <label asp-for="ID_NV">Người ký</label>
                             </div>
                             <div class="col-md-4">
-                                <select asp-for="ID_ND" asp-items="@ViewBag.getListND" class="form-select" style="width:150px">
+                                <select asp-for="ID_NV" asp-items="@ViewBag.getListNgK" class="form-select" style="width:150px">
                                     <option disabled>-Nhân viên-</option>
                                 </select>
-                                <span asp-validation-for="ID_ND" class="text-danger"></span>
+                                <span asp-validation-for="ID_NV" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
@@ -242,6 +242,7 @@
                     <i class="icon-envelope align-top bigger-125"></i>
                     Gửi mail
                 </button>
+                <button type="button" onclick="closePopup()" class="btn btn-sm btn-danger">Đóng</button>
             </div>
         </div>
     </div>
