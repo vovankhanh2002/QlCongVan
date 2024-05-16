@@ -1,0 +1,32 @@
+﻿<a onclick="showInPopup('@Url.ActionLink("Add","User",null,Context.Request.Scheme)',0)" class="btn btn-sm btn-success">Thêm</a>
+<div hidden data-request-url="@Url.ActionLink("Add","User")" id="request"></div>
+<div hidden data-request-url="@Url.ActionLink("Edit","User")" id="requestid"></div>
+<div hidden data-request-url="@Url.ActionLink("AddUserRoles","User")" id="requestRoles"></div>
+<button id="delete" disabled data-request-url="@Url.ActionLink("DeleteRange","User")" class="btn btn-sm btn-danger">
+    Xóa
+</button>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="table-responsive">
+            <table id="user" class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th class="center">
+                            <input type="checkbox" id="selectAllCheckbox"></input>
+                        </th>
+                        <th>TÊN</th>
+                        <th>ĐỊA CHỈ</th>
+                        <th>NGÀY SINH</th>
+                        <th>QUYỀN</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+            </table>
+        </div><!-- /.table-responsive -->
+    </div><!-- /span -->
+</div>
+
+@section Scripts {
+    <script src="~/assets/js/jsMain/DanhMucND/custom.js"></script>
+}

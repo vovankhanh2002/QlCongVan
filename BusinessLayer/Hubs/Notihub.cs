@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,19 +10,10 @@ namespace BusinessLayer.Hubs
 {
     public class Notihub : Hub
     {
-        public async Task SendMessage(string message)
+        public async Task NotiMessage(string message)
         {
-            await Clients.Others.SendAsync("ReceiveMessage", message);
+            await Clients.All.SendAsync("ReceiveMessage", message);
         }
        
-        //public override Task OnConnectedAsync()
-        //{
-        //    if (Context.User.Identity.Name != null)
-        //    {
-        //        return Groups.AddToGroupAsync(Context.ConnectionId, Context.User.Identity.Name);
-        //    }
-        //    return base.OnConnectedAsync();
-        //}
-
     }
 }

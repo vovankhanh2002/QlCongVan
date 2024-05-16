@@ -45,6 +45,12 @@ function loadNhanvien() {
         "serverSide": true,
         "filter": true,
         "processing": true,
+        "language": {
+            "info": "Bắt đầu _START_ kết thúc _END_ số lượng _TOTAL_ bảng ghi",
+            "search": "Tìm kiếm",
+            "loadingRecords": "Đang tải...",
+            "emptyTable": "Không bảng ghi"
+        },
         "ajax": {
             "url": "/nhanvien/getAll",
             "type": "Post",
@@ -82,23 +88,62 @@ function loadNhanvien() {
                 "data": "id",
                 "render": function (data, row) {
                     return `
-                             <div class="btn-group">
-								<button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">
-									Tùy chọn
-									<i class="icon-angle-down icon-on-right"></i>
-								</button>
-
-								<ul class="dropdown-menu">
-									<li>
-										 <a href="#" onclick="showInPopup('','${data}')" title="Sửa"><i class="icon-pencil bigger-130"></i>Sửa</a>
-									</li>
-								</ul>
-							</div>
+                            <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
+									<a class="green" onclick="showInPopup('','${data}')" href="#">
+										<i class="icon-pencil bigger-130"></i>
+									</a>
+								</div>
+                                <div class="visible-xs visible-sm hidden-md hidden-lg">
+									<div class="inline position-relative">
+										<button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown">
+											<i class="icon-caret-down icon-only bigger-120"></i>
+										</button>
+										<ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close">
+                                            <li>
+												<a onclick="showInPopup('','${data}')" href="#" class="tooltip-success" data-rel="tooltip" title="" data-original-title="Cập nhật">
+													<span class="green">
+														<i class="icon-edit bigger-120"></i>
+													</span>
+												</a>
+											</li>
+										</ul>
+									</div>
+								</div>
                            `
                 }
             }
         ],
-
+        layout: {
+            topStart: {
+                buttons: [
+                    {
+                        extend: 'colvis',
+                        text: '<span >Hiện / Ẩn</span>',
+                        titleAttr: 'Hiện / Ẩn',
+                    },
+                    {
+                        extend: 'copy',
+                        text: '<span >Sao chép</span>',
+                        titleAttr: 'Sao chép',
+                    },
+                    {
+                        extend: 'csv',
+                        text: '<span >CSV</span>',
+                        titleAttr: 'CSV',
+                    },
+                    {
+                        extend: 'excel',
+                        text: '<span >Excel</span>',
+                        titleAttr: 'Excel',
+                    },
+                    {
+                        extend: 'pdf',
+                        text: '<span >PDF</span>',
+                        titleAttr: 'pdf',
+                    }
+                ]
+            }
+        },
         stateSave: true,
         "bDestroy": true
     })
@@ -117,6 +162,12 @@ function loadBophan() {
         "serverSide": true,
         "filter": true,
         "processing": true,
+        "language": {
+            "info": "Bắt đầu _START_ kết thúc _END_ số lượng _TOTAL_ bảng ghi",
+            "search": "Tìm kiếm",
+            "loadingRecords": "Đang tải...",
+            "emptyTable": "Không bảng ghi"
+        },
         "ajax": {
             "url": "/bophan/getAll",
             "type": "Post",
@@ -167,7 +218,37 @@ function loadBophan() {
                 }
             }
         ],
-
+        layout: {
+            topStart: {
+                buttons: [
+                    {
+                        extend: 'colvis',
+                        text: '<span >Hiện / Ẩn</span>',
+                        titleAttr: 'Hiện / Ẩn',
+                    },
+                    {
+                        extend: 'copy',
+                        text: '<span >Sao chép</span>',
+                        titleAttr: 'Sao chép',
+                    },
+                    {
+                        extend: 'csv',
+                        text: '<span >CSV</span>',
+                        titleAttr: 'CSV',
+                    },
+                    {
+                        extend: 'excel',
+                        text: '<span >Excel</span>',
+                        titleAttr: 'Excel',
+                    },
+                    {
+                        extend: 'pdf',
+                        text: '<span >PDF</span>',
+                        titleAttr: 'pdf',
+                    }
+                ]
+            }
+        },
         stateSave: true,
         "bDestroy": true
     })

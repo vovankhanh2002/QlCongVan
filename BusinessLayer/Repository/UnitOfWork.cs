@@ -31,6 +31,8 @@ namespace BusinessLayer.Repository
         public ISoCV soCV { get; set; }
         public INguoidung nguoidung { get; set; }
         public IThongke thongke { get; set; }
+        public IThongbao thongbao { get; set; }
+        public IChat chat { get; set; }
 
         private readonly DBContextCV dBContextCV;
         public UnitOfWork(DBContextCV dBContextCV)
@@ -57,6 +59,8 @@ namespace BusinessLayer.Repository
             soCV = new ReposSoCV(dBContextCV);
             nguoidung = new ReposNguoiDung(dBContextCV);
             thongke = new ReposThongke(dBContextCV);
+            thongbao = new ReposThongbao(dBContextCV);
+            chat = new ReposChat(dBContextCV);
         }
 
         public void Save()

@@ -1,11 +1,16 @@
 ﻿using BanDoWeb.Model.Models;
 using BusinessLayer.Handle;
+using BusinessLayer.Hubs;
 using BusinessLayer.Repository.IRepository;
 using DataLayer.Model;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using OfficeOpenXml;
+using System.Security.Claims;
+using System.Text;
 
 namespace WS_QuanLyCongVan.Controllers
 {
@@ -15,11 +20,20 @@ namespace WS_QuanLyCongVan.Controllers
         public IUnitOfWork UnitOfWork;
         private IWebHostEnvironment _webHostEnvironment;
         private readonly Ikhanh _emailSender;
-        public CVDENController(IUnitOfWork UnitOfWork, IWebHostEnvironment webHostEnvironment, Ikhanh emailSender)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IHubContext<Notihub> _hubContext;
+        private readonly UserManager<Tb_Nguoidung> _userManager;
+
+
+        public CVDENController(UserManager<Tb_Nguoidung> userManager, IUnitOfWork UnitOfWork, IWebHostEnvironment webHostEnvironment, Ikhanh emailSender, IHttpContextAccessor httpContextAccessor, IHubContext<Notihub> hubContext)
         {
             this.UnitOfWork = UnitOfWork;
             _webHostEnvironment = webHostEnvironment;
             _emailSender = emailSender;
+            _httpContextAccessor = httpContextAccessor;
+            _hubContext = hubContext;
+            _userManager = userManager;
+
         }
         public async Task<IActionResult> Index()
         {
@@ -31,10 +45,10 @@ namespace WS_QuanLyCongVan.Controllers
             var draw = Request.Form["draw"];
             int start = Convert.ToInt32(Request.Form["start"]);
             int length = Convert.ToInt32(Request.Form["length"]);
-            var searchVal = Request.Form["search[value]"];
+            var searchVal = Request.Form["search[value]"].ToString().ToLower();
             var sortColumn = Request.Form[string.Concat("columns[", Request.Form["order[0][column]"], "][name]")];
             var sortDirection = Request.Form["order[0][dir]"];
-            var data = UnitOfWork.cVDEN.GetFlowRestore(i => i.TrangThai_Xoa == false, start, length, sortColumn, sortDirection, include: "Tb_LoaiVB,Tb_MDMat,Tb_MDKhan,tb_SoCV,Tb_LinhVuc,Tb_NhanVien");
+            var data = UnitOfWork.cVDEN.GetFlowRestore(i => i.TrangThai_Xoa == false, start, length, sortColumn, sortDirection, include: "Tb_LoaiVB,Tb_MDMat,Tb_MDKhan,tb_SoCV,Tb_LinhVuc,Tb_NhanVien").Reverse();
             if (!string.IsNullOrEmpty(searchVal))
                 data = data.Where(i => i.Skh_CVDEN.ToLower().Contains(searchVal) 
                 || i.NgayBH_CVDEN.ToString().ToLower().Contains(searchVal) 
@@ -62,7 +76,7 @@ namespace WS_QuanLyCongVan.Controllers
             };
             return Json(jsonData);
         }
-        public async Task<IActionResult> getById(int id = 0)
+        public async Task<IActionResult> getById(int id = 0, string skh = null)
         {
 
             AllGetListItem getList = new AllGetListItem(UnitOfWork);
@@ -81,7 +95,7 @@ namespace WS_QuanLyCongVan.Controllers
             }
             else
             {
-                var cVDEN = UnitOfWork.cVDEN.GetById(i => i.ID == id);
+                var cVDEN = UnitOfWork.cVDEN.GetById(i => i.ID == id || i.Skh_CVDEN == skh);
                 ViewBag.getListNV = getList.getNhanvien(cVDEN.ID_BP);
                 if (cVDEN == null)
                 {
@@ -101,26 +115,11 @@ namespace WS_QuanLyCongVan.Controllers
             {
                 if(lstMail != null)
                 {
-                    var pathRoot = _webHostEnvironment.WebRootPath;
                     var cVDEN = UnitOfWork.cVDEN.GetById(i => i.ID == id);
-                    var upload = Path.Combine(pathRoot, @"assets\Cong_Van_Den\");
-
-                    DateTime desiredDate = cVDEN.ngay;
-
-                    string yearFolder = desiredDate.ToString("yyyy");
-                    string yearFolderPath = Path.Combine(upload, yearFolder);
-
-                    string monthFolder = desiredDate.ToString("MM");
-                    string monthFolderPath = Path.Combine(yearFolderPath, monthFolder);
-
-                    string dayFolder = desiredDate.ToString("dd");
-                    string dayFolderPath = Path.Combine(monthFolderPath, dayFolder);
-
-                    var file = Path.Combine(dayFolderPath, cVDEN.File_CVDEN);
+                    string decodedString = Encoding.UTF8.GetString(cVDEN.File_CVDEN);
                     string message = "";
-
                     message += cVDEN.Skh_CVDEN.ToString();
-                    await _emailSender.SendEmailCV(lstMail, tieude, message, file);
+                    await _emailSender.SendEmailCV(lstMail, tieude, message, decodedString);
                     var jsonData = new
                     {
                         sussess = true,
@@ -168,7 +167,7 @@ namespace WS_QuanLyCongVan.Controllers
             var pathRoot = _webHostEnvironment.WebRootPath;
             DateTime currentDate = DateTime.Now;
             var upload = Path.Combine(pathRoot, @"assets\Cong_Van_Den\");
-            var isCvDen = UnitOfWork.cVDEN.GetById(i => i.ID == Tb_CVDEN.ID);
+            var lstSKH = UnitOfWork.cVDEN.GetAllWhere(i => i.Skh_CVDEN == Tb_CVDEN.Skh_CVDEN).Count();
             AllGetListItem getList = new AllGetListItem(UnitOfWork);
             ViewBag.getListSCV = getList.getSoCV();
             ViewBag.getListDM = getList.getDoMat();
@@ -183,86 +182,123 @@ namespace WS_QuanLyCongVan.Controllers
             {
                 if (Tb_CVDEN.ID == 0)
                 {
-                    if(File_CVDEN != null)
+                    if (lstSKH == 0)
                     {
-                        var extention = Path.Combine(File_CVDEN.FileName);
-                        var cvden = new Tb_CVDEN()
+                        if (File_CVDEN != null)
                         {
-                            Skh_CVDEN = Tb_CVDEN.Skh_CVDEN,
-                            NgayBH_CVDEN = Tb_CVDEN.NgayBH_CVDEN,
-                            NgayNhan_CVDEN = Tb_CVDEN.NgayNhan_CVDEN,
-                            TrichYeu_CVDEN = Tb_CVDEN.TrichYeu_CVDEN,
-                            HanTL_CVDEN = Tb_CVDEN.HanTL_CVDEN,
-                            GhiChu_CVDEN = Tb_CVDEN.GhiChu_CVDEN,
-                            Nguoigui_CVDEN = Tb_CVDEN.Nguoigui_CVDEN,
-                            Noigui_CVDEN = Tb_CVDEN.Noigui_CVDEN,
-                            PhanCongXLVB_CVDEN = Tb_CVDEN.PhanCongXLVB_CVDEN,
-                            TrangThai_CVDI = Tb_CVDEN.TrangThai_CVDI,
-                            File_CVDEN = extention,
-                            ID_LVB = Tb_CVDEN.ID_LVB,
-                            ID_NV = Tb_CVDEN.ID_NV,
-                            ID_MDMat = Tb_CVDEN.ID_MDMat,
-                            ID_MDKhan = Tb_CVDEN.ID_MDKhan,
-                            ID_PTNhan = Tb_CVDEN.ID_PTNhan,
-                            ID_SoCV = Tb_CVDEN.ID_SoCV,
-                            ID_LV = Tb_CVDEN.ID_LV,
-                            ID_BP = Tb_CVDEN.ID_BP,
-                            SLTrang_CVDEN = Tb_CVDEN.SLTrang_CVDEN,
-                            SL_BPH = Tb_CVDEN.SL_BPH,
-                            TrangThai_Xoa = Tb_CVDEN.TrangThai_Xoa,
-                            ngay = DateTime.Now
-                        };
-                        // Tạo thư mục năm
-                        string yearFolder = currentDate.ToString("yyyy");
-                        string yearFolderPath = Path.Combine(upload, yearFolder);
+                            var extention = Path.Combine(File_CVDEN.FileName);
+                            var cvden = new Tb_CVDEN()
+                            {
+                                Skh_CVDEN = Tb_CVDEN.Skh_CVDEN,
+                                NgayBH_CVDEN = Tb_CVDEN.NgayBH_CVDEN,
+                                NgayNhan_CVDEN = Tb_CVDEN.NgayNhan_CVDEN,
+                                TrichYeu_CVDEN = Tb_CVDEN.TrichYeu_CVDEN,
+                                HanTL_CVDEN = Tb_CVDEN.HanTL_CVDEN,
+                                GhiChu_CVDEN = Tb_CVDEN.GhiChu_CVDEN,
+                                Nguoigui_CVDEN = Tb_CVDEN.Nguoigui_CVDEN,
+                                Noigui_CVDEN = Tb_CVDEN.Noigui_CVDEN,
+                                PhanCongXLVB_CVDEN = Tb_CVDEN.PhanCongXLVB_CVDEN,
+                                TrangThai_CVDI = Tb_CVDEN.TrangThai_CVDI,
+                                ID_LVB = Tb_CVDEN.ID_LVB,
+                                ID_NV = Tb_CVDEN.ID_NV,
+                                ID_MDMat = Tb_CVDEN.ID_MDMat,
+                                ID_MDKhan = Tb_CVDEN.ID_MDKhan,
+                                ID_PTNhan = Tb_CVDEN.ID_PTNhan,
+                                ID_SoCV = Tb_CVDEN.ID_SoCV,
+                                ID_LV = Tb_CVDEN.ID_LV,
+                                ID_BP = Tb_CVDEN.ID_BP,
+                                SLTrang_CVDEN = Tb_CVDEN.SLTrang_CVDEN,
+                                SL_BPH = Tb_CVDEN.SL_BPH,
+                                TrangThai_Xoa = Tb_CVDEN.TrangThai_Xoa,
+                                ngay = DateTime.Now
+                            };
+                            // Tạo thư mục năm
+                            string yearFolder = currentDate.ToString("yyyy");
+                            string yearFolderPath = Path.Combine(upload, yearFolder);
 
-                        // Tạo thư mục tháng
-                        string monthFolder = currentDate.ToString("MM");
-                        string monthFolderPath = Path.Combine(yearFolderPath, monthFolder);
+                            // Tạo thư mục tháng
+                            string monthFolder = currentDate.ToString("MM");
+                            string monthFolderPath = Path.Combine(yearFolderPath, monthFolder);
 
-                        // Tạo thư mục ngày
-                        string dayFolder = currentDate.ToString("dd");
-                        string dayFolderPath = Path.Combine(monthFolderPath, dayFolder);
+                            // Tạo thư mục ngày
+                            string dayFolder = currentDate.ToString("dd");
+                            string dayFolderPath = Path.Combine(monthFolderPath, dayFolder);
 
-                        // Kiểm tra và tạo thư mục năm
-                        if (!Directory.Exists(yearFolderPath))
-                        {
-                            Directory.CreateDirectory(yearFolderPath);
-                            Console.WriteLine("Thư mục năm đã được tạo: " + yearFolderPath);
+                            // Kiểm tra và tạo thư mục năm
+                            if (!Directory.Exists(yearFolderPath))
+                            {
+                                Directory.CreateDirectory(yearFolderPath);
+                                Console.WriteLine("Thư mục năm đã được tạo: " + yearFolderPath);
+                            }
+
+                            // Kiểm tra và tạo thư mục tháng
+                            if (!Directory.Exists(monthFolderPath))
+                            {
+                                Directory.CreateDirectory(monthFolderPath);
+                                Console.WriteLine("Thư mục tháng đã được tạo: " + monthFolderPath);
+                            }
+
+                            // Kiểm tra và tạo thư mục ngày
+                            if (!Directory.Exists(dayFolderPath))
+                            {
+                                Directory.CreateDirectory(dayFolderPath);
+                                Console.WriteLine("Thư mục ngày đã được tạo: " + dayFolderPath);
+                            }
+                            string filePath = Path.Combine(dayFolderPath, extention);
+                            using (var fileTream = new FileStream(filePath, FileMode.Create))
+                            {
+                                File_CVDEN.CopyTo(fileTream);
+                            }
+                            byte[] Bytes = Encoding.UTF8.GetBytes(filePath);
+                            cvden.File_CVDEN = Bytes.ToArray();
+
+                            var user = await _userManager.FindByIdAsync(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+                            var lstUser = UnitOfWork.nguoidung.GetAllWhere(i => i.Id != user.Id);
+                            List<Tb_Thongbao> lstThongbao = new List<Tb_Thongbao>();
+                            string avartar = Convert.ToBase64String(user.Hinh);
+                            lstThongbao.AddRange(lstUser.Select(item => new Tb_Thongbao()
+                            {
+                                UserID = item.Id,
+                                Name = user.Hoten_NV,
+                                Cvden_di = true,
+                                Skh = cvden.Skh_CVDEN,
+                                UserHandelID = user.Id,
+                                Noidung = "Bạn có 1 công văn đến với số ký hiệu là: " + cvden.Skh_CVDEN,
+                                Thoigian = DateTime.Now,
+                                Hinh = avartar
+                            }));
+                            UnitOfWork.cVDEN.Add(cvden);
+                            UnitOfWork.thongbao.AddRange(lstThongbao);
+                            UnitOfWork.Save();
+                            await _hubContext.Clients.All.SendAsync("ReceiveMessage");
                         }
-
-                        // Kiểm tra và tạo thư mục tháng
-                        if (!Directory.Exists(monthFolderPath))
+                        else
                         {
-                            Directory.CreateDirectory(monthFolderPath);
-                            Console.WriteLine("Thư mục tháng đã được tạo: " + monthFolderPath);
+                            return Json(new { success = false, notify = "Bạn chưa chọn file." });
                         }
-
-                        // Kiểm tra và tạo thư mục ngày
-                        if (!Directory.Exists(dayFolderPath))
-                        {
-                            Directory.CreateDirectory(dayFolderPath);
-                            Console.WriteLine("Thư mục ngày đã được tạo: " + dayFolderPath);
-                        }
-
-                        using (var fileTream = new FileStream(Path.Combine(dayFolderPath, extention), FileMode.Create))
-                        {
-                            File_CVDEN.CopyTo(fileTream);
-                        }
-                        UnitOfWork.cVDEN.Add(cvden);
-                        UnitOfWork.Save();
                     }
                     else
                     {
-                        return Json(new { success = false, notify = "Bạn chưa chọn file." });
+                        ModelState.AddModelError("Skh_CVDEN", "Số ký hiệu đã tồn tại.");
+                        return Json(new { success = false, notify = "Đã thêm không thành công.", html = Helper.RenderRazorViewToString(this, "AddOfEdit", Tb_CVDEN) });
                     }
+
                 }
                 else
                 {
+                    var isCvDen = UnitOfWork.cVDEN.GetById(i => i.ID == Tb_CVDEN.ID);
                     try
                     {
-                        isCvDen.Skh_CVDEN = Tb_CVDEN.Skh_CVDEN;
-                        isCvDen.NgayBH_CVDEN = Tb_CVDEN.NgayBH_CVDEN;
+                        if (isCvDen.Skh_CVDEN != Tb_CVDEN.Skh_CVDEN && lstSKH != null)
+                        {
+                            ModelState.AddModelError("Skh_CVDEN", "Số ký hiệu đã tồn tại.");
+                            return Json(new { success = false, notify = "Bạn cập nhật không thành công.", html = Helper.RenderRazorViewToString(this, "AddOfEdit", Tb_CVDEN) });
+                        }
+                        else
+                        {
+                            isCvDen.Skh_CVDEN = Tb_CVDEN.Skh_CVDEN;
+                        }
+
                         isCvDen.NgayNhan_CVDEN = Tb_CVDEN.NgayNhan_CVDEN;
                         isCvDen.TrichYeu_CVDEN = Tb_CVDEN.TrichYeu_CVDEN;
                         isCvDen.HanTL_CVDEN = Tb_CVDEN.HanTL_CVDEN;
@@ -282,9 +318,10 @@ namespace WS_QuanLyCongVan.Controllers
                         isCvDen.SLTrang_CVDEN = Tb_CVDEN.SLTrang_CVDEN;
                         isCvDen.SL_BPH = Tb_CVDEN.SL_BPH;
                         isCvDen.TrangThai_Xoa = Tb_CVDEN.TrangThai_Xoa;
-                        if (File_CVDEN != null)
+                        
+                        if (isCvDen.NgayBH_CVDEN == Tb_CVDEN.NgayBH_CVDEN && File_CVDEN != null)
                         {
-                            DateTime desiredDate = isCvDen.ngay;
+                            DateTime desiredDate = Tb_CVDEN.NgayBH_CVDEN;
                             var extention = Path.Combine(File_CVDEN.FileName);
                             string yearFolder = desiredDate.ToString("yyyy");
                             string yearFolderPath = Path.Combine(upload, yearFolder);
@@ -295,16 +332,67 @@ namespace WS_QuanLyCongVan.Controllers
                             string dayFolder = desiredDate.ToString("dd");
                             string dayFolderPath = Path.Combine(monthFolderPath, dayFolder);
 
-                            var file = Path.Combine(dayFolderPath, isCvDen.File_CVDEN);
-                            if (System.IO.File.Exists(file))
+                            string decodedString = Encoding.UTF8.GetString(isCvDen.File_CVDEN);
+
+
+                            if (System.IO.File.Exists(decodedString))
                             {
-                                System.IO.File.Delete(file);
+                                System.IO.File.Delete(decodedString);
                             }
+
                             using (var fileTream = new FileStream(Path.Combine(dayFolderPath, extention), FileMode.Create))
                             {
                                 File_CVDEN.CopyTo(fileTream);
                             }
-                            isCvDen.File_CVDEN = extention;
+                            var filePath = Path.Combine(dayFolderPath, extention);
+
+                            byte[] Bytes = Encoding.UTF8.GetBytes(filePath);
+                            isCvDen.File_CVDEN = Bytes.ToArray();
+
+                        }
+                        else if (isCvDen.NgayBH_CVDEN != Tb_CVDEN.NgayBH_CVDEN && File_CVDEN == null){
+                            DateTime desiredDate = Tb_CVDEN.NgayBH_CVDEN;
+                            string yearFolder = desiredDate.ToString("yyyy");
+                            string yearFolderPath = Path.Combine(upload, yearFolder);
+
+                            string monthFolder = desiredDate.ToString("MM");
+                            string monthFolderPath = Path.Combine(yearFolderPath, monthFolder);
+
+                            string dayFolder = desiredDate.ToString("dd");
+                            string dayFolderPath = Path.Combine(monthFolderPath, dayFolder);
+
+                            // Kiểm tra và tạo thư mục năm
+                            if (!Directory.Exists(yearFolderPath))
+                            {
+                                Directory.CreateDirectory(yearFolderPath);
+                                Console.WriteLine("Thư mục năm đã được tạo: " + yearFolderPath);
+                            }
+
+                            // Kiểm tra và tạo thư mục tháng
+                            if (!Directory.Exists(monthFolderPath))
+                            {
+                                Directory.CreateDirectory(monthFolderPath);
+                                Console.WriteLine("Thư mục tháng đã được tạo: " + monthFolderPath);
+                            }
+                            // Kiểm tra và tạo thư mục ngày
+                            if (!Directory.Exists(dayFolderPath))
+                            {
+                                Directory.CreateDirectory(dayFolderPath);
+                                Console.WriteLine("Thư mục ngày đã được tạo: " + dayFolderPath);
+                            }
+
+                            string decodedString = Encoding.UTF8.GetString(isCvDen.File_CVDEN);
+                            string fileName = Path.GetFileName(decodedString);
+                            string destinationPath = Path.Combine(dayFolderPath, fileName);
+
+                            if (System.IO.File.Exists(decodedString))
+                            {
+                                System.IO.File.Copy(decodedString, destinationPath, true);
+                                System.IO.File.Delete(decodedString);
+                            }
+                            byte[] Bytes = Encoding.UTF8.GetBytes(destinationPath);
+                            isCvDen.File_CVDEN = Bytes.ToArray();
+                            isCvDen.NgayBH_CVDEN = Tb_CVDEN.NgayBH_CVDEN;
                         }
                         
                         UnitOfWork.cVDEN.Update(isCvDen);
@@ -313,7 +401,7 @@ namespace WS_QuanLyCongVan.Controllers
                     }
                     catch (Exception ex)
                     {
-
+                        return Json(new { success = false, notify = "Bạn cập nhật không thành công." });
                     }
                 }
                 return Json(new { success = true, data = Tb_CVDEN, notify = "Bạn đã thêm thành công." });
@@ -331,6 +419,11 @@ namespace WS_QuanLyCongVan.Controllers
         public async Task<IActionResult> ImportExcel(IFormFile excelFile)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            var lstSKH = UnitOfWork.cVDEN.GetAll();
+            var user = await _userManager.FindByIdAsync(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var lstUser = UnitOfWork.nguoidung.GetAllWhere(i => i.Id != user.Id);
+            List<Tb_Thongbao> lstThongbao = new List<Tb_Thongbao>();
+            string avartar = Convert.ToBase64String(user.Hinh);
             var pathRoot = _webHostEnvironment.WebRootPath;
             var upload = Path.Combine(pathRoot, @"assets\Cong_Van_Den\");
             var listExcel = new List<Tb_CVDEN>();
@@ -347,10 +440,10 @@ namespace WS_QuanLyCongVan.Controllers
                     using (var package = new ExcelPackage(stream))
                     {
                         ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
-
+                       
                         for (int row = worksheet.Dimension.Start.Row + 1; row <= worksheet.Dimension.End.Row; row++)
                         {
-                            listExcel.Add(new Tb_CVDEN
+                            var lstcv = new Tb_CVDEN()
                             {
                                 Skh_CVDEN = worksheet.Cells[row, 1].Value.ToString().Trim(),
                                 NgayBH_CVDEN = Convert.ToDateTime(worksheet.Cells[row, 2].Value),
@@ -361,7 +454,7 @@ namespace WS_QuanLyCongVan.Controllers
                                 HanTL_CVDEN = Convert.ToDateTime(worksheet.Cells[row, 7].Value),
                                 GhiChu_CVDEN = worksheet.Cells[row, 8].Value.ToString().Trim(),
                                 PhanCongXLVB_CVDEN = worksheet.Cells[row, 9].Value.ToString().Trim(),
-                                File_CVDEN = worksheet.Cells[row, 10].Value.ToString().Trim(),
+                                File_CVDEN = Encoding.UTF8.GetBytes(worksheet.Cells[row, 10].Value.ToString().Trim()).ToArray(),
                                 TrangThai_CVDI = Convert.ToBoolean(worksheet.Cells[row, 11].Value),
                                 TrangThai_Xoa = Convert.ToBoolean(worksheet.Cells[row, 12].Value),
                                 ngay = Convert.ToDateTime(worksheet.Cells[row, 13].Value),
@@ -375,55 +468,69 @@ namespace WS_QuanLyCongVan.Controllers
                                 ID_NV = Convert.ToInt32(worksheet.Cells[row, 21].Value),
                                 Nguoigui_CVDEN = worksheet.Cells[row, 22].Value.ToString().Trim(),
                                 Noigui_CVDEN = worksheet.Cells[row, 23].Value.ToString().Trim(),
-                            });
-
-                        }
-                        if (excelFile != null)
-                        {
-                            foreach (var item in listExcel)
+                            };
+                            if(lstSKH.Any(i => i.Skh_CVDEN == lstcv.Skh_CVDEN))
                             {
-                                var currentDate = item.ngay;
-                                string yearFolder = currentDate.ToString("yyyy");
-                                string yearFolderPath = Path.Combine(upload, yearFolder);
-                                var extention = Path.Combine(item.File_CVDEN);
-                                // Tạo thư mục tháng
-                                string monthFolder = currentDate.ToString("MM");
-                                string monthFolderPath = Path.Combine(yearFolderPath, monthFolder);
-
-                                // Tạo thư mục ngày
-                                string dayFolder = currentDate.ToString("dd");
-                                string dayFolderPath = Path.Combine(monthFolderPath, dayFolder);
-
-                                // Kiểm tra và tạo thư mục năm
-                                if (!Directory.Exists(yearFolderPath))
-                                {
-                                    Directory.CreateDirectory(yearFolderPath);
-                                    Console.WriteLine("Thư mục năm đã được tạo: " + yearFolderPath);
-                                }
-
-                                // Kiểm tra và tạo thư mục tháng
-                                if (!Directory.Exists(monthFolderPath))
-                                {
-                                    Directory.CreateDirectory(monthFolderPath);
-                                    Console.WriteLine("Thư mục tháng đã được tạo: " + monthFolderPath);
-                                }
-                                // Kiểm tra và tạo thư mục ngày
-                                if (!Directory.Exists(dayFolderPath))
-                                {
-                                    Directory.CreateDirectory(dayFolderPath);
-                                    Console.WriteLine("Thư mục ngày đã được tạo: " + dayFolderPath);
-                                }
-                                if (System.IO.File.Exists(item.File_CVDEN))
-                                {
-                                    string fileName = Path.GetFileName(item.File_CVDEN);
-                                    string destinationPath = Path.Combine(dayFolderPath, fileName);
-                                    System.IO.File.Copy(item.File_CVDEN, destinationPath, true);
-                                    item.File_CVDEN = fileName;
-                                }
+                                return Json(new { success = false, notify = "Số ký hiệu" + lstcv.Skh_CVDEN + "đã bị trùng." });
                             }
+                            var currentDate = Convert.ToDateTime(lstcv.NgayBH_CVDEN);
+                            string yearFolder = currentDate.ToString("yyyy");
+                            string yearFolderPath = Path.Combine(upload, yearFolder);
+                            string decodedString = Encoding.UTF8.GetString(lstcv.File_CVDEN);
+                            // Tạo thư mục tháng
+                            string monthFolder = currentDate.ToString("MM");
+                            string monthFolderPath = Path.Combine(yearFolderPath, monthFolder);
+
+                            // Tạo thư mục ngày
+                            string dayFolder = currentDate.ToString("dd");
+                            string dayFolderPath = Path.Combine(monthFolderPath, dayFolder);
+
+                            // Kiểm tra và tạo thư mục năm
+                            if (!Directory.Exists(yearFolderPath))
+                            {
+                                Directory.CreateDirectory(yearFolderPath);
+                                Console.WriteLine("Thư mục năm đã được tạo: " + yearFolderPath);
+                            }
+
+                            // Kiểm tra và tạo thư mục tháng
+                            if (!Directory.Exists(monthFolderPath))
+                            {
+                                Directory.CreateDirectory(monthFolderPath);
+                                Console.WriteLine("Thư mục tháng đã được tạo: " + monthFolderPath);
+                            }
+                            // Kiểm tra và tạo thư mục ngày
+                            if (!Directory.Exists(dayFolderPath))
+                            {
+                                Directory.CreateDirectory(dayFolderPath);
+                                Console.WriteLine("Thư mục ngày đã được tạo: " + dayFolderPath);
+                            }
+                            if (System.IO.File.Exists(decodedString))
+                            {
+                                string fileName = Path.GetFileName(decodedString);
+                                string destinationPath = Path.Combine(dayFolderPath, fileName);
+                                System.IO.File.Copy(decodedString, destinationPath, true);
+                                byte[] Bytes = Encoding.UTF8.GetBytes(destinationPath);
+                                lstcv.File_CVDEN = Bytes.ToArray();
+                            }
+
+                            lstThongbao.AddRange(lstUser.Select(item => new Tb_Thongbao()
+                            {
+                                UserID = item.Id,
+                                Name = user.Hoten_NV,
+                                Cvden_di = true,
+                                Skh = lstcv.Skh_CVDEN,
+                                UserHandelID = user.Id,
+                                Noidung = "Bạn có 1 công văn đến với số ký hiệu là: " + lstcv.Skh_CVDEN,
+                                Thoigian = DateTime.Now,
+                                Hinh = avartar
+                            }));
+
+                            UnitOfWork.thongbao.AddRange(lstThongbao);
+                            listExcel.Add(lstcv);
                         }
                         UnitOfWork.cVDEN.AddRange(listExcel);
                         UnitOfWork.Save();
+                        await _hubContext.Clients.All.SendAsync("ReceiveMessage");
 
                     }
                     return Json(new { success = true, notify = "Bạn đã thêm thành công." });
@@ -538,10 +645,7 @@ namespace WS_QuanLyCongVan.Controllers
                 if (lst.Count() > 1)
                 {
                     var lstcVDEN = UnitOfWork.cVDEN.GetAllWhere(i => lst.Contains(i.ID));
-                    foreach (var item in lstcVDEN)
-                    {
-                        item.TrangThai_Xoa = false;
-                    }
+                    lstcVDEN.ToList().ForEach(item => item.TrangThai_Xoa = false);
                     UnitOfWork.cVDEN.UpdateRange(lstcVDEN);
                     UnitOfWork.Save();
                 }
@@ -565,29 +669,14 @@ namespace WS_QuanLyCongVan.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteRange(List<int> lst)
         {
-            var pathRoot = _webHostEnvironment.WebRootPath;
-            var upload = Path.Combine(pathRoot, @"assets\Cong_Van_Den\");
             try
             {
                 var lstcVDEN = UnitOfWork.cVDEN.GetAllWhere(i => lst.Contains(i.ID));
-                foreach(var item in lstcVDEN)
-                {
-                    DateTime desiredDate = item.ngay;
-                    string yearFolder = desiredDate.ToString("yyyy");
-                    string yearFolderPath = Path.Combine(upload, yearFolder);
-
-                    string monthFolder = desiredDate.ToString("MM");
-                    string monthFolderPath = Path.Combine(yearFolderPath, monthFolder);
-
-                    string dayFolder = desiredDate.ToString("dd");
-                    string dayFolderPath = Path.Combine(monthFolderPath, dayFolder);
-
-                    var file = Path.Combine(dayFolderPath, item.File_CVDEN);
-                    if (System.IO.File.Exists(file))
-                    {
-                        System.IO.File.Delete(file);
-                    }
-                }
+                lstcVDEN.Where(item => item.File_CVDEN != null)
+                    .Select(item => Encoding.UTF8.GetString(item.File_CVDEN))
+                    .Where(decodedString => System.IO.File.Exists(decodedString))
+                    .ToList()
+                    .ForEach(System.IO.File.Delete);
                 UnitOfWork.cVDEN.DeleteRange(lstcVDEN);
                 UnitOfWork.Save();
             }
@@ -597,42 +686,30 @@ namespace WS_QuanLyCongVan.Controllers
             }
             return Json(new { isValue = true, notify = "Bạn đã xóa thành công" });
         }
-        
+
         public async Task<IActionResult> ViewTab(int id)
         {
-            var pathRoot = _webHostEnvironment.WebRootPath;
             var cvDen = UnitOfWork.cVDEN.GetById(i => i.ID == id);
-            var upload = Path.Combine(pathRoot, @"assets\Cong_Van_Den\");
-
-            DateTime desiredDate = cvDen.ngay;
-
-            string yearFolder = desiredDate.ToString("yyyy");
-            string yearFolderPath = Path.Combine(upload, yearFolder);
-
-            string monthFolder = desiredDate.ToString("MM");
-            string monthFolderPath = Path.Combine(yearFolderPath, monthFolder);
-
-            string dayFolder = desiredDate.ToString("dd");
-            string dayFolderPath = Path.Combine(monthFolderPath, dayFolder);
-
-            var file = Path.Combine(dayFolderPath,cvDen.File_CVDEN);
-
-            string extension = System.IO.Path.GetExtension(cvDen.File_CVDEN);
-
-            if (extension == ".pdf")
+            string decodedString = Encoding.UTF8.GetString(cvDen.File_CVDEN);
+            string extension = System.IO.Path.GetExtension(decodedString);
+            if(System.IO.File.Exists(decodedString))
             {
-                return File(System.IO.File.ReadAllBytes(file), "application/pdf");
+                string contentType;
+                switch (extension)
+                {
+                    case ".pdf":
+                        contentType = "application/pdf";
+                        break;
+                    case ".docx":
+                    case ".doc":
+                        contentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+                        break;
+                    default:
+                        return NotFound();
+                }
+                return File(System.IO.File.ReadAllBytes(decodedString), contentType);
             }
-            else if (extension == ".docx" || extension == ".doc")
-            {
-                byte[] fileBytes = await System.IO.File.ReadAllBytesAsync(file);
-
-                return File(fileBytes, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", Path.GetFileName(file));
-            }
-            else
-            {
-                return View();
-            }
+            return View();
         }
     }
 }

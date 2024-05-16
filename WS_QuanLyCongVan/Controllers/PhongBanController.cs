@@ -24,7 +24,7 @@ namespace WS_QuanLyCongVan.Controllers
             int length = Convert.ToInt32(Request.Form["length"]);
             var searchVal = Request.Form["search[value]"];
             var sortColumn = Request.Form[string.Concat("columns[", Request.Form["order[0][column]"], "][name]")];
-            var sortDirection = Request.Form["order[0][dir]"];
+            var sortDirection = Request.Form["order[0][dir]"].ToString().ToLower();
             var data = UnitOfWork.phongBan.GetFlowRestore(i => i.TrangThai_Xoa == false, start, length, sortColumn, sortDirection);
             if (!string.IsNullOrEmpty(searchVal))
                 data = data.Where(i => i.Ten_PB.ToLower().Contains(searchVal) || i.GhiChu.ToLower().Contains(searchVal));

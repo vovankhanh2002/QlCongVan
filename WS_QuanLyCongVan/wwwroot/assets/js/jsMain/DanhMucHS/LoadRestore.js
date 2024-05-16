@@ -77,6 +77,12 @@ function danhmuccv_res() {
         "serverSide": true,
         "filter": true,
         "processing": true,
+        "language": {
+            "info": "Bắt đầu _START_ kết thúc _END_ số lượng _TOTAL_ bảng ghi",
+            "search": "Tìm kiếm",
+            "loadingRecords": "Đang tải...",
+            "emptyTable": "Không bảng ghi"
+        },
         "ajax": {
             "url": "/danhmuccv/getRestore",
             "type": "Post",
@@ -127,6 +133,12 @@ function cvden_res() {
         "serverSide": true,
         "filter": true,
         "processing": true,
+        "language": {
+            "info": "Bắt đầu _START_ kết thúc _END_ số lượng _TOTAL_ bảng ghi",
+            "search": "Tìm kiếm",
+            "loadingRecords": "Đang tải...",
+            "emptyTable": "Không bảng ghi"
+        },
         "ajax": {
             "url": "/cvden/getRestore",
             "type": "Post",
@@ -155,7 +167,7 @@ function cvden_res() {
             { "data": "hanTL_CVDEN", "name": "hanTL_CVDEN", "autowidth": true },
             { "data": "trichYeu_CVDEN", "name": "trichYeu_CVDEN", "autowidth": true },
             { "data": "tb_LoaiVB.ten_LVB", "name": "tb_LoaiCV.ten_LVB", "autowidth": true },
-            { "data": "tb_Nguoidung.hoten_NV", "name": "tb_Nguoidung.hoten_NV", "autowidth": true },
+            { "data": "tb_NhanVien.hoten_NV", "name": "tb_NhanVien.hoten_NV", "autowidth": true },
             { "data": "tb_MDMat.ten_MDMat", "name": "tb_MDMat.ten_MDMat", "autowidth": true },
             { "data": "tb_MDKhan.ten_MDKhan", "name": "tb_MDKhan.ten_MDKhan", "autowidth": true },
             { "data": "tb_LinhVuc.ten_LV", "name": "tb_LinhVuc.ten_LV", "autowidth": true },
@@ -191,6 +203,12 @@ function cvdi_res() {
         "serverSide": true,
         "filter": true,
         "processing": true,
+        "language": {
+            "info": "Bắt đầu _START_ kết thúc _END_ số lượng _TOTAL_ bảng ghi",
+            "search": "Tìm kiếm",
+            "loadingRecords": "Đang tải...",
+            "emptyTable": "Không bảng ghi"
+        },
         "ajax": {
             "url": "/cvdi/getRestore",
             "type": "Post",
@@ -218,7 +236,7 @@ function cvdi_res() {
             { "data": "ngayBH_CVDI", "name": "ngayBH_CVDEN", "autowidth": true },
             { "data": "trichYeu_CVDI", "name": "trichYeu_CVDEN", "autowidth": true },
             { "data": "tb_LoaiVB.ten_LVB", "name": "tb_LoaiCV.ten_LVB", "autowidth": true },
-            { "data": "tb_Nguoidung.hoten_NV", "name": "tb_Nguoidung.hoten_NV", "autowidth": true },
+            { "data": "tb_NhanVien.hoten_NV", "name": "tb_Nhanvien.hoten_NV", "autowidth": true },
             { "data": "tb_MDMat.ten_MDMat", "name": "tb_MDMat.ten_MDMat", "autowidth": true },
             { "data": "tb_MDKhan.ten_MDKhan", "name": "tb_MDKhan.ten_MDKhan", "autowidth": true },
             { "data": "tb_LinhVuc.ten_LV", "name": "tb_LinhVuc.ten_LV", "autowidth": true },

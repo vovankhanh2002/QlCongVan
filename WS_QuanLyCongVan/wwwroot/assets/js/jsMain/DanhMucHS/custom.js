@@ -1,12 +1,13 @@
 ﻿$(document).ready(function () {
-    Load()
-    var connection = new signalR.HubConnectionBuilder().withUrl("/NotihubServer").build();
-    connection.on("ReceiveMessage", function (message) {
-        $.notify(message, { globalPosition: 'top right', className: "success" });
+    loadDanhmuccv()
+    loadCvden()
+    loadCvdi()
+    //var connection = new signalR.HubConnectionBuilder().withUrl("/NotihubServer").build();
+    //connection.on("ReceiveMessage", function (message) {
+    //    $.notify(message, { globalPosition: 'top right', className: "success" });
 
-    });
-    connection.start();
-
+    //});
+    //connection.start();
     $('#selectAllCheckbox').on('click', function () {
         if (this.checked) {
             $('.rowCheckbox').prop('checked', true);
@@ -30,7 +31,9 @@
                         $.notify(res.notify, { globalPosition: 'top right', className: "success" });
                         $('#selectAllCheckbox').prop('checked', false);
                         $('#delete').prop('disabled', true);
-                        Load()
+                        loadDanhmuccv()
+                        loadCvden()
+                        loadCvdi()
                     }
                 },
                 error: function (xhr, status, error) {
@@ -65,18 +68,17 @@
     
    
 })
-
-//Start Load datatable
-function Load() {
-    loadDanhmuccv()
-    loadCvden()
-    loadCvdi()
-}
 function loadDanhmuccv() {
     $('#danhmuccv').dataTable({
         "serverSide": true,
         "filter": true,
         "processing": true,
+        "language": {
+            "info": "Bắt đầu _START_ kết thúc _END_ số lượng _TOTAL_ bảng ghi",
+            "search": "Tìm kiếm",
+            "loadingRecords": "Đang tải...",
+            "emptyTable": "Không bảng ghi"
+        },
         "ajax": {
             "url": "/danhmuccv/getAll",
             "type": "Post",
@@ -111,18 +113,27 @@ function loadDanhmuccv() {
                 "data": "id",
                 "render": function (data, row) {
                     return `
-                             <div class="btn-group">
-								<button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">
-									Tùy chọn
-									<i class="icon-angle-down icon-on-right"></i>
-								</button>
-
-								<ul class="dropdown-menu">
-									<li>
-										 <a href="#" onclick="showInPopup('','${data}')" title="Sửa"><i class="icon-pencil bigger-130"></i>Sửa</a>
-									</li>
-								</ul>
-							</div>
+                             <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
+									<a class="green" onclick="showInPopup('','${data}')" href="#">
+										<i class="icon-pencil bigger-130"></i>
+									</a>
+								</div>
+                                <div class="visible-xs visible-sm hidden-md hidden-lg">
+									<div class="inline position-relative">
+										<button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown">
+											<i class="icon-caret-down icon-only bigger-120"></i>
+										</button>
+										<ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close">
+                                            <li>
+												<a onclick="showInPopup('','${data}')" href="#" class="tooltip-success" data-rel="tooltip" title="" data-original-title="Cập nhật">
+													<span class="green">
+														<i class="icon-edit bigger-120"></i>
+													</span>
+												</a>
+											</li>
+										</ul>
+									</div>
+								</div>
                            `
                 }
             }
@@ -146,6 +157,12 @@ function loadCvden() {
         "serverSide": true,
         "filter": true,
         "processing": true,
+        "language": {
+            "info": "Bắt đầu _START_ kết thúc _END_ số lượng _TOTAL_ bảng ghi",
+            "search": "Tìm kiếm",
+            "loadingRecords": "Đang tải...",
+            "emptyTable": "Không bảng ghi"
+        },
         "ajax": {
             "url": "/cvden/getAll",
             "type": "Post",
@@ -190,7 +207,6 @@ function loadCvden() {
                 "name": "trangThai_CVDI",
                 "autowidth": true
             },
-
             {
                 "data": "id",
                 "render": function (data, row) {
@@ -291,6 +307,12 @@ function loadCvdi() {
         "serverSide": true,
         "filter": true,
         "processing": true,
+        "language": {
+            "info": "Bắt đầu _START_ kết thúc _END_ số lượng _TOTAL_ bảng ghi",
+            "search": "Tìm kiếm",
+            "loadingRecords": "Đang tải...",
+            "emptyTable": "Không bảng ghi"
+        },
         "ajax": {
             "url": "/cvdi/getAll",
             "type": "Post",
@@ -370,6 +392,7 @@ function loadCvdi() {
 													</span>
 												</a>
 											</li>
+                                           
 										</ul>
 									</div>
 								</div>
@@ -437,7 +460,9 @@ const JqueryAjaxPost = form => {
                 if (res.success) {
                     $("#form-modal").modal('hide')
                     $.notify(res.notify, { globalPosition: 'top right', className: "success" });
-                    Load()
+                    loadDanhmuccv()
+                    loadCvden()
+                    loadCvdi()
                 } else {
                     $.notify(res.notify, { globalPosition: 'top right', className: "error" });
                     $("#form-modal .modal-body").html(res.html);
@@ -488,12 +513,6 @@ function toggleDeleteButton() {
         $('#delete').prop('disabled', true);
     }
 }
-function showLoading() {
-    document.getElementById('loading').style.display = 'block';
-}
-function hideLoading() {
-    document.getElementById('loading').style.display = 'none';
-}
 
 function getSelectedValues() {
 
@@ -507,22 +526,19 @@ function getSelectedValues() {
             selectedOptions.push(option.value);
         }
     }
-    console.log(getIdCongvan, selectElement);
-    showLoading();
+    $("#form-modal").modal('hide')
     $.ajax({
         type: "POST",
         data: { id: getIdCongvan, tieude: getIdTieude, lstMail: selectedOptions },
         url: "/cvden/getById",
         success: function (res) {
             if (res.sussess) {
-                $("#form-modal").modal('hide')
                 $.notify(res.notify, { globalPosition: 'top right', className: "success" });
             } else {
                 $.notify(res.notify, { globalPosition: 'top right', className: "error" });
             }
         },
         complete: function () {
-            hideLoading();
         }
     })
 }
@@ -555,7 +571,6 @@ function loadNhanVienCVDEN() {
             }
         },
         complete: function () {
-            hideLoading();
         }
     })
 }

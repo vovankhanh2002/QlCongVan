@@ -24,7 +24,7 @@ namespace WS_QuanLyCongVan.Controllers
             var draw = Request.Form["draw"];
             int start = Convert.ToInt32(Request.Form["start"]);
             int length = Convert.ToInt32(Request.Form["length"]);
-            var searchVal = Request.Form["search[value]"];
+            var searchVal = Request.Form["search[value]"].ToString().ToLower();
             var sortColumn = Request.Form[string.Concat("columns[", Request.Form["order[0][column]"], "][name]")];
             var sortDirection = Request.Form["order[0][dir]"];
             var data = UnitOfWork.soCV.GetFlowRestore(i => i.TrangThai_Xoa == false, start, length, sortColumn, sortDirection, include: "Tb_LoaiSoCV");

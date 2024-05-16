@@ -1,4 +1,5 @@
 ﻿using DataLayer.Model;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace AccsessLayer
 {
-    public class DBContextCV: IdentityDbContext
+    public class DBContextCV : IdentityDbContext<Tb_Nguoidung>
     {
         public DBContextCV(DbContextOptions<DBContextCV> options) : base(options)
         {
@@ -34,19 +35,31 @@ namespace AccsessLayer
         public DbSet<Tb_SoCV> tb_SoCVs { get; set; }
         public DbSet<Tb_Nguoidung> tb_Nguoidungs { get; set; }
         public DbSet<Tb_Thongke> tb_Thongkes { get; set; }
-
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        public DbSet<Tb_Thongbao> tb_Thongbaos { get; set; }
+        public DbSet<Tb_Chat> tb_Chats { get; set; }
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(builder);
 
             // Ánh xạ trường cờ soft delete
-            modelBuilder.Entity<Tb_LoaiVB>().Property<bool>("TrangThai_Xoa");
-            modelBuilder.Entity<Tb_LoaiSoCV>().Property<bool>("TrangThai_Xoa");
-            modelBuilder.Entity<Tb_SoCV>().Property<bool>("TrangThai_Xoa");
+            builder.Entity<Tb_LoaiVB>().Property<bool>("TrangThai_Xoa");
+            builder.Entity<Tb_LoaiSoCV>().Property<bool>("TrangThai_Xoa");
+            builder.Entity<Tb_SoCV>().Property<bool>("TrangThai_Xoa");
 
-            // Lọc mặc định để loại bỏ các bản ghi đã bị xóa logic
-            //modelBuilder.Entity<Tb_LoaiVB>().HasQueryFilter(m => !EF.Property<bool>(m, "TrangThai_Xoa"));
+            builder.Entity<Tb_Nguoidung>().ToTable("Users", "security");
+
+            builder.Entity<IdentityRole>().ToTable("Roles", "security");
+
+            builder.Entity<IdentityUserRole<string>>().ToTable("UserRoles", "security");
+
+            builder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims", "security");
+
+            builder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins", "security");
+
+            builder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims", "security");
+
+            builder.Entity<IdentityUserToken<string>>().ToTable("UserTokens", "security");
+
         }
     }
 }

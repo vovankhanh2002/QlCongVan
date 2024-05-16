@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
@@ -26,24 +27,26 @@ namespace WS_QuanLyCongVan.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly IUserStore<IdentityUser> _userStore;
+        private readonly SignInManager<Tb_Nguoidung> _signInManager;
+        private readonly UserManager<Tb_Nguoidung> _userManager;
+        private readonly IUserStore<Tb_Nguoidung> _userStore;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly IUserEmailStore<IdentityUser> _emailStore;
+        private readonly IUserEmailStore<Tb_Nguoidung> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly IUnitOfWork _unitOfWork;
+        private IWebHostEnvironment _webHostEnvironment;
+
 
 
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            IUserStore<IdentityUser> userStore,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<Tb_Nguoidung> userManager,
+            IUserStore<Tb_Nguoidung> userStore,
+            SignInManager<Tb_Nguoidung> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
             RoleManager<IdentityRole> roleManager,
-            IUnitOfWork unitOfWork )
+            IUnitOfWork unitOfWork,IWebHostEnvironment webHostEnvironment)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -53,6 +56,8 @@ namespace WS_QuanLyCongVan.Areas.Identity.Pages.Account
             _emailSender = emailSender;
             _roleManager = roleManager;
             _unitOfWork = unitOfWork;
+            _webHostEnvironment = webHostEnvironment;
+
         }
 
         /// <summary>
@@ -108,36 +113,43 @@ namespace WS_QuanLyCongVan.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "Mật khẩu và mật khẩu xác nhận không khớp.")]
             public string ConfirmPassword { get; set; }
 
-            [Required(ErrorMessage = "Bạn cần nhập đầy đủ thông tin.")]
+            [Required]
+            [StringLength(100,ErrorMessage = "{0} phải dài ít nhất là {2} và tối đa {1} ký tự.", MinimumLength = 6)]
+            [Display(Name = "Họ tên")]
             public string Hoten_NV { get; set; }
-            [Required(ErrorMessage = "Bạn cần nhập đầy đủ thông tin.")]
+
+            [Required(ErrorMessage = "Bạn cần nhập đầy đủ địa chỉ.")]
             public string? DiaChi_NV { get; set; }
-            [Required(ErrorMessage = "Bạn cần nhập đầy đủ thông tin.")]
+
+            [Required]
+            [Display(Name = "Số điện thoại")]
             public int? SDT_NV { get; set; }
             [Required(ErrorMessage = "Bạn cần nhập đầy đủ thông tin.")]
+            [Display(Name = "Ngày sinh")]
             public DateTime NgaySinh_NV { get; set; }
-            public string? Role { get; set; }
-            public IEnumerable<SelectListItem> rolesListItems { get; set; }
+
+            [Display(Name = "Hình đại diện")]
+            public byte[] Hinh{ get; set; }
         }
 
 
         public async Task OnGetAsync(string returnUrl = null)
         {
-            if (!_roleManager.RoleExistsAsync(SD.Role_User_Admin).GetAwaiter().GetResult())
-            {
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_User_Admin)).GetAwaiter().GetResult();
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_User_Employee)).GetAwaiter().GetResult();
-            }
-            Input = new InputModel()
-            {
-                rolesListItems = _roleManager.Roles.Select(n => n.Name).Select(i =>
-                    new SelectListItem
-                    {
-                        Text = i,
-                        Value = i
+            //if (!_roleManager.RoleExistsAsync(SD.Role_User_Admin).GetAwaiter().GetResult())
+            //{
+            //    _roleManager.CreateAsync(new IdentityRole(SD.Role_User_Admin)).GetAwaiter().GetResult();
+            //    _roleManager.CreateAsync(new IdentityRole(SD.Role_User_Employee)).GetAwaiter().GetResult();
+            //}
+            //Input = new InputModel()
+            //{
+            //    rolesListItems = _roleManager.Roles.Select(n => n.Name).Select(i =>
+            //        new SelectListItem
+            //        {
+            //            Text = i,
+            //            Value = i
 
-                    }),
-            };
+            //        }),
+            //};
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -149,25 +161,33 @@ namespace WS_QuanLyCongVan.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = new Tb_Nguoidung {
-                    UserName = Input.Email,
+                    UserName = new MailAddress(Input.Email).User,
                     Email = Input.Email,
                     Hoten_NV = Input.Hoten_NV,
                     DiaChi_NV = Input.DiaChi_NV,
                     SDT_NV = Input.SDT_NV,
-                    NgaySinh_NV = Input.NgaySinh_NV
+                    NgaySinh_NV = Input.NgaySinh_NV,
                 };
+                if(Request.Form.Files.Count() > 0)
+                {
+                    var file = Request.Form.Files.FirstOrDefault();
+                    using (var datastream = new MemoryStream())
+                    {
+                        await file.CopyToAsync(datastream);
+                        user.Hinh = datastream.ToArray();
+                    }
+                }
+                else
+                {
+                    string webRootPath = _webHostEnvironment.WebRootPath;
+                    string imagePath = Path.Combine(webRootPath, "assets/css/images/avatar/avatar-male.jpg");
+                    byte[] imageBytes = System.IO.File.ReadAllBytes(imagePath);
+                    user.Hinh = imageBytes.ToArray();
+                }
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("Bạn đã tạo thành công tài khoảng mới.");
-                    if (Input.Role == null)
-                    {
-                        await _userManager.AddToRoleAsync(user, SD.Role_User_Employee);
-                    }
-                    else
-                    {
-                        await _userManager.AddToRoleAsync(user, Input.Role);
-                    }
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
@@ -199,27 +219,27 @@ namespace WS_QuanLyCongVan.Areas.Identity.Pages.Account
             return Page();
         }
 
-        private IdentityUser CreateUser()
+        private Tb_Nguoidung CreateUser()
         {
             try
             {
-                return Activator.CreateInstance<IdentityUser>();
+                return Activator.CreateInstance<Tb_Nguoidung>();
             }
             catch
             {
-                throw new InvalidOperationException($"Can't create an instance of '{nameof(IdentityUser)}'. " +
-                    $"Ensure that '{nameof(IdentityUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(Tb_Nguoidung)}'. " +
+                    $"Ensure that '{nameof(Tb_Nguoidung)}' is not an abstract class and has a parameterless constructor, or alternatively " +
                     $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
             }
         }
 
-        private IUserEmailStore<IdentityUser> GetEmailStore()
+        private IUserEmailStore<Tb_Nguoidung> GetEmailStore()
         {
             if (!_userManager.SupportsUserEmail)
             {
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
-            return (IUserEmailStore<IdentityUser>)_userStore;
+            return (IUserEmailStore<Tb_Nguoidung>)_userStore;
         }
     }
 }

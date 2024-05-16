@@ -1,49 +1,87 @@
 ﻿@using DataLayer.Model
 @using Microsoft.AspNetCore.Identity
 
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<Tb_Nguoidung> SignInManager
+@inject UserManager<Tb_Nguoidung> UserManager
 
-@if (SignInManager.IsSignedIn(User))
-{
-    <a data-toggle="dropdown" class="dropdown-toggle" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!
-        <i class="icon-caret-down"></i>
-    </a>
 
-    <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-        <li>
-            <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button id="logout" class="nav-link text-dark" style="border:none" >
+<li class="light-blue">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+            @if(UserManager.GetUserAsync(User).Result.Hinh != null)
+            {
+                <img class="nav-user-photo"  src="data:image/*;base64,@(Convert.ToBase64String(UserManager.GetUserAsync(User).Result.Hinh))" alt="Hình">
+            }
+            <span class="user-info">
+                <small>Welcome,</small>
+                @User.Identity.Name
+            </span>
+
+            <i class="icon-caret-down"></i>
+        </a>
+
+        <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+            <li>
+                <a href="#">
+                    <i class="icon-cog"></i>
+                    Cài đặt
+                </a>
+            </li>
+
+            <li>
+                <a asp-area="Identity" asp-page="/Account/Manage/Index">
+                    <i class="icon-user"></i>
+                    Thông tin
+                </a>
+            </li>
+
+            <li class="divider"></li>
+
+            <li>
+                <a  asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })">
                     <i class="icon-off"></i>
-                    Logout
-                </button>
-            </form>
-        </li>
+                    Đăng xuất
+                </a>
+            </li>
+        </ul>
+    }else
+    {
+        <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+            <span class="user-info">
+                <small>Xin chào</small>
+            </span>
+            <i class="icon-caret-down"></i>
+        </a>
 
-    </ul>
+        <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+            <li>
+                <a asp-area="Identity" asp-page="/Account/Register">
+                    <i class="icon-cog"></i>
+                    Đăng ký
+                </a>
+            </li>
 
-}
-else
-{
-    <a data-toggle="dropdown" href="#" class="dropdown-toggle">
-        <i class="icon-caret-down"></i>
-    </a>
+            <li class="divider"></li>
 
-    <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-        <li>
-            <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">
-                <i class="icon-cog"></i>
-                Register
-            </a>
-        </li>
+            <li>
+                <a asp-area="Identity" asp-page="/Account/Login">
+                    <i class="icon-off"></i>
+                    Đăng nhập
+                </a>
+            </li>
+        </ul>
+    }
+    
+</li>
 
-        <li>
-            <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">
-                <i class="icon-user"></i>
-                Login
-            </a>
-        </li>
-    </ul>
 
-}
+
+
+
+
+
+
+
+
 

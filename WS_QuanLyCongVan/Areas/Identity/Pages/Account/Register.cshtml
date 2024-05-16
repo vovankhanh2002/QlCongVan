@@ -3,154 +3,141 @@
 @{
     ViewData["Title"] = "Register";
 }
-<div class="main-container">
-			<div class="main-content">
-				<div class="row">
-					<div class="col-sm-10 col-sm-offset-1">
-						<div class="login-container">
-							<div class="center">
-								<h1>
-									<i class="icon-leaf green"></i>
-									<span class="red">Ace</span>
-									<span class="white">Application</span>
-								</h1>
-								<h4 class="blue">© Company Name</h4>
-							</div>
-
-							<div class="space-6"></div>
-
-							<div class="position-relative">
-								<div id="signup-box" class="signup-box widget-box no-border">
-									<div class="widget-body">
-										<div class="widget-main">
-											<h4 class="header green lighter bigger">
-												<i class="icon-group blue"></i>
-												New User Registration
-											</h4>
-
-											<div class="space-6"></div>
-											<p> Enter your details to begin: </p>
-
-											<form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-												<hr />
-												<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-												<fieldset>
-													<label class="block clearfix">
-														<span class="block input-icon input-icon-right">
-															<label asp-for="Input.Email">Email</label>
-															<input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="Nhập email"/>
-															<span asp-validation-for="Input.Email" class="text-danger"></span>
-															<i class="icon-envelope"></i>
-														</span>
-													</label>
-													<label class="block clearfix">
-														<span class="block input-icon input-icon-right">
-															<label asp-for="Input.Hoten_NV">Họ và tên</label>
-															<input asp-for="Input.Hoten_NV" class="form-control" autocomplete="Hoten_NV" aria-required="true" placeholder="Nhập họ và tên"/>
-															<span asp-validation-for="Input.Hoten_NV" class="text-danger"></span>
-															<i class="icon-lock"></i>
-														</span>
-													</label>
-													<label class="block clearfix">
-														<span class="block input-icon input-icon-right">
-															<label asp-for="Input.DiaChi_NV">Địa chỉ</label>
-															<input asp-for="Input.DiaChi_NV" class="form-control" autocomplete="DiaChi_NV" aria-required="true" placeholder="Nhập địa chỉ"/>
-															<span asp-validation-for="Input.DiaChi_NV" class="text-danger"></span>
-															<i class="icon-lock"></i>
-														</span>
-													</label>
-													<label class="block clearfix">
-														<span class="block input-icon input-icon-right">
-															<label asp-for="Input.NgaySinh_NV">Ngày sinh</label>
-															<input asp-for="Input.NgaySinh_NV" class="form-control" autocomplete="NgaySinh_NV" aria-required="true" placeholder="Nhập ngày sinh"/>
-															<span asp-validation-for="Input.NgaySinh_NV" class="text-danger"></span>
-															<i class="icon-lock"></i>
-														</span>
-													</label>
-													<label class="block clearfix">
-														<span class="block input-icon input-icon-right">
-															<label asp-for="Input.SDT_NV">Số điện thoại</label>
-															<input asp-for="Input.SDT_NV" class="form-control" autocomplete="SDT_NV" aria-required="true" placeholder="Nhập số điện thoại"/>
-															<span asp-validation-for="Input.SDT_NV" class="text-danger"></span>
-															<i class="icon-lock"></i>
-														</span>
-													</label>
-													<label class="block clearfix">
-														<span class="block input-icon input-icon-right">
-															<label asp-for="Input.Password">Mật khẩu</label>
-															<input asp-for="Input.Password" class="form-control" autocomplete="Password" aria-required="true" placeholder="Nhập mật khẩu"/>
-															<span asp-validation-for="Input.Password" class="text-danger"></span>
-															<i class="icon-lock"></i>
-														</span>
-													</label>
-													<label class="block clearfix">
-														<span class="block input-icon input-icon-right">
-															<label asp-for="Input.ConfirmPassword">Nhập lại mật khẩu</label>
-															<input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="ConfirmPassword" aria-required="true" placeholder="Nhập lại mật khẩu"/>
-															<span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-															<i class="icon-retweet"></i>
-														</span>
-													</label>
-
-													<div class="row">
-														<div class="col-md-4">
-															<select asp-for="Input.Role" asp-items="@Model.Input.rolesListItems" style="border:none" class="form-select">
-															   <option disabled>-Chọn quyền-</option>
-														   </select>
-														</div>
-													</div>
-													@*<label class="block">
-														<input type="checkbox" class="ace">
-														<span class="lbl">
-															I accept the
-															<a href="#">User Agreement</a>
-														</span>
-													</label>*@
-
-													<div class="space-24"></div>
-
-													<div class="clearfix">
-														<button type="reset" class="width-30 pull-left btn btn-sm">
-															<i class="icon-refresh"></i>
-															Đặt lại mật khẩu
-														</button>
-
-														<button type="submit" class="width-65 pull-right btn btn-sm btn-success">
-															Tạo mới tài khoảng
-															<i class="icon-arrow-right icon-on-right"></i>
-														</button>
-													</div>
-												</fieldset>
-											</form>
-										</div>
-										<div class="toolbar center">
-											<a asp-area="Identity" asp-page="/Account/Login" class="back-to-login-link">
-												<i class="icon-arrow-left"></i>
-												Trở lại trang đăng nhập
-											</a>
-										</div>
-									</div><!-- /widget-body -->
-								</div><!-- /signup-box -->
-							</div><!-- /position-relative -->
-						</div>
-					</div><!-- /.col -->
-				</div><!-- /.row -->
-			</div>
-		</div>
+<style>
+    .custom-file-input{
+        height:350px;
+        width:350px;
+        object-fit:cover;
+    }
+</style>
+<div class="row">
+    <div class="col-sm-6">
+        <div class="login-container">
+            @*<div class="center">
+            <h1>
+            <i class="icon-leaf green"></i>
+            <span class="red">Ace</span>
+            <span class="white">Application</span>
+            </h1>
+            <h4 class="blue">© Company Name</h4>
+            </div>*@
+            <div class="space-6"></div>
+            <div class="position-relative">
+                <div id="signup-box" class="signup-box widget-box no-border">
+                    <div class="widget-body">
+                        <div class="widget-main">
+                            <div class="space-6"></div>
+                            <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <fieldset>
+                                            <label class="block clearfix">
+                                                <span class="block input-icon input-icon-right">
+                                                    <label asp-for="Input.Email">Email</label>
+                                                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="Nhập email" />
+                                                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                                    <i class="icon-envelope"></i>
+                                                </span>
+                                            </label>
+                                            <label class="block clearfix">
+                                                <span class="block input-icon input-icon-right">
+                                                    <label asp-for="Input.Hoten_NV"></label>
+                                                    <input asp-for="Input.Hoten_NV" class="form-control" autocomplete="Hoten_NV" aria-required="true" mã placeholder="Nhập họ và tên" />
+                                                    <span asp-validation-for="Input.Hoten_NV" class="text-danger"></span>
+                                                    <i class="icon-lock"></i>
+                                                </span>
+                                            </label>
+                                            <label class="block clearfix">
+                                                <span class="block input-icon input-icon-right">
+                                                    <label asp-for="Input.DiaChi_NV"></label>
+                                                    <input asp-for="Input.DiaChi_NV" class="form-control" autocomplete="DiaChi_NV" aria-required="true" placeholder="Nhập địa chỉ" />
+                                                    <span asp-validation-for="Input.DiaChi_NV" class="text-danger"></span>
+                                                    <i class="icon-lock"></i>
+                                                </span>
+                                            </label>
+                                            <label class="block clearfix">
+                                                <span class="block input-icon input-icon-right">
+                                                    <label asp-for="Input.NgaySinh_NV"></label>
+                                                    <input asp-for="Input.NgaySinh_NV" class="form-control" autocomplete="NgaySinh_NV" aria-required="true" placeholder="Nhập ngày sinh" />
+                                                    <span asp-validation-for="Input.NgaySinh_NV" class="text-danger"></span>
+                                                    <i class="icon-lock"></i>
+                                                </span>
+                                            </label>
+                                            <label class="block clearfix">
+                                                <span class="block input-icon input-icon-right">
+                                                    <label asp-for="Input.SDT_NV"></label>
+                                                    <input asp-for="Input.SDT_NV" class="form-control" autocomplete="SDT_NV" aria-required="true" placeholder="Nhập số điện thoại" />
+                                                    <span asp-validation-for="Input.SDT_NV" class="text-danger"></span>
+                                                    <i class="icon-lock"></i>
+                                                </span>
+                                            </label>
+                                            <label class="block clearfix">
+                                                <span class="block input-icon input-icon-right">
+                                                    <label asp-for="Input.Password"></label>
+                                                    <input asp-for="Input.Password" class="form-control" autocomplete="Password" aria-required="true" placeholder="Nhập mật khẩu" />
+                                                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                                    <i class="icon-lock"></i>
+                                                </span>
+                                            </label>
+                                            <label class="block clearfix">
+                                                <span class="block input-icon input-icon-right">
+                                                    <label asp-for="Input.ConfirmPassword"></label>
+                                                    <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="ConfirmPassword" aria-required="true" placeholder="Nhập lại mật khẩu" />
+                                                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                                                    <i class="icon-retweet"></i>
+                                                </span>
+                                            </label>
+                                            @*<label class="block">
+                                            <input type="checkbox" class="ace">
+                                            <span class="lbl">
+                                            I accept the
+                                            <a href="#">User Agreement</a>
+                                            </span>
+                                            </label>*@
 
 
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label asp-for="Input.Hinh"></label>
+                                            <img id="profilePicture" src="~/assets/css/images/avatar/avatar-male.jpg"/>
+                                            <div class="">
+                                                <label class="custom-file-label" asp-for="Input.Hinh">Chọn hình...</label>
+                                                <input type="file" accept="image/*" asp-for="Input.Hinh" class="custom-file-input" onchange="document.getElementById('profilePicture').src = window.URL.createObjectURL(this.files[0])"/>
+                                            </div>
 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-24"></div>
 
+                                <div class="clearfix">
+                                    <button type="reset" class="width-30 pull-left btn btn-sm">
+                                        <i class="icon-refresh"></i>
+                                        Đặt lại mật khẩu
+                                    </button>
 
-
-
-
-
-
-
-
-
-
+                                    <button type="submit" class="width-65 pull-right btn btn-sm btn-success">
+                                        Tạo mới tài khoảng
+                                        <i class="icon-arrow-right icon-on-right"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="toolbar center">
+                            <a asp-area="Identity" asp-page="/Account/Login" class="back-to-login-link">
+                                <i class="icon-arrow-left"></i>
+                                Trở lại trang đăng nhập
+                            </a>
+                        </div>
+                    </div><!-- /widget-body -->
+                </div><!-- /signup-box -->
+            </div><!-- /position-relative -->
+        </div>
+    </div>
+</div><!-- /.row -->
 @*<div class="row">
     <div class="col-md-4">
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">

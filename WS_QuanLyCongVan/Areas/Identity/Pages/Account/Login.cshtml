@@ -3,116 +3,198 @@
 
 @{
     ViewData["Title"] = "Log in";
+    Layout = null;
 }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Dashboard - Ace Admin</title>
 
-<div class="main-container">
-			<div class="main-content">
-				<div class="row">
-					<div class="col-sm-10 col-sm-offset-1" style="width:auto">
-						<div class="login-container" style="width:500px">
-							<div class="center">
-								<h1>
-									<i class="icon-leaf green"></i>
-									<span class="red">Ace</span>
-									<span class="white">Application</span>
-								</h1>
-								<h4 class="blue">© Company Name</h4>
-							</div>
+    <meta name="description" content="overview &amp; stats" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+    <style>
+        .btn {
+            display: inline-block;
+            *display: inline;
+            *zoom: 1;
+            padding: 4px 10px 4px;
+            margin-bottom: 0;
+            font-size: 13px;
+            line-height: 18px;
+            color: #333333;
+            text-align: center;
+            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+            vertical-align: middle;
+            background-color: #f5f5f5;
+            background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6);
+            background-image: -ms-linear-gradient(top, #ffffff, #e6e6e6);
+            background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#e6e6e6));
+            background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
+            background-image: -o-linear-gradient(top, #ffffff, #e6e6e6);
+            background-image: linear-gradient(top, #ffffff, #e6e6e6);
+            background-repeat: repeat-x;
+            filter: progid:dximagetransform.microsoft.gradient(startColorstr=#ffffff, endColorstr=#e6e6e6, GradientType=0);
+            border-color: #e6e6e6 #e6e6e6 #e6e6e6;
+            border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+            border: 1px solid #e6e6e6;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+            -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+            -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            *margin-left: .3em;
+        }
 
-							<div class="space-6"></div>
+            .btn:hover, .btn:active, .btn.active, .btn.disabled, .btn[disabled] {
+                background-color: #e6e6e6;
+            }
 
-							<div class="position-relative">
-								<div id="login-box" class="login-box visible widget-box no-border">
-									<div class="widget-body">
-										<div class="widget-main">
-											<h4 class="header blue lighter bigger">
-												<i class="icon-coffee green"></i>
-												Please Enter Your Information
-											</h4>
+        .btn-large {
+            padding: 9px 14px;
+            font-size: 15px;
+            line-height: normal;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+        }
 
-											<div class="space-6"></div>
+        .btn:hover {
+            color: #333333;
+            text-decoration: none;
+            background-color: #e6e6e6;
+            background-position: 0 -15px;
+            -webkit-transition: background-position 0.1s linear;
+            -moz-transition: background-position 0.1s linear;
+            -ms-transition: background-position 0.1s linear;
+            -o-transition: background-position 0.1s linear;
+            transition: background-position 0.1s linear;
+        }
 
-											<form id="account" method="post">
-												<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-												<fieldset>
-													<label class="block clearfix">
-														<span class="block input-icon input-icon-right">
-															<input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
-															<label asp-for="Input.Email" class="form-label"></label>
-															<i class="icon-user"></i>
-															<span asp-validation-for="Input.Email" class="text-danger"></span>
-														</span>
-													</label>
+        .btn-primary, .btn-primary:hover {
+            text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+            color: #ffffff;
+        }
 
-													<label class="block clearfix">
-														<span class="block input-icon input-icon-right">
-															<input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" />
-															<label asp-for="Input.Password" class="form-label"></label>
-															<i class="icon-lock"></i>
-															<span asp-validation-for="Input.Password" class="text-danger"></span>
-														</span>
-													</label>
+            .btn-primary.active {
+                color: rgba(255, 255, 255, 0.75);
+            }
 
-													<div class="space"></div>
+        .btn-primary {
+            background-color: #4a77d4;
+            background-image: -moz-linear-gradient(top, #6eb6de, #4a77d4);
+            background-image: -ms-linear-gradient(top, #6eb6de, #4a77d4);
+            background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#6eb6de), to(#4a77d4));
+            background-image: -webkit-linear-gradient(top, #6eb6de, #4a77d4);
+            background-image: -o-linear-gradient(top, #6eb6de, #4a77d4);
+            background-image: linear-gradient(top, #6eb6de, #4a77d4);
+            background-repeat: repeat-x;
+            filter: progid:dximagetransform.microsoft.gradient(startColorstr=#6eb6de, endColorstr=#4a77d4, GradientType=0);
+            border: 1px solid #3762bc;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
 
-													<div class="clearfix">
-														<label asp-for="Input.RememberMe" class="form-label">
-															<input class="form-check-input" asp-for="Input.RememberMe" />
-															@Html.DisplayNameFor(m => m.Input.RememberMe)
-														</label>
+            .btn-primary:hover, .btn-primary:active, .btn-primary.active, .btn-primary.disabled, .btn-primary[disabled] {
+                filter: none;
+                background-color: #4a77d4;
+            }
 
-														<button type="submit" class="width-35 pull-right btn btn-sm btn-primary">
-															<i class="icon-key"></i>
-															Login
-														</button>
-													</div>
+        .btn-block {
+            width: 100%;
+            display: block;
+        }
 
-													<div class="space-4"></div>
-												</fieldset>
-											</form>
+        * {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -ms-box-sizing: border-box;
+            -o-box-sizing: border-box;
+            box-sizing: border-box;
+        }
 
-											<div class="social-or-login center">
-												<span class="bigger-110">Or Login Using</span>
-											</div>
+        html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
 
-											<div class="social-login center">
-												<a class="btn btn-primary">
-													<i class="icon-facebook"></i>
-												</a>
+        body {
+            width: 100%;
+            height: 100%;
+            font-family: 'Open Sans', sans-serif;
+            background-image: url('/assets/avatar/background.jpg');
+            background-size: cover; /* Đảm bảo hình ảnh bao phủ toàn bộ màn hình */
+              background-repeat: no-repeat; /* Ngăn hình ảnh lặp lại */
+              background-position: center; /* Đặt hình ảnh ở giữa màn hình */
+        }
 
-												<a class="btn btn-info">
-													<i class="icon-twitter"></i>
-												</a>
+        .login {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: -150px 0 0 -150px;
+            width: 300px;
+            height: 300px;
+        }
 
-												<a class="btn btn-danger">
-													<i class="icon-google-plus"></i>
-												</a>
-											</div>
-										</div><!-- /widget-main -->
+            .login h1 {
+                color: #fff;
+                text-shadow: 0 0 10px rgba(0,0,0,0.3);
+                letter-spacing: 1px;
+                text-align: center;
+            }
 
-										<div class="toolbar clearfix">
-											<div>
-												<a asp-page="./ForgotPassword" class="forgot-password-link">
-													<i class="icon-arrow-left"></i>
-													I forgot my password
-												</a>
-											</div>
+        input {
+            width: 100%;
+            margin-bottom: 10px;
+            background: rgba(0,0,0,0.3);
+            border: none;
+            outline: none;
+            padding: 10px;
+            font-size: 13px;
+            color: #fff;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+            border: 1px solid rgba(0,0,0,0.3);
+            border-radius: 4px;
+            box-shadow: inset 0 -5px 45px rgba(100,100,100,0.2), 0 1px 1px rgba(255,255,255,0.2);
+            -webkit-transition: box-shadow .5s ease;
+            -moz-transition: box-shadow .5s ease;
+            -o-transition: box-shadow .5s ease;
+            -ms-transition: box-shadow .5s ease;
+            transition: box-shadow .5s ease;
+        }
 
-											<div>
-												<a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="user-signup-link">
-													I want to register
-													<i class="icon-arrow-right"></i>
-												</a>
-											</div>
-										</div>
-									</div><!-- /widget-body -->
-								</div><!-- /login-box -->
-							</div><!-- /position-relative -->
-						</div>
-					</div><!-- /.col -->
-				</div><!-- /.row -->
-			</div>
-		</div>
+            input:focus {
+                box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgba(255,255,255,0.2);
+            }
+
+    </style>
+    <div class="login">
+        <h1 style="color:black">TÀI KHOẢN</h1>
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <label asp-for="Input.Email" class="form-label"></label>
+            <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
+            <span asp-validation-for="Input.Email" class="text-danger"></span>
+
+            <label asp-for="Input.Password" class="form-label"></label>
+            <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" />
+            <span asp-validation-for="Input.Password" class="text-danger"></span>
+               
+            <label asp-for="Input.RememberMe" class="form-label"> </label>
+            <input class="form-check-input" asp-for="Input.RememberMe" style="width: 20px;"/>
+
+            <button type="submit" class="btn btn-primary btn-block btn-large">Đăng nhập</button>
+        </form>
+
+    </div>
+</body>
+</html>
 
 
 
@@ -124,6 +206,101 @@
 
 
 
+
+@*<div class="row">
+    <div class="col-sm-12 col-sm-offset-1" style="width:auto">
+        <div class="login-container">
+            <div class="center">
+                <h1>
+                    <i class="icon-leaf green"></i>
+                    <span class="red">Đăng nhập</span>
+                    <span class="white"></span>
+                </h1>
+                <h4 class="blue">QUẢN LÝ CÔNG VĂN TRƯỜNG ĐẠI HỌC NAM CẦN THƠ</h4>
+            </div>
+
+            <div class="space-6"></div>
+
+            <div class="position-relative">
+                <div id="login-box" class="login-box visible widget-box no-border">
+                    <div class="widget-body">
+                        <div class="widget-main">
+                            <div class="space-6"></div>
+
+                            <form id="account" method="post">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <fieldset>
+                                    <label class="block clearfix">
+                                        <span class="block input-icon input-icon-right">
+                                            <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
+                                            <label asp-for="Input.Email" class="form-label"></label>
+                                            <i class="icon-user"></i>
+                                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                        </span>
+                                    </label>
+
+                                    <label class="block clearfix">
+                                        <span class="block input-icon input-icon-right">
+                                            <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" />
+                                            <label asp-for="Input.Password" class="form-label"></label>
+                                            <i class="icon-lock"></i>
+                                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                        </span>
+                                    </label>
+
+                                    <div class="space"></div>
+
+                                    <div class="clearfix">
+                                        <label asp-for="Input.RememberMe" class="form-label">
+                                            <input class="form-check-input" asp-for="Input.RememberMe" />
+                                            @Html.DisplayNameFor(m => m.Input.RememberMe)
+                                        </label>
+
+                                        <button type="submit" class="width-35 pull-right btn btn-sm btn-primary">
+                                            <i class="icon-key"></i>
+                                            Login
+                                        </button>
+                                    </div>
+
+                                    <div class="space-4"></div>
+                                </fieldset>
+                            </form>
+
+                            <div class="social-or-login center">
+                                <span class="bigger-110">Or Login Using</span>
+                            </div>
+
+                            <div class="social-login center">
+                                <a class="btn btn-primary">
+                                    <i class="icon-facebook"></i>
+                                </a>
+                                <a class="btn btn-danger">
+                                    <i class="icon-google-plus"></i>
+                                </a>
+                            </div>
+                        </div><!-- /widget-main -->
+                        @*
+                        <div class="toolbar clearfix">
+                        <div>
+                        <a asp-page="./ForgotPassword" class="forgot-password-link">
+                        <i class="icon-arrow-left"></i>
+                        I forgot my password
+                        </a>
+                        </div>
+
+                        <div>
+                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="user-signup-link">
+                        I want to register
+                        <i class="icon-arrow-right"></i>
+                        </a>
+                        </div>
+                        </div>
+                    </div><!-- /widget-body -->
+                </div><!-- /login-box -->
+            </div><!-- /position-relative -->
+        </div>
+    </div><!-- /.col -->
+</div><!-- /.row -->*@
 @*<div class="row">
     <div class="col-md-4">
         <section>

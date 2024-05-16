@@ -35,10 +35,13 @@ namespace DataLayer.Model
         public string? GhiChu_CVDEN { get; set; }
         [Required(ErrorMessage = "Bạn cần nhập đầy đủ thông tin.")]
         public string? PhanCongXLVB_CVDEN { get; set; }
-        public string? File_CVDEN { get; set; }
+        public byte[]? File_CVDEN { get; set; }
         public bool TrangThai_CVDI { get; set; }
         public bool TrangThai_Xoa { get; set; } = false;
+        public bool TrangThai_Moi { get; set; } = true;
         public DateTime ngay { get; set; }
+
+
         //
         [Required(ErrorMessage = "Bạn cần nhập đầy đủ thông tin.")]
         public int ID_LVB { get; set; }

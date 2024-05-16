@@ -1,4 +1,6 @@
-﻿$(document).ready(function () {
+﻿var currentPage = 1; 
+var hasMoreData = true;
+$(document).ready(function () {
     getCountCvden()
     getCountCvdi()
     getCvdiOfCvden()
@@ -7,6 +9,12 @@
     getPart()
     populateDays()
     loadStatistical()
+    loadInitialData()
+    $('.dialogs').on('scroll', function () {
+        if ($(this).scrollTop() === 0 && hasMoreData) {
+            loadMoreData();
+        }
+    });
     var connection = new signalR.HubConnectionBuilder().withUrl("/NotihubServer").build();
     connection.on("ReceiveMessage", function (message) {
         getCountCvden()
@@ -19,6 +27,47 @@
         loadStatistical()
     });
     connection.start();
+
+    var connectionChat = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+    
+    connectionChat.start().catch(function (err) {
+        console.error(err.toString());
+    });
+
+    $("#sendButton").click(function () {
+        var message = $("#messageInput").val();
+        $("#messageInput").val("");
+        connectionChat.invoke("SendMessageToAll", message).catch(function (err) {
+            console.error(err.toString());
+        });
+        
+
+    });
+    connectionChat.on("ReceiveMessage", function (user) {
+        $("#lstMessage").append(
+            `<div class="itemdiv dialogdiv">
+            <div class="user">
+                <img alt="Alexa's Avatar" src="data:image/*;base64,${user.hinh}">
+            </div>
+            <div class="body">
+                <div class="time">
+                    <i class="icon-time"></i>
+                    <span class="green">${user.ngay}</span>
+                </div>
+                <div class="name">
+                    <a href="#">${user.ten}</a>
+                </div>
+                <div class="text">${user.noidung}</div>
+                <div class="tools">
+                    <a href="#" class="btn btn-minier btn-info">
+                        <i class="icon-only icon-share-alt"></i>
+                    </a>
+                </div>
+            </div>
+        </div>`
+        );
+        scrollToBottom()
+    });
 });
 function getCountCvden() {
     $.ajax({
@@ -108,6 +157,137 @@ function getPart() {
         }
     })
 }
+//function getMessage() {
+//    $.ajax({
+//        type: "GET",
+//        url: "/home/getMessage",
+//        success: function (res) {
+//            if (res.data != null) {
+//                for (var i = 0; i < res.data.length; i++) {
+//                    $("#lstMessage").append(
+//                        `<div class="itemdiv dialogdiv">
+//                            <div class="user">
+//                                <img alt="Alexa's Avatar" src="data:image/*;base64,${res.data[i].hinh}">
+//                            </div>
+//                            <div class="body">
+//                                <div class="time">
+//                                    <i class="icon-time"></i>
+//                                    <span class="green">${res.data[i].ngay}</span>
+//                                </div>
+//                                <div class="name">
+//                                    <a href="#">${res.data[i].ten}</a>
+//                                </div>
+//                                <div class="text">${res.data[i].noidung}</div>
+//                                <div class="tools">
+//                                    <a href="#" class="btn btn-minier btn-info">
+//                                        <i class="icon-only icon-share-alt"></i>
+//                                    </a>
+//                                </div>
+//                            </div>
+//                        </div>`
+//                    );
+//                }
+//            }
+//        }
+//    })
+//}
+function scrollToBottom() {
+    var dialogContainer = $('.dialogs')[0];
+    dialogContainer.scrollTop = dialogContainer.scrollHeight;
+}
+// Hàm để hiển thị dữ liệu mới
+function loadInitialData() {
+    $.ajax({
+        url: '/home/loadMoreMessages',
+        method: 'GET',
+        data: { page: currentPage },
+        success: function (res) {
+            $('#thongbao').empty(); 
+            for (var i = 0; i < res.data.length; i++) {
+                    $("#lstMessage").append(
+                        `<div class="itemdiv dialogdiv">
+                            <div class="user">
+                                <img alt="Alexa's Avatar" src="data:image/*;base64,${res.data[i].hinh}">
+                            </div>
+                            <div class="body">
+                                <div class="time">
+                                    <i class="icon-time"></i>
+                                    <span class="green">${res.data[i].ngay}</span>
+                                </div>
+                                <div class="name">
+                                    <a href="#">${res.data[i].ten}</a>
+                                </div>
+                                <div class="text">${res.data[i].noidung}</div>
+                                <div class="tools">
+                                    <a href="#" class="btn btn-minier btn-info">
+                                        <i class="icon-only icon-share-alt"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>`
+                    );
+            }
+            // Kiểm tra nếu không còn dữ liệu
+            if (res.data.length === 0) {
+                hasMoreData = false;
+            } else {
+                scrollToBottom()
+            }
+        },
+        error: function (error) {
+            console.error('Error fetching initial data:', error);
+        }
+    });
+}
+// Hàm để tải thêm dữ liệu khi cuộn lên
+function loadMoreData() {
+    currentPage++;
+    $.ajax({
+        url: '/home/loadMoreMessages',
+        method: 'GET',
+        data: { page: currentPage },
+        success: function (res) {
+            $('#thongbao').empty(); 
+            for (var i = 0; i < res.data.length; i++) {
+                $("#lstMessage").append(
+                    `<div class="itemdiv dialogdiv">
+                            <div class="user">
+                                <img alt="Alexa's Avatar" src="data:image/*;base64,${res.data[i].hinh}">
+                            </div>
+                            <div class="body">
+                                <div class="time">
+                                    <i class="icon-time"></i>
+                                    <span class="green">${res.data[i].ngay}</span>
+                                </div>
+                                <div class="name">
+                                    <a href="#">${res.data[i].ten}</a>
+                                </div>
+                                <div class="text">${res.data[i].noidung}</div>
+                                <div class="tools">
+                                    <a href="#" class="btn btn-minier btn-info">
+                                        <i class="icon-only icon-share-alt"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>`
+                );
+            }
+            // Kiểm tra nếu không còn dữ liệu
+            if (res.data.length === 0) {
+                hasMoreData = false;
+            } else {
+                scrollToBottom()
+            }
+        },
+        error: function (error) {
+            console.error('Error fetching more data:', error);
+        }
+    });
+}
+
+
+
+
 
 
 function loadStatistical() {

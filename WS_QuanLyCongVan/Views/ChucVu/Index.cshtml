@@ -1,50 +1,28 @@
-﻿@{
-    Layout = "/Views/Shared/_Layout.cshtml";
-}
-<div class="col-sm-12">
-    <div class="widget-box">
-        <div class="widget-header">
-            <h4>CHỨC VỤ</h4>
-             <span class="widget-toolbar">
-                <a href="#" data-action="collapse">
-                    <i class="icon-chevron-up"></i>
-                </a>
-            </span>
-        </div>
+﻿
+<a onclick="showInPopup('@Url.ActionLink("AddOfEdit","ChucVu",null,Context.Request.Scheme)',0)" class="btn btn-sm btn-success">Thêm</a>
+<div hidden data-request-url="@Url.ActionLink("AddOfEdit","ChucVu")" id="request"></div>
+<button id="delete" disabled data-request-url="@Url.ActionLink("DeleteRangeConfirmed","ChucVu")" class="btn btn-sm btn-danger">
+    Xóa
+</button>
+<a asp-controller="ChucVu" asp-action="indexRestore" class="btn btn-sm btn-info">Thùng rác</a>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="table-responsive">
+            <table id="chucvu" class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th class="center">
+                            <input type="checkbox" id="selectAllCheckbox"></input>
+                        </th>
+                        <th>TÊN CHỨC VỤ</th>
+                        <th>GHI CHÚ</th>
+                        <th></th>
+                    </tr>
+                </thead>
 
-        <div class="widget-body">
-            <div class="widget-main no-padding">
-                <div class="col-sm-4" style="margin:15px 0">
-                    <a onclick="showInPopup('@Url.ActionLink("AddOfEdit","ChucVu",null,Context.Request.Scheme)',0)" class="btn btn-sm btn-success">Thêm</a>
-                    <div hidden data-request-url="@Url.ActionLink("AddOfEdit","ChucVu")" id="request"></div>
-                    <button id="delete" disabled data-request-url="@Url.ActionLink("DeleteRangeConfirmed","ChucVu")" class="btn btn-sm btn-danger">
-                        Xóa
-                    </button>
-                    <a asp-controller="ChucVu" asp-action="indexRestore" class="btn btn-sm btn-info">Thùng rác</a>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="table-responsive">
-                            <table id="chucvu" class="table table-striped table-bordered table-hover">
-                                <thead>
-                                    <tr>
-                                        <th class="center">
-                                            <input type="checkbox" id="selectAllCheckbox"></input>
-                                        </th>
-                                        <th>TÊN CHỨC VỤ</th>
-                                        <th>GHI CHÚ</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                
-                            </table>
-                        </div><!-- /.table-responsive -->
-                    </div><!-- /span -->
-                </div>
-
-            </div>
-        </div>
-    </div>
+            </table>
+        </div><!-- /.table-responsive -->
+    </div><!-- /span -->
 </div>
 @section Scripts {
     <script src="~/assets/js/jsMain/DanhMucCVu/custom.js"></script>

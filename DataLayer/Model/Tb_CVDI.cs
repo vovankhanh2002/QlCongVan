@@ -27,7 +27,7 @@ namespace DataLayer.Model
         public string Nguoinhan_CVDI { get; set; }
         [Required(ErrorMessage = "Bạn cần nhập đầy đủ thông tin.")]
         public int SLTrang_CVDI { get; set; }
-        public string? File_CVDI { get; set; }
+        public byte[]? File_CVDI { get; set; }
         public bool TrangThai_CVDI { get; set; }
         public bool TrangThai_Xoa { get; set; } = false;
         public DateTime ngay { get; set; }

@@ -1,0 +1,36 @@
+﻿@model DataLayer.Model.Roles
+@{
+    Layout = null;
+}
+<div class="row">
+    <div class="widget-box">
+        <div class="widget-header">
+            <h4 id="title">QUYỀN</h4>
+
+            <span class="widget-toolbar">
+                <a href="#" data-action="collapse">
+                    <i class="icon-chevron-up"></i>
+                </a>
+            </span>
+        </div>
+
+        <div class="widget-body">
+            <div class="widget-main">
+                <form method="post" asp-action="AddOfEdit" asp-route-id="@Model.Id" onsubmit="return JqueryAjaxPost(this);" autocomplete="off">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id"></>
+                    <div class="form-group">
+                        <label asp-for="Name">Tên quyền</label>
+                        <input asp-for="Name" class="form-control" autocomplete="Name" aria-required="true" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-success">Lưu</button>
+                    <button type="button" onclick="closePopup()" class="btn btn-sm btn-danger">Đóng</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/assets/js/jsMain/DanhMucCVu/custom.js"></script>
+}

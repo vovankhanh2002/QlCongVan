@@ -1,0 +1,41 @@
+﻿@model DataLayer.Model.UserRolesViewModel
+@{
+    Layout = null;
+}
+<div class="row">
+    <div class="widget-box">
+        <div class="widget-header">
+            <h4 id="title">NGƯỜI DÙNG</h4>
+
+            <span class="widget-toolbar">
+                <a href="#" data-action="collapse">
+                    <i class="icon-chevron-up"></i>
+                </a>
+            </span>
+        </div>
+
+        <div class="widget-body">
+            <div class="widget-main">
+                <form method="post" asp-action="AddUserRoles" asp-route-id="@Model.UserId" onsubmit="return JqueryAjaxPost(this);" autocomplete="off">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="UserId"></>
+                    @for (int i = 0; i < Model.Roles.Count; i++)
+                    {
+                        <div class="form-check m-1">
+                            <input type="hidden" asp-for="@Model.Roles[i].RoleName" /> 
+                            <input asp-for="@Model.Roles[i].IsSelect" class="form-check-input" />
+                            <label class="form-check-label" asp-for="@Model.Roles[i].IsSelect">
+                                @Model.Roles[i].RoleName
+                            </label>
+                        </div>
+                    }
+                    <button type="submit" class="btn btn-sm btn-success">Lưu</button>
+                    <button type="button" onclick="closePopup()" class="btn btn-sm btn-danger">Đóng</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/assets/js/jsMain/DanhMucLT/custom.js"></script>
+}

@@ -3,17 +3,19 @@ using BusinessLayer.Repository.IRepository;
 using DataLayer.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using System.Security.Claims;
 
 namespace WS_QuanLyCongVan.Controllers
 {
+
     public class ChucVuController : Controller
     {
         public IUnitOfWork UnitOfWork;
-        private readonly IHubContext<Notihub> _hubContext;
-        public ChucVuController(IUnitOfWork UnitOfWork, IHubContext<Notihub> hubContext)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public ChucVuController(IUnitOfWork UnitOfWork,  IHttpContextAccessor httpContextAccessor)
         {
             this.UnitOfWork = UnitOfWork;
-            _hubContext = hubContext;
+            _httpContextAccessor = httpContextAccessor;
         }
         public async Task<IActionResult> Index()
         {
@@ -25,7 +27,7 @@ namespace WS_QuanLyCongVan.Controllers
             var draw = Request.Form["draw"];
             int start = Convert.ToInt32(Request.Form["start"]);
             int length = Convert.ToInt32(Request.Form["length"]);
-            var searchVal = Request.Form["search[value]"];
+            var searchVal = Request.Form["search[value]"].ToString().ToLower();
             var sortColumn = Request.Form[string.Concat("columns[", Request.Form["order[0][column]"], "][name]")];
             var sortDirection = Request.Form["order[0][dir]"];
             var data = UnitOfWork.chucVu.GetFlowRestore(i => i.TrangThai_Xoa == false, start, length, sortColumn, sortDirection);
@@ -77,8 +79,8 @@ namespace WS_QuanLyCongVan.Controllers
         }
         [HttpPost]
         public async Task<IActionResult> AddOfEdit(int id, Tb_ChucVu Tb_ChucVu)
-
         {
+            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (ModelState.IsValid)
             {
                 if (Tb_ChucVu.ID == 0)
@@ -86,7 +88,7 @@ namespace WS_QuanLyCongVan.Controllers
 
                     UnitOfWork.chucVu.Add(Tb_ChucVu);
                     UnitOfWork.Save();
-                    await _hubContext.Clients.All.SendAsync("ReceiveMessage", "Your message here");
+                    // Gửi thông báo đến tất cả các tài khoản trừ tài khoản vừa được cập nhật hoặc thêm mới
                 }
                 else
                 {

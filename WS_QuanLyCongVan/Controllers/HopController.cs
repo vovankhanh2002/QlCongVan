@@ -23,7 +23,7 @@ namespace WS_QuanLyCongVan.Controllers
             var draw = Request.Form["draw"];
             int start = Convert.ToInt32(Request.Form["start"]);
             int length = Convert.ToInt32(Request.Form["length"]);
-            var searchVal = Request.Form["search[value]"];
+            var searchVal = Request.Form["search[value]"].ToString().ToLower();
             var sortColumn = Request.Form[string.Concat("columns[", Request.Form["order[0][column]"], "][name]")];
             var sortDirection = Request.Form["order[0][dir]"];
             var data = UnitOfWork.hop.GetFlowRestore(i => i.TrangThai_Xoa == false, start, length, sortColumn, sortDirection, include: "Tb_Kho,Tb_Ke");
@@ -61,8 +61,10 @@ namespace WS_QuanLyCongVan.Controllers
         public async Task<IActionResult> AddOfEdit(int id = 0)
         {
             AllGetListItem getList = new AllGetListItem(UnitOfWork);
-            ViewBag.getListKho = getList.getKho();
-            ViewBag.getListKe = getList.getKe();
+
+            ViewBag.getListkho = getList.getKho();
+            ViewBag.getListke = getList.getKe();
+
             if (id == 0)
             {
                 return View(new Tb_Hop());

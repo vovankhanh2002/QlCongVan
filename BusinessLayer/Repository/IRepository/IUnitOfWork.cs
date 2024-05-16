@@ -29,7 +29,8 @@ namespace BusinessLayer.Repository.IRepository
         public ISoCV soCV { get; set; }
         public INguoidung nguoidung { get; set; }
         public IThongke thongke { get; set; }
-
+        public IThongbao thongbao { get; set; }
+        public IChat chat { get; set; }
         void Save();
         Task BackupDatabase(string backupPath);
     }

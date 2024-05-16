@@ -75,6 +75,12 @@ function chucvu_res() {
         "serverSide": true,
         "filter": true,
         "processing": true,
+        "language": {
+            "info": "Bắt đầu _START_ kết thúc _END_ số lượng _TOTAL_ bảng ghi",
+            "search": "Tìm kiếm",
+            "loadingRecords": "Đang tải...",
+            "emptyTable": "Không bảng ghi"
+        },
         "ajax": {
             "url": "/chucvu/getRestore",
             "type": "Post",

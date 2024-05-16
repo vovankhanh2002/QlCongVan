@@ -1,4 +1,5 @@
-﻿@model DataLayer.Model.Tb_CVDI
+﻿@using System.Text
+@model DataLayer.Model.Tb_CVDI
 @{
     Layout = null;
 }
@@ -163,11 +164,7 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                           @* <div class="form-group">
-                                <label asp-for="HanTL_CVDEN">Ngày giải quyết</label>
-                                <input type="date" asp-for="HanTL_CVDEN" class="form-control" autocomplete="HanTL_CVDEN" aria-required="true" />
-                                <span asp-validation-for="HanTL_CVDEN" class="text-danger"></span>
-                            </div>*@
+                          
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
@@ -177,16 +174,6 @@
                             </div>
                         </div>
                     </div>
-                    
-                    @*<div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label asp-for="PhanCongXLVB_CVDEN">Người xử lý công văn</label>
-                                <input asp-for="PhanCongXLVB_CVDEN" class="form-control" autocomplete="PhanCongXLVB_CVDEN" aria-required="true" placeholder="Nhập người xử lý công văn"/>
-                                <span asp-validation-for="PhanCongXLVB_CVDEN" class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>*@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
@@ -200,7 +187,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label asp-for="File_CVDI">Tệp:</label>
-                                <span>@Model.File_CVDI</span>
+                                <span>@System.IO.Path.GetFileName(Encoding.UTF8.GetString(Model.File_CVDI))</span>
                                 <a asp-area="" asp-controller="CVDI" asp-action="ViewTab" asp-route-id="@Model.ID">
                                     <i class="fa-solid fa-eye "></i>
                                 </a>

@@ -1,0 +1,80 @@
+﻿@model DataLayer.Model.AddUserViewModel
+@{
+    Layout = null;
+}
+<div class="row">
+    <div class="widget-box">
+        <div class="widget-header">
+            <h4 id="title">NGƯỜI DÙNG</h4>
+
+            <span class="widget-toolbar">
+                <a href="#" data-action="collapse">
+                    <i class="icon-chevron-up"></i>
+                </a>
+            </span>
+        </div>
+
+        <div class="widget-body">
+            <div class="widget-main">
+                <form method="post" asp-action="Add" onsubmit="return JqueryAjaxPost(this);" autocomplete="off">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                     <div class="form-group">
+                        <label asp-for="Email"></label>
+                        <input asp-for="Email" class="form-control" autocomplete="Email" aria-required="true" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="UserName"></label>
+                        <input asp-for="UserName" class="form-control" autocomplete="Hoten_NV" aria-required="true" />
+                        <span asp-validation-for="UserName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Hoten_NV"></label>
+                        <input asp-for="Hoten_NV" class="form-control" autocomplete="Hoten_NV" aria-required="true" />
+                        <span asp-validation-for="Hoten_NV" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DiaChi_NV"></label>
+                        <input asp-for="DiaChi_NV" class="form-control" autocomplete="DiaChi_NV" aria-required="true" />
+                        <span asp-validation-for="DiaChi_NV" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SDT_NV"></label>
+                        <input asp-for="SDT_NV" class="form-control" autocomplete="SDT_NV" aria-required="true" />
+                        <span asp-validation-for="SDT_NV" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NgaySinh_NV"></label>
+                        <input type="date" asp-for="NgaySinh_NV" class="form-control" autocomplete="NgaySinh_NV" aria-required="true" />
+                        <span asp-validation-for="NgaySinh_NV" class="text-danger"></span>
+                    </div>
+                     <div class="form-group">
+                        <label asp-for="Password"></label>
+                        <input asp-for="Password" class="form-control" autocomplete="Password" aria-required="true" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                     <div class="form-group">
+                        <label asp-for="ConfirmPassword"></label>
+                        <input asp-for="ConfirmPassword" class="form-control" autocomplete="ConfirmPassword" aria-required="true" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+                    <label>Quyền</label>
+                    @for (int i = 0; i < Model.Roles.Count; i++)
+                    {
+                        <div class="form-check m-1">
+                            <input type="hidden" asp-for="@Model.Roles[i].RoleId" />
+                            <input type="hidden" asp-for="@Model.Roles[i].RoleName" />
+                            <input asp-for="@Model.Roles[i].IsSelect" class="form-check-input" />
+                            <label class="form-check-label" asp-for="@Model.Roles[i].IsSelect">
+                                @Model.Roles[i].RoleName
+                            </label>
+                        </div>
+                    }
+
+                    <button type="submit" class="btn btn-sm btn-success">Lưu</button>
+                    <button type="button" onclick="closePopup()" class="btn btn-sm btn-danger">Đóng</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

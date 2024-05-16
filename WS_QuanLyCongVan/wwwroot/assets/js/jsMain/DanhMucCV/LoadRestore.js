@@ -79,6 +79,12 @@ function loaisocv_res() {
         "serverSide": true,
         "filter": true,
         "processing": true,
+        "language": {
+            "info": "Bắt đầu _START_ kết thúc _END_ số lượng _TOTAL_ bảng ghi",
+            "search": "Tìm kiếm",
+            "loadingRecords": "Đang tải...",
+            "emptyTable": "Không bảng ghi"
+        },
         "ajax": {
             "url": "/LoaisoCV/getRestore",
             "type": "Post",
@@ -125,6 +131,12 @@ function loaicv_res() {
         "serverSide": true,
         "filter": true,
         "processing": true,
+        "language": {
+            "info": "Bắt đầu _START_ kết thúc _END_ số lượng _TOTAL_ bảng ghi",
+            "search": "Tìm kiếm",
+            "loadingRecords": "Đang tải...",
+            "emptyTable": "Không bảng ghi"
+        },
         "ajax": {
             "url": "/LoaiCV/getRestore",
             "type": "Post",
@@ -172,6 +184,12 @@ function socv_res() {
         "serverSide": true,
         "filter": true,
         "processing": true,
+        "language": {
+            "info": "Bắt đầu _START_ kết thúc _END_ số lượng _TOTAL_ bảng ghi",
+            "search": "Tìm kiếm",
+            "loadingRecords": "Đang tải...",
+            "emptyTable": "Không bảng ghi"
+        },
         "ajax": {
             "url": "/socv/getRestore",
             "type": "Post",
@@ -232,6 +250,12 @@ function linhvuc_res() {
         "serverSide": true,
         "filter": true,
         "processing": true,
+        "language": {
+            "info": "Bắt đầu _START_ kết thúc _END_ số lượng _TOTAL_ bảng ghi",
+            "search": "Tìm kiếm",
+            "loadingRecords": "Đang tải...",
+            "emptyTable": "Không bảng ghi"
+        },
         "ajax": {
             "url": "/linhvuc/getRestore",
             "type": "Post",
@@ -279,6 +303,12 @@ function tinhkhan_res() {
         "serverSide": true,
         "filter": true,
         "processing": true,
+        "language": {
+            "info": "Bắt đầu _START_ kết thúc _END_ số lượng _TOTAL_ bảng ghi",
+            "search": "Tìm kiếm",
+            "loadingRecords": "Đang tải...",
+            "emptyTable": "Không bảng ghi"
+        },
         "ajax": {
             "url": "/tinhkhan/getRestore",
             "type": "Post",
@@ -326,6 +356,12 @@ function tinhmat_res() {
         "serverSide": true,
         "filter": true,
         "processing": true,
+        "language": {
+            "info": "Bắt đầu _START_ kết thúc _END_ số lượng _TOTAL_ bảng ghi",
+            "search": "Tìm kiếm",
+            "loadingRecords": "Đang tải...",
+            "emptyTable": "Không bảng ghi"
+        },
         "ajax": {
             "url": "/tinhmat/getRestore",
             "type": "Post",
