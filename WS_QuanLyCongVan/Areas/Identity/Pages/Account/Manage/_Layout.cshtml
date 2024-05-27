@@ -1,24 +1,45 @@
 ﻿@{
-    if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout !=  null)
+    if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout != null)
     {
         Layout = parentLayout.ToString();
     }
     else
     {
-        Layout = "/Areas/Identity/Pages/_Layout.cshtml";
+        Layout = "/Views/Shared/_Layout.cshtml";
     }
 }
+<div class="">
+    <div id="" class="row">
+        <div class="col-sm-offset-1 col-sm-10">
+            <div class="space"></div>
+            <form class="form-horizontal">
+                <div class="tabbable">
+                    <ul class="nav nav-tabs padding-16">
+                        <li class="active">
+                            <a data-toggle="tab" href="#edit-basic">
+                                <i class="green icon-edit bigger-125"></i>
+                                Thông tin
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content profile-edit-tab-content">
+                        @RenderBody()
+                    </div>
+                </div>
+            </form>
+        </div><!-- /span -->
+    </div><!-- /user-profile -->
+</div>
 
-
-<div>
+@*<div>
     <div class="row flex-column">
         <div class="col-md-8">
             <partial name="_ManageNav" />
-            @RenderBody()
+            
         </div>
     </div>
 </div>
-
+*@
 @section Scripts {
     @RenderSection("Scripts", required: false)
 }

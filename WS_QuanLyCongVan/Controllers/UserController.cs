@@ -70,6 +70,26 @@ namespace WS_QuanLyCongVan.Controllers
             };
             return Json(jsonData);
         }
+        public async Task<IActionResult> getById(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+
+            if (user == null)
+                return NotFound();
+
+            var viewModel = new UpdateViewModel
+            {
+                Id = id,
+                UserName = user.UserName,
+                Email = user.Email,
+                Hoten_NV = user.Hoten_NV,
+                DiaChi_NV = user.DiaChi_NV,
+                SDT_NV = user.SDT_NV,
+                NgaySinh_NV = user.NgaySinh_NV
+            };
+            return View(viewModel);
+        }
+
         public async Task<IActionResult> Add()
         {
             var roles = await _roleManager.Roles.Select(r => new RoleViewModel { RoleId = r.Id, RoleName = r.Name }).ToListAsync();

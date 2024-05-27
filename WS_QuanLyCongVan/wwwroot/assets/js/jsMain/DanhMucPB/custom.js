@@ -9,28 +9,45 @@
         toggleDeleteButton()
     });
     $('#delete').on('click', function () {
-        if (confirm("Bạn muốn tiếp tục không ?")) {
-            var checkedData = [];
-            $('.rowCheckbox:checked').each(function () {
-                checkedData.push($(this).val());
-            });
-            $.ajax({
-                url: $(this).data('request-url'),
-                type: 'POST',
-                data: { lst: checkedData },
-                success: function (res) {
-                    if (res.isValue) {
-                        $.notify(res.notify, { globalPosition: 'top right', className: "success" });
-                        $('#selectAllCheckbox').prop('checked', false);
-                        $('#delete').prop('disabled', true);
-                        Load()
+        var request = $(this).data('request-url')
+        var checkedData = [];
+        $('.rowCheckbox:checked').each(function () {
+            checkedData.push($(this).val());
+        });
+        bootbox.dialog({
+            message: "<span class='bigger-110'>Bạn có muốn tiếp tục?</span>",
+            buttons:
+            {
+                "success":
+                {
+                    "label": "<i class='icon-ok'></i> Đồng ý",
+                    "className": "btn-sm btn-success",
+                    "callback": function () {
+                        $.ajax({
+                            url: request,
+                            type: 'POST',
+                            data: { lst: checkedData },
+                            success: function (res) {
+                                if (res.isValue) {
+                                    $.notify(res.notify, { globalPosition: 'top right', className: "success" });
+                                    $('#selectAllCheckbox').prop('checked', false);
+                                    $('#delete').prop('disabled', true);
+                                    Load()
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Error sending data:', error);
+                            }
+                        });
                     }
                 },
-                error: function (xhr, status, error) {
-                    console.error('Error sending data:', error);
+                "button":
+                {
+                    "label": "Đóng",
+                    "className": "btn-sm btn-error"
                 }
-            });
-        }
+            }
+        });
     });
 
 })
@@ -82,6 +99,7 @@ function loadNhanvien() {
             { "data": "diaChi_NV", "name": "diaChi_NV", "autowidth": true },
             { "data": "sdT_NV", "name": "SDT_NV", "autowidth": true },
             { "data": "ngaySinh_NV", "name": "ngaySinh_NV", "type": "date", "autowidth": true },
+            { "data": "tb_BoPhan.ten_BP", "name": "tb_BoPhan.ten_BP", "autowidth": true },
             { "data": "tb_ChucVu.ten_CV", "name": "tb_ChucVu.ten_CV", "autowidth": true },
             { "data": "ghiChu", "name": "ghiChu", "autowidth": true },
             {
@@ -202,18 +220,27 @@ function loadBophan() {
                 "data": "id",
                 "render": function (data, row) {
                     return `
-                             <div class="btn-group">
-								<button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">
-									Tùy chọn
-									<i class="icon-angle-down icon-on-right"></i>
-								</button>
-
-								<ul class="dropdown-menu">
-									<li>
-										 <a href="#" onclick="showInPopup('','${data}')" title="Sửa"><i class="icon-pencil bigger-130"></i>Sửa</a>
-									</li>
-								</ul>
-							</div>
+                             <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
+									<a class="green" onclick="showInPopup('','${data}')" href="#">
+										<i class="icon-pencil bigger-130"></i>
+									</a>
+								</div>
+                                <div class="visible-xs visible-sm hidden-md hidden-lg">
+									<div class="inline position-relative">
+										<button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown">
+											<i class="icon-caret-down icon-only bigger-120"></i>
+										</button>
+										<ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close">
+                                            <li>
+												<a onclick="showInPopup('','${data}')" href="#" class="tooltip-success" data-rel="tooltip" title="" data-original-title="Cập nhật">
+													<span class="green">
+														<i class="icon-edit bigger-120"></i>
+													</span>
+												</a>
+											</li>
+										</ul>
+									</div>
+								</div>
                            `
                 }
             }

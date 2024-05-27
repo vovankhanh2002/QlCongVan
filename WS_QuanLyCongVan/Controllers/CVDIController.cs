@@ -98,7 +98,7 @@ namespace WS_QuanLyCongVan.Controllers
             }
         }
         [HttpPost]
-        public async Task<IActionResult> getById(int id = 0, string tieude = null, List<string> lstMail = null)
+        public async Task<IActionResult> getById(int id = 0, string tieude = null, string noidung = null, List<string> lstMail = null)
         {
             if (id == 0)
             {
@@ -110,9 +110,7 @@ namespace WS_QuanLyCongVan.Controllers
                 {
                     var cVDI = UnitOfWork.cVDI.GetById(i => i.ID == id);
                     string decodedString = Encoding.UTF8.GetString(cVDI.File_CVDI);
-                    string message = "";
-                    message += cVDI.Skh_CVDI.ToString();
-                    await _emailSender.SendEmailCV(lstMail, tieude, message, decodedString);
+                    await _emailSender.SendEmailCV(lstMail, tieude, noidung, decodedString);
                     var jsonData = new
                     {
                         sussess = true,

@@ -37,33 +37,46 @@
 
     });
     $('#deleteres').on('click', function () {
-        if (confirm("Bạn muốn tiếp tục không ?")) {
-            var checkedData = [];
-            $('.rowCheckboxRes:checked').each(function () {
-                checkedData.push($(this).val());
-            });
-            if (checkedData.length > 0) {
-                $.ajax({
-                    url: $(this).data('request-url'),
-                    type: 'POST',
-                    data: { lst: checkedData },
-                    success: function (res) {
-                        if (res.isValue) {
-                            $.notify(res.notify, { globalPosition: 'top right', className: "success" });
-                            $('#selectAllCheckboxRes').prop('checked', false);
-                            location.reload();
-                            toggleDeleteButtonRes()
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('Error sending data:', error);
+        request = $(this).data('request-url')
+        var checkedData = [];
+        $('.rowCheckboxRes:checked').each(function () {
+            checkedData.push($(this).val());
+        });
+        bootbox.dialog({
+            message: "<span class='bigger-110'>Bạn có muốn tiếp tục?</span>",
+            buttons:
+            {
+                "success":
+                {
+                    "label": "<i class='icon-ok'></i> Đồng ý",
+                    "className": "btn-sm btn-success",
+                    "callback": function () {
+                        $.ajax({
+                            url: request,
+                            type: 'POST',
+                            data: { lst: checkedData },
+                            success: function (res) {
+                                if (res.isValue) {
+                                    $.notify(res.notify, { globalPosition: 'top right', className: "success" });
+                                    $('#selectAllCheckbox').prop('checked', false);
+                                    $('#delete').prop('disabled', true);
+                                    Load()
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Error sending data:', error);
+                            }
+                        });
                     }
-                });
-            } else {
-                $.notify("Bạn cần chọn để phục hồi", { globalPosition: 'top right', className: "error" });
+                },
+                "button":
+                {
+                    "label": "Đóng",
+                    "className": "btn-sm"
+                }
             }
+        });
 
-        }
     });
 })
 

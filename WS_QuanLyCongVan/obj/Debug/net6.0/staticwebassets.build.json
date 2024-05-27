@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "wBCqcuhM7878r4viKozPMjBPK2YT5VcDw4/lBR3VoVw=",
+  "Hash": "z/tBOPOici5Wx6s6hA+lZ5RUwqefUMExeRv2bjcLsxw=",
   "Source": "WS_QuanLyCongVan",
   "BasePath": "_content/WS_QuanLyCongVan",
   "Mode": "Default",
@@ -1241,23 +1241,6 @@
       "OriginalItemSpec": "wwwroot\\assets\\Cong_Van_Den\\2024\\04\\24\\B2-NHAPMONCNPM.pdf"
     },
     {
-      "Identity": "D:\\CongVan\\QlCongVan\\WS_QuanLyCongVan\\wwwroot\\assets\\Cong_Van_Den\\2024\\04\\24\\B3-NHAPMONCNPM.pdf",
-      "SourceId": "WS_QuanLyCongVan",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\CongVan\\QlCongVan\\WS_QuanLyCongVan\\wwwroot\\",
-      "BasePath": "_content/WS_QuanLyCongVan",
-      "RelativePath": "assets/Cong_Van_Den/2024/04/24/B3-NHAPMONCNPM.pdf",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\assets\\Cong_Van_Den\\2024\\04\\24\\B3-NHAPMONCNPM.pdf"
-    },
-    {
       "Identity": "D:\\CongVan\\QlCongVan\\WS_QuanLyCongVan\\wwwroot\\assets\\Cong_Van_Den\\2024\\04\\24\\B5-NHAPMONCNPM.pdf",
       "SourceId": "WS_QuanLyCongVan",
       "SourceType": "Discovered",
@@ -1290,23 +1273,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\assets\\Cong_Van_Den\\2024\\04\\25\\B6-NHAPMONCNPM.pdf"
-    },
-    {
-      "Identity": "D:\\CongVan\\QlCongVan\\WS_QuanLyCongVan\\wwwroot\\assets\\Cong_Van_Den\\2024\\04\\25\\B7-NHAPMONCNPM.pdf",
-      "SourceId": "WS_QuanLyCongVan",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\CongVan\\QlCongVan\\WS_QuanLyCongVan\\wwwroot\\",
-      "BasePath": "_content/WS_QuanLyCongVan",
-      "RelativePath": "assets/Cong_Van_Den/2024/04/25/B7-NHAPMONCNPM.pdf",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\assets\\Cong_Van_Den\\2024\\04\\25\\B7-NHAPMONCNPM.pdf"
     },
     {
       "Identity": "D:\\CongVan\\QlCongVan\\WS_QuanLyCongVan\\wwwroot\\assets\\Cong_Van_Den\\2024\\04\\26\\Dashboard - Ace Admin (1).pdf",

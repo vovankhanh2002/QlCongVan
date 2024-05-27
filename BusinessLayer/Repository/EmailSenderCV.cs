@@ -28,9 +28,12 @@ namespace DataLayer.Model
                 emailMessage.To.Add(new MailboxAddress(address, address));
 
             }
-           
+            var bodyBuilder = new BodyBuilder
+            {
+                HtmlBody = "<h1>Hello World</h1><p>This is a test email with HTML content.</p>",
+                TextBody = htmlMessage
+            };
             emailMessage.Subject = subject;
-
             var multipart = new Multipart("mixed");
 
             // Thêm phần đính kèm vào multipart
@@ -48,7 +51,6 @@ namespace DataLayer.Model
             }
 
             // Tạo phần nội dung email và thêm vào multipart
-            var bodyBuilder = new BodyBuilder();
             bodyBuilder.HtmlBody = htmlMessage;
             multipart.Add(bodyBuilder.ToMessageBody());
 

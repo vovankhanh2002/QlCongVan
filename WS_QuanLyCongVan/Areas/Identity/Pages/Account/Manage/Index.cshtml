@@ -5,57 +5,203 @@
     ViewData["ActivePage"] = ManageNavPages.Index;
 }
 <style>
-    .profile-Picture{
-        height:370px;
-        width:392px;
-        object-fit:cover;
+    .profile-Picture {
+        height: 200px;
+        width: 200px;
+        object-fit: cover;
     }
 </style>
 
-<partial name="_StatusMessage" for="StatusMessage" />
-<form id="profile-form" method="post" enctype="multipart/form-data">
-    <div class="row">
-        <div class="col-md-6">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<form method="post" enctype="multipart/form-data">
+    <div id="edit-basic" class="tab-pane active">
+        <h4 class="header blue bolder smaller">Tổng quan</h4>
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-4">
+                <div class="ace-file-input ace-file-multiple">
+                    <label class="file-label" data-title="Change avatar" style="width: 212px;">
+                        <span class="file-name" data-title="No File ...">
+                            <img id="profilePicture" alt="Picture" class="profile-Picture" src="data:image/*;base64,@(Convert.ToBase64String(Model.Input.Hinh))" />
+                            <input type="file" accept="image/*" asp-for="Input.Hinh" class=" btn btn-lg" onchange="document.getElementById('profilePicture').src = window.URL.createObjectURL(this.files[0])" />
+                        </span>
+                    </label>
+                    <a class="remove" href="#"><i class="icon-remove"></i></a>
+                </div>
+            </div>
+
+            <div class="vspace-xs"></div>
+
+            <div class="col-xs-12 col-sm-8">
                 <div class="form-group">
-                    <label asp-for="Username" class="form-label"></label>
-                    <input asp-for="Username" class="form-control" disabled />
+                    <label class="col-sm-4 control-label no-padding-right" for="form-field-username">Tên người dùng</label>
+
+                    <div class="col-sm-8">
+                        <input class="col-xs-12 col-sm-10" type="text" id="form-field-username" asp-for="Username" disabled>
+                    </div>
                 </div>
 
-                 <div class="form-group">
-                    <label asp-for="Input.Hoten_NV" class="form-label"></label>
-                    <input asp-for="Input.Hoten_NV" class="form-control"  />
-                    <span asp-validation-for="Input.Hoten_NV" class="text-danger"></span>
-
-                </div>
-                 <div class="form-group">
-                    <label asp-for="Input.DiaChi_NV" class="form-label"></label>
-                    <input asp-for="Input.DiaChi_NV" class="form-control"  />
-                    <span asp-validation-for="Input.DiaChi_NV" class="text-danger"></span>
-
-                </div>
-                 <div class="form-group">
-                    <label asp-for="Input.NgaySinh_NV" class="form-label"></label>
-                    <input type="date" asp-for="Input.NgaySinh_NV" class="form-control"  />
-                    <span asp-validation-for="Input.NgaySinh_NV" class="text-danger"></span>
-
-                </div>
+                <div class="space-4"></div>
 
                 <div class="form-group">
-                    <label asp-for="Input.PhoneNumber" class="form-label"></label>
-                    <input asp-for="Input.PhoneNumber" class="form-control" />
-                    <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                    <label class="col-sm-4 control-label no-padding-right" for="form-field-first">Họ và tên</label>
+
+                    <div class="col-sm-8">
+                        <input class="input-small" id="form-field-first" asp-for="Input.Hoten_NV" placeholder="Họ tên" style="width: auto;">
+                        <span asp-validation-for="Input.Hoten_NV" class="text-danger"></span>
+                    </div>
                 </div>
-                <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                    <label class="col-sm-4 control-label no-padding-right" for="form-field-first"></label>
+
+                    <div class="col-sm-8">
+                        <ul class="nav nav-pills">
+											<li class="active">
+												<a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword">Đổi mật khẩu</a>
+											</li>
+										</ul>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                    <img id="profilePicture" alt="Picture" class="profile-Picture" src="data:image/*;base64,@(Convert.ToBase64String(Model.Input.Hinh))"/>
-                    <input type="file" accept="image/*" asp-for="Input.Hinh" class=" btn btn-lg" onchange="document.getElementById('profilePicture').src = window.URL.createObjectURL(this.files[0])"/>
+
+        <hr>
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" for="form-field-date">Ngày sinh</label>
+
+            <div class="col-sm-9">
+                <div class="input-medium">
+                    <div class="input-group">
+                        <input class="input-medium date-picker" id="form-field-date" type="date" asp-for="Input.NgaySinh_NV" placeholder="dd-mm-yyyy">
+                        <span class="input-group-addon">
+                            <i class="icon-calendar"></i>
+                        </span>
+                        <span asp-validation-for="Input.NgaySinh_NV" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="space-4"></div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right">Giới tính</label>
+
+            <div class="col-sm-9">
+                <label class="inline">
+                    <input name="form-field-radio" type="radio" class="ace">
+                    <span class="lbl"> Nam</span>
+                </label>
+
+                <label class="inline">
+                    <input name="form-field-radio" type="radio" class="ace">
+                    <span class="lbl"> Nữ</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="space-4"></div>
+
+        @*  <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" for="form-field-comment">Comment</label>
+
+        <div class="col-sm-9">
+        <textarea id="form-field-comment"></textarea>
+        </div>
+        </div>*@
+
+        <div class="space"></div>
+        <h4 class="header blue bolder smaller">Thông tin liên lạc</h4>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" for="form-field-phone">Số điện thoại</label>
+
+            <div class="col-sm-9">
+                <span class="input-icon input-icon-right">
+                    <input asp-for="Input.PhoneNumber" id="form-field-phone">
+                    <i class="icon-phone icon-flip-horizontal"></i>
+                    <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                </span>
+            </div>
+        </div>
+
+        <div class="space-4"></div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" for="form-field-email">Địa chỉ</label>
+
+            <div class="col-sm-9">
+                <span class="input-icon input-icon-right">
+                    <input asp-for="Input.DiaChi_NV" id="form-field-email">
+                    <i class="icon-envelope"></i>
+                    <span asp-validation-for="Input.DiaChi_NV" class="text-danger"></span>
+                </span>
             </div>
         </div>
     </div>
+    <div class="clearfix form-actions">
+        <div class="col-md-offset-3 col-md-9">
+            <button class="btn btn-info" type="submit">
+                <i class="icon-ok bigger-110"></i>
+                Lưu
+            </button>
+            &nbsp; &nbsp;
+           @* <button class="btn" type="reset">
+                <i class="icon-undo bigger-110"></i>
+                Reset
+            </button>*@
+        </div>
+    </div>
 </form>
+
+
+
+
+@*<partial name="_StatusMessage" for="StatusMessage" />
+<form id="profile-form" method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-6">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Username" class="form-label"></label>
+                <input asp-for="Username" class="form-control" disabled />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Input.Hoten_NV" class="form-label"></label>
+                <input asp-for="Input.Hoten_NV" class="form-control" />
+                <span asp-validation-for="Input.Hoten_NV" class="text-danger"></span>
+
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.DiaChi_NV" class="form-label"></label>
+                <input asp-for="Input.DiaChi_NV" class="form-control" />
+                <span asp-validation-for="Input.DiaChi_NV" class="text-danger"></span>
+
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.NgaySinh_NV" class="form-label"></label>
+                <input type="date" asp-for="Input.NgaySinh_NV" class="form-control" />
+                <span asp-validation-for="Input.NgaySinh_NV" class="text-danger"></span>
+
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Input.PhoneNumber" class="form-label"></label>
+                <input asp-for="Input.PhoneNumber" class="form-control" />
+                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+            </div>
+            <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <img id="profilePicture" alt="Picture" class="profile-Picture" src="data:image/*;base64,@(Convert.ToBase64String(Model.Input.Hinh))" />
+                <input type="file" accept="image/*" asp-for="Input.Hinh" class=" btn btn-lg" onchange="document.getElementById('profilePicture').src = window.URL.createObjectURL(this.files[0])" />
+            </div>
+        </div>
+    </div>
+</form>*@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

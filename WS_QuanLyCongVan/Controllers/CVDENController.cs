@@ -105,7 +105,7 @@ namespace WS_QuanLyCongVan.Controllers
             }
         }
         [HttpPost]
-        public async Task<IActionResult> getById(int id = 0,string tieude = null, List<string> lstMail = null)
+        public async Task<IActionResult> getById(int id = 0,string tieude = null,string noidung = null, List<string> lstMail = null)
         {
             if (id == 0)
             {
@@ -117,9 +117,8 @@ namespace WS_QuanLyCongVan.Controllers
                 {
                     var cVDEN = UnitOfWork.cVDEN.GetById(i => i.ID == id);
                     string decodedString = Encoding.UTF8.GetString(cVDEN.File_CVDEN);
-                    string message = "";
-                    message += cVDEN.Skh_CVDEN.ToString();
-                    await _emailSender.SendEmailCV(lstMail, tieude, message, decodedString);
+                    
+                    await _emailSender.SendEmailCV(lstMail, tieude, noidung, decodedString);
                     var jsonData = new
                     {
                         sussess = true,
@@ -471,7 +470,7 @@ namespace WS_QuanLyCongVan.Controllers
                             };
                             if(lstSKH.Any(i => i.Skh_CVDEN == lstcv.Skh_CVDEN))
                             {
-                                return Json(new { success = false, notify = "Số ký hiệu" + lstcv.Skh_CVDEN + "đã bị trùng." });
+                                return Json(new { success = false, notify = "Số ký hiệu " + lstcv.Skh_CVDEN + " đã bị trùng." });
                             }
                             var currentDate = Convert.ToDateTime(lstcv.NgayBH_CVDEN);
                             string yearFolder = currentDate.ToString("yyyy");

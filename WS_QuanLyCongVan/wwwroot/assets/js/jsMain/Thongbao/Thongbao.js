@@ -1,11 +1,12 @@
 ﻿$(document).ready(function () {
+    
     Thongbao()
+
     var connection = new signalR.HubConnectionBuilder().withUrl("/NotihubServer").build();
     connection.on("ReceiveMessage", function (message) {
         Thongbao()
     });
     connection.start();
-    
 })
 function Thongbao() {
     $.ajax({

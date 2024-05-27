@@ -1,5 +1,6 @@
 ﻿<a onclick="showInPopup('@Url.ActionLink("Add","User",null,Context.Request.Scheme)',0)" class="btn btn-sm btn-success">Thêm</a>
-<div hidden data-request-url="@Url.ActionLink("Add","User")" id="request"></div>
+<div hidden data-request-url="@Url.ActionLink("Add","User")" id="requestAdd"></div>
+<div hidden data-request-url="@Url.ActionLink("getById","User")" id="request"></div>
 <div hidden data-request-url="@Url.ActionLink("Edit","User")" id="requestid"></div>
 <div hidden data-request-url="@Url.ActionLink("AddUserRoles","User")" id="requestRoles"></div>
 <button id="delete" disabled data-request-url="@Url.ActionLink("DeleteRange","User")" class="btn btn-sm btn-danger">

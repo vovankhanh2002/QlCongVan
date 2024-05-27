@@ -1,4 +1,5 @@
 ﻿$(document).ready(function () {
+    $('#wysiwyg').wysiwyg();
     loadDanhmuccv()
     loadCvden()
     loadCvdi()
@@ -17,30 +18,47 @@
         toggleDeleteButton()
     });
     $('#delete').on('click', function () {
-        if (confirm("Bạn muốn tiếp tục không ?")) {
-            var checkedData = [];
-            $('.rowCheckbox:checked').each(function () {
-                checkedData.push($(this).val());
-            });
-            $.ajax({
-                url: $(this).data('request-url'),
-                type: 'POST',
-                data: { lst: checkedData },
-                success: function (res) {
-                    if (res.isValue) {
-                        $.notify(res.notify, { globalPosition: 'top right', className: "success" });
-                        $('#selectAllCheckbox').prop('checked', false);
-                        $('#delete').prop('disabled', true);
-                        loadDanhmuccv()
-                        loadCvden()
-                        loadCvdi()
+        var request = $(this).data('request-url')
+        var checkedData = [];
+        $('.rowCheckbox:checked').each(function () {
+            checkedData.push($(this).val());
+        });
+        bootbox.dialog({
+            message: "<span class='bigger-110'>Bạn có muốn tiếp tục?</span>",
+            buttons:
+            {
+                "success":
+                {
+                    "label": "<i class='icon-ok'></i> Đồng ý",
+                    "className": "btn-sm btn-success",
+                    "callback": function () {
+                        $.ajax({
+                            url: request,
+                            type: 'POST',
+                            data: { lst: checkedData },
+                            success: function (res) {
+                                if (res.isValue) {
+                                    $.notify(res.notify, { globalPosition: 'top right', className: "success" });
+                                    $('#selectAllCheckbox').prop('checked', false);
+                                    $('#delete').prop('disabled', true);
+                                    loadDanhmuccv()
+                                    loadCvden()
+                                    loadCvdi()
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Error sending data:', error);
+                            }
+                        });
                     }
                 },
-                error: function (xhr, status, error) {
-                    console.error('Error sending data:', error);
+                "button":
+                {
+                    "label": "Đóng",
+                    "className": "btn-sm"
                 }
-            });
-        }
+            }
+        });
     });
 
 
@@ -518,7 +536,8 @@ function getSelectedValues() {
 
     var selectElement = document.getElementById("form-field-select-2");
     var getIdCongvan = $("#valIdCv").val();
-    var getIdTieude = $("#idTieude").val();
+    var getIdTieude = $("#form-field-subject").val();
+    var getNoidung = $("#wysiwyg").text();
     var selectedOptions = [];
     for (var i = 0; i < selectElement.options.length; i++) {
         var option = selectElement.options[i];
@@ -529,7 +548,7 @@ function getSelectedValues() {
     $("#form-modal").modal('hide')
     $.ajax({
         type: "POST",
-        data: { id: getIdCongvan, tieude: getIdTieude, lstMail: selectedOptions },
+        data: { id: getIdCongvan, tieude: getIdTieude,noidung:getNoidung, lstMail: selectedOptions},
         url: "/cvden/getById",
         success: function (res) {
             if (res.sussess) {

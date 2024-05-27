@@ -26,7 +26,7 @@
                                 <label asp-for="ID_SoCV">Sổ công văn</label>
                             </div>
                             <div class="col-md-4">
-                                <select asp-for="ID_SoCV" asp-items="@ViewBag.getListSCV" class="form-select" style="width:150px">
+                                <select asp-for="ID_SoCV" asp-items="@ViewBag.getListSCV" class="form-select" style="width:150px" disabled>
                                     <option disabled>-Sổ công văn-</option>
                                 </select>
                                 <span asp-validation-for="ID_SoCV" class="text-danger"></span>
@@ -37,7 +37,7 @@
                                 <label asp-for="ID_NV">Người ký</label>
                             </div>
                             <div class="col-md-4">
-                                <select asp-for="ID_NV" asp-items="@ViewBag.getListNgK" class="form-select" style="width:150px">
+                                <select asp-for="ID_NV" asp-items="@ViewBag.getListNgK" class="form-select" style="width:150px" disabled>
                                     <option disabled>-Nhân viên-</option>
                                 </select>
                                 <span asp-validation-for="ID_NV" class="text-danger"></span>
@@ -49,14 +49,14 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label asp-for="NgayBH_CVDI">Ngày ban hành</label>
-                                <input type="date" asp-for="NgayBH_CVDI" class="form-control" autocomplete="NgayBH_CVDI" aria-required="true" />
+                                <input type="date" asp-for="NgayBH_CVDI" class="form-control" autocomplete="NgayBH_CVDI" aria-required="true" disabled/>
                                 <span asp-validation-for="NgayBH_CVDI" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
-                           <div class="form-group">
+                            <div class="form-group">
                                 <label asp-for="Nguoinhan_CVDI">Người nhận</label>
-                                <input asp-for="Nguoinhan_CVDI" class="form-control" autocomplete="Nguoinhan_CVDI" aria-required="true" placeholder="Nhập người gửi"/>
+                                <input asp-for="Nguoinhan_CVDI" class="form-control" autocomplete="Nguoinhan_CVDI" aria-required="true" placeholder="Nhập người gửi" disabled/>
                                 <span asp-validation-for="Nguoinhan_CVDI" class="text-danger"></span>
                             </div>
                         </div>
@@ -67,7 +67,7 @@
                                 <label asp-for="ID_BP">Nơi nhận</label>
                             </div>
                             <div class="col-md-4">
-                                <select asp-for="ID_BP" asp-items="@ViewBag.getListBP" class="form-select" style="width:150px">
+                                <select asp-for="ID_BP" asp-items="@ViewBag.getListBP" class="form-select" style="width:150px" disabled>
                                     <option disabled>-Bộ phận-</option>
                                 </select>
                                 <span asp-validation-for="ID_BP" class="text-danger"></span>
@@ -78,7 +78,7 @@
                                 <label asp-for="Noigui_CVDI">Nơi gửi</label>
                             </div>
                             <div class="col-md-4">
-                                <select asp-for="Noigui_CVDI" asp-items="@ViewBag.getListBPG" class="form-select" style="width:150px">
+                                <select asp-for="Noigui_CVDI" asp-items="@ViewBag.getListBPG" class="form-select" style="width:150px" disabled>
                                     <option disabled>-Bộ phận-</option>
                                 </select>
                                 <span asp-validation-for="Noigui_CVDI" class="text-danger"></span>
@@ -91,14 +91,14 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label asp-for="SLTrang_CVDI">Số trang</label>
-                                        <input asp-for="SLTrang_CVDI" class="form-control" autocomplete="SLTrang_CVDEN" aria-required="true" />
+                                        <input asp-for="SLTrang_CVDI" class="form-control" autocomplete="SLTrang_CVDEN" aria-required="true" disabled/>
                                         <span asp-validation-for="SLTrang_CVDI" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label asp-for="SL_BPH">Số bản</label>
-                                        <input asp-for="SL_BPH" class="form-control" autocomplete="SL_BPH" aria-required="true" />
+                                        <input asp-for="SL_BPH" class="form-control" autocomplete="SL_BPH" aria-required="true" disabled/>
                                         <span asp-validation-for="SL_BPH" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -107,7 +107,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label asp-for="Skh_CVDI">Số, ký hiệu</label>
-                                <input asp-for="Skh_CVDI" class="form-control" autocomplete="Skh_CVDI" aria-required="true" placeholder="Nhập số ký hiệu"/>
+                                <input asp-for="Skh_CVDI" class="form-control" autocomplete="Skh_CVDI" aria-required="true" placeholder="Nhập số ký hiệu" disabled/>
                                 <span asp-validation-for="Skh_CVDI" class="text-danger"></span>
                             </div>
                         </div>
@@ -119,7 +119,7 @@
                                 <label asp-for="ID_MDMat">Độ mật</label>
                             </div>
                             <div class="col-md-4">
-                                <select asp-for="ID_MDMat" asp-items="@ViewBag.getListDM" class="form-select" style="width:150px">
+                                <select asp-for="ID_MDMat" asp-items="@ViewBag.getListDM" class="form-select" style="width:150px" disabled>
                                     <option disabled>-Độ mật-</option>
                                 </select>
                                 <span asp-validation-for="ID_MDMat" class="text-danger"></span>
@@ -130,7 +130,7 @@
                                 <label asp-for="ID_MDKhan">Độ khẩn</label>
                             </div>
                             <div class="col-md-4">
-                                <select asp-for="ID_MDKhan" asp-items="@ViewBag.getListDK" class="form-select" style="width:150px">
+                                <select asp-for="ID_MDKhan" asp-items="@ViewBag.getListDK" class="form-select" style="width:150px" disabled>
                                     <option disabled>-Độ khẩn-</option>
                                 </select>
                                 <span asp-validation-for="ID_MDKhan" class="text-danger"></span>
@@ -143,7 +143,7 @@
                                 <label asp-for="ID_LVB">Loại công văn</label>
                             </div>
                             <div class="col-md-4">
-                                <select asp-for="ID_LVB" asp-items="@ViewBag.getListLCV" class="form-select" style="width:150px">
+                                <select asp-for="ID_LVB" asp-items="@ViewBag.getListLCV" class="form-select" style="width:150px" disabled>
                                     <option disabled>-Loại công văn-</option>
                                 </select>
                                 <span asp-validation-for="ID_LVB" class="text-danger"></span>
@@ -154,7 +154,7 @@
                                 <label asp-for="ID_LV">Lĩnh vực</label>
                             </div>
                             <div class="col-md-4">
-                                <select asp-for="ID_LV" asp-items="@ViewBag.getListLV" class="form-select" style="width:150px">
+                                <select asp-for="ID_LV" asp-items="@ViewBag.getListLV" class="form-select" style="width:150px" disabled>
                                     <option disabled>-Lĩnh vực-</option>
                                 </select>
                                 <span asp-validation-for="ID_LV" class="text-danger"></span>
@@ -164,12 +164,11 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                          
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label asp-for="TrangThai_CVDI">Trạng thái</label>
-                                <input type="checkbox" style="margin:0 0; width:auto " asp-for="TrangThai_CVDI" class="form-control" autocomplete="TrangThai_CVDI" aria-required="true" />
+                                <input type="checkbox" style="margin:0 0; width:auto " asp-for="TrangThai_CVDI" class="form-control" autocomplete="TrangThai_CVDI" aria-required="true" disabled/>
                                 <span asp-validation-for="TrangThai_CVDI" class="text-danger"></span>
                             </div>
                         </div>
@@ -178,7 +177,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label asp-for="TrichYeu_CVDI">Trích yếu nội dung</label>
-                                <textarea asp-for="TrichYeu_CVDI" class="form-control" rows="5" autocomplete="TrichYeu_CVDI" aria-required="true" placeholder="Trích yếu"></textarea>
+                                <textarea asp-for="TrichYeu_CVDI" class="form-control" rows="5" autocomplete="TrichYeu_CVDI" aria-required="true" placeholder="Trích yếu" disabled></textarea>
                                 <span asp-validation-for="TrichYeu_CVDI" class="text-danger"></span>
                             </div>
                         </div>
@@ -195,23 +194,74 @@
                         </div>
                         <div class="col-md-9">
                             <div class="form-group">
-                                
                             </div>
                         </div>
                     </div>
 
                 </form>
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="input-group">
-                            <label for="id-date-picker-1">Tiêu đề</label>
-                            <input class="form-control" id="idTieude" placeholder="Nhập tiêu đề">
+                    <div class="col-md-8">
+                        <div class="message-list-container">
+                            <form id="id-message-form" class="form-horizontal message-form  col-xs-12">
+
+                                <div class="hr hr-18 dotted"></div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-subject">Tiêu đề:</label>
+
+                                    <div class="col-sm-6 col-xs-12">
+                                        <div class="input-icon block col-xs-12 no-padding">
+                                            <input maxlength="100" type="text" class="col-xs-12" name="subject" id="form-field-subject" placeholder="Subject">
+                                            <i class="icon-comment-alt"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hr hr-18 dotted"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right">
+                                        <span class="inline space-24 hidden-480"></span>
+                                        Nội dung:
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <div class="wysiwyg-toolbar btn-toolbar center wysiwyg-style1">
+                                            <div class="btn-group">
+                                                <a class="btn btn-sm" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="icon-bold"></i></a>
+                                                <a class="btn btn-sm" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="icon-italic"></i></a>
+                                                <a class="btn btn-sm" data-edit="strikethrough" title="Strikethrough"><i class="icon-strikethrough"></i></a>
+                                                <a class="btn btn-sm" data-edit="underline" title="Underline"><i class="icon-underline"></i></a>
+                                            </div>
+                                            <div class="btn-group">
+                                                <a class="btn btn-sm" data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="icon-align-left"></i></a>
+                                                <a class="btn btn-sm" data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="icon-align-center"></i></a>
+                                                <a class="btn btn-sm" data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="icon-align-right"></i></a>
+                                            </div>
+                                            <div class="btn-group">
+                                                <a class="btn btn-sm dropdown-toggle" data-toggle="dropdown" title="Hyperlink"><i class="icon-link"></i></a>
+                                                <div class="dropdown-menu dropdown-caret pull-right">
+                                                    <div class="input-group">
+                                                        <input class="form-control" placeholder="URL" type="text" data-edit="createLink">
+                                                        <span class="input-group-btn">
+                                                            <button class="btn btn-sm btn-primary" type="button">Thêm</button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <a class="btn btn-sm" data-edit="unlink" title="Remove Hyperlink"><i class="icon-unlink"></i></a>
+                                            </div>
+                                            <div class="btn-group">
+                                                <a class="btn btn-sm" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="icon-undo"></i></a>
+                                                <a class="btn btn-sm" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="icon-repeat"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="wysiwyg-editor" id="wysiwyg" contenteditable="true"></div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div>
                             <label for="form-field-select-2">Chọn người gửi</label>
-                            <select class="form-control" id="form-field-select-2" asp-items="@ViewBag.getListNV" style="height: 300px"  multiple="multiple">
+                            <select class="form-control" id="form-field-select-2" asp-items="@ViewBag.getListNV" style="height: 300px" multiple="multiple">
                                 <option disabled>-Chọn-</option>
                             </select>
                         </div>

@@ -9,28 +9,45 @@
         toggleDeleteButton()
     });
     $('#delete').on('click', function () {
-        if (confirm("Bạn muốn tiếp tục không ?")) {
-            var checkedData = [];
-            $('.rowCheckbox:checked').each(function () {
-                checkedData.push($(this).val());
-            });
-            $.ajax({
-                url: $(this).data('request-url'),
-                type: 'POST',
-                data: { lst: checkedData },
-                success: function (res) {
-                    if (res.isValue) {
-                        $.notify(res.notify, { globalPosition: 'top right', className: "success" });
-                        $('#selectAllCheckbox').prop('checked', false);
-                        $('#delete').prop('disabled', true);
-                        Load()
+        var request = $(this).data('request-url')
+        var checkedData = [];
+        $('.rowCheckbox:checked').each(function () {
+            checkedData.push($(this).val());
+        });
+        bootbox.dialog({
+            message: "<span class='bigger-110'>Bạn có muốn tiếp tục?</span>",
+            buttons:
+            {
+                "success":
+                {
+                    "label": "<i class='icon-ok'></i> Đồng ý",
+                    "className": "btn-sm btn-success",
+                    "callback": function () {
+                        $.ajax({
+                            url: request,
+                            type: 'POST',
+                            data: { lst: checkedData },
+                            success: function (res) {
+                                if (res.isValue) {
+                                    $.notify(res.notify, { globalPosition: 'top right', className: "success" });
+                                    $('#selectAllCheckbox').prop('checked', false);
+                                    $('#delete').prop('disabled', true);
+                                    Load()
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Error sending data:', error);
+                            }
+                        });
                     }
                 },
-                error: function (xhr, status, error) {
-                    console.error('Error sending data:', error);
+                "button":
+                {
+                    "label": "Đóng",
+                    "className": "btn-sm btn-error"
                 }
-            });
-        }
+            }
+        });
     });
 
 })

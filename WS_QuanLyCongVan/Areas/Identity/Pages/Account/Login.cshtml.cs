@@ -71,7 +71,7 @@ namespace WS_QuanLyCongVan.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessage = "Email không được dể trống")]
             [Display(Name = "Email hoặc tên người dùng")]
             public string Email { get; set; }
 
@@ -79,7 +79,7 @@ namespace WS_QuanLyCongVan.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessage = "Mật khẩu không được dể trống")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
@@ -135,7 +135,7 @@ namespace WS_QuanLyCongVan.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Nỗ lực đăng nhập không hợp lệ.");
                     return Page();
                 }
             }
